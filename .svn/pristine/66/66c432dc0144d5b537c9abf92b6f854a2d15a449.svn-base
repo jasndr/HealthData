@@ -1,0 +1,9 @@
+﻿%macro combineyear (year, n);
+data &year.merged;
+merge
+%do i=1 %to &n;
+	&year&i
+%end;
+;
+by SEQN;
+%mend;
