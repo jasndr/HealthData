@@ -129,6 +129,7 @@
                 var selectedList = [];
                 var cookieId = yearfrom + id;
 
+
                 //var html = "<label title='wwwn.cdc.gov/Nchs/Nhanes/2011-2012/CBC_G.htm' for='" + studyname + "'>" + studyname + "</label><br/>";
                 var html = "<a href='http://" + codebook + "' color='white' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
                 html += "<span id='closeDiv' onclick='closeWindow()'>x</span><br />&nbsp;";
@@ -144,8 +145,10 @@
                 }
 
                 html += "<div class='row'><br />&nbsp;</div>"
-                html += "&emsp;<div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /></div>&emsp;";
+                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success' value='Select All' onclick='selectAll(" + columnName + ")'></div><div class='col-md-4'><input type='button' id='btnDeselectAll' class='btn btn-danger' value='Deselect All' onclick='deSelectAll(" + columnName + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
                 html += "</div>"
+
+                
                 
                 
                 $("#moduleListTitle").html(html);
@@ -205,6 +208,40 @@
             }
 
             $(".pdsa-column-display").addClass("hidden");
+        }
+
+        //function toggle(source) {
+        //    checkboxes = document.getElementsByname('foo');
+        //    for (var i = 0, n=checkboxes.length; i<n; i++) {
+        //        checkboxes[i].checked = source.checked;
+        //    }
+        //}
+
+
+        //$('#btnSelectAll').click(function (event) {
+        //    if (this.checked) {
+        //        $(':checkbox').each(function () {
+        //            this.checked = true;
+        //        });
+        //    }
+        //});
+
+        function selectAll(columnName) {
+            $(':checkbox').each(function () {
+                if (columnName == this.parent().columnName) {
+                    this.checked = true;
+                }
+            });
+            //for each available column name
+            //mark the corresponding checkmark "checked"
+        }
+
+        function deSelectAll(columnName) {
+            $(':checkbox').each(function () {
+                if (columnName == this.parent().columnName) {
+                    this.checked = false;
+                }
+            });
         }
 
         var fileDownloadCheckTimer;
