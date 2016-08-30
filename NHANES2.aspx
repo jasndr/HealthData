@@ -140,10 +140,10 @@
                     var columnName = columns[i];
          
                     if (columnName == "SEQN") {
-                        html += "<div class='col-md-4'><input checked='true' type='checkbox' name='columns' id='" + columnName + "' class='module' />";
+                        html += "<div class='col-md-4' id='"+specialId+"'><input checked='true' type='checkbox' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
                     } else {
-                        html += "<div class='col-md-4'><input type='checkbox' name='columns' id='" + columnName + "' class='module' />";
+                        html += "<div class='col-md-4' id='"+specialId+"'><input type='checkbox' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
                     }
 
@@ -220,36 +220,25 @@
             $(".pdsa-column-display").addClass("hidden");
         }
 
-        //function toggle(source) {
-        //    checkboxes = document.getElementsByname('foo');
-        //    for (var i = 0, n=checkboxes.length; i<n; i++) {
-        //        checkboxes[i].checked = source.checked;
-        //    }
-        //}
-
-
-        //$('#btnSelectAll').click(function (event) {
-        //    if (this.checked) {
-        //        $(':checkbox').each(function () {
-        //            this.checked = true;
-        //        });
-        //    }
-        //});
-
+        //Selects all checkboxes in the current window
         function selectAll(specialId) {
-            //alert(specialId);
             $(':checkbox').each(function () {
-                alert(this.value);
-              //  if specialId matches checkbox' specialId
-                this.checked = true;
+                var pId = this.parentNode.id;
+                if (pId == specialId) {
+                    this.checked = true;
+                }
+                
             });
-            //for each available column name
-            //mark the corresponding checkmark "checked"
         }
 
+        //Deselects all checkboxes in the current window
         function deSelectAll(specialId) {
             $(':checkbox').each(function () {
-                this.checked = false;
+                var pId = this.parentNode.id;
+                if (pId == specialId) {
+                    this.checked = false;
+                }
+
             });
         }
 
