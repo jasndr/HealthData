@@ -226,6 +226,7 @@
                 var pId = this.parentNode.id;
                 if (pId == specialId) {
                     this.checked = true;
+                    alert('pId' + pId + '\nspecialId' + specialId);
                 }
                 
             });
