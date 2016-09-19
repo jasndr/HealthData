@@ -140,7 +140,7 @@
                     var columnName = columns[i];
          
                     if (columnName == "SEQN") {
-                        html += "<div class='col-md-4' id='"+specialId+"'><input checked='true' type='checkbox' name='columns' id='" + columnName + "' class='module' />";
+                        html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
                     } else {
                         html += "<div class='col-md-4' id='"+specialId+"'><input type='checkbox' name='columns' id='" + columnName + "' class='module' />";
@@ -157,7 +157,7 @@
                 }
 
                 html += "<div class='row'><br />&nbsp;</div>"
-                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
+                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
                 html += "</div>"
    
                 
@@ -220,28 +220,40 @@
             $(".pdsa-column-display").addClass("hidden");
         }
 
+
         //Selects all checkboxes in the current window
-        function selectAll(specialId) {
+        function selectAll(specialId, cookieId) {
             $(':checkbox').each(function () {
                 var pId = this.parentNode.id;
                 if (pId == specialId) {
-                    this.checked = true;
-                    alert('pId' + pId + '\nspecialId' + specialId);
+                    $(this).attr('checked', true);
+                    //add cookie
+                    if (dict[cookieId]) {
+                        dict[cookieId] += this.id + ',';
+                    }
+                    else {
+                        ClearCookie(cookieId);
+                        dict[cookieId] = this.id + ',';
+                    }
+                    //alert('pId' + pId + '\nspecialId' + specialId);
                 }
                 
             });
         }
 
         //Deselects all checkboxes in the current window
-        function deSelectAll(specialId) {
+        function deSelectAll(specialId, cookieId) {
             $(':checkbox').each(function () {
                 var pId = this.parentNode.id;
                 if (pId == specialId) {
-                    this.checked = false;
+                    $(this).attr('checked', false);
+                    //remove cookie
+                    dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
                 }
 
             });
         }
+
 
         var fileDownloadCheckTimer;
         function blockUIForDownload() {
