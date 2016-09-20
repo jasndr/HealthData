@@ -142,6 +142,15 @@
                     if (columnName == "SEQN") {
                         html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
+                        ////add cookie to SEQN --------------
+                        //if (dict[cookieId]) {
+                        //    dict[cookieId] += this.id + ',';
+                        //}
+                        //else {
+                        //    ClearCookie(cookieId);
+                        //    dict[cookieId] = this.id + ',';
+                        //}
+                        ////end add cookie --------------------
                     } else {
                         html += "<div class='col-md-4' id='"+specialId+"'><input type='checkbox' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
@@ -273,6 +282,7 @@
             $.cookie('fileDownloadToken', null); //clears this cookie value
             $(".pdsa-submit-progress").addClass("hidden");
             $('#MainContent_btnSubmit').prop("disabled", false);
+            location.reload();
 
         }
 
