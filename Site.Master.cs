@@ -68,7 +68,11 @@ namespace HealthData2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            var URL = Request.Url.PathAndQuery;
+            if (URL == "./NHANES2" || URL == "./NHANES2.aspx")
+            {
+                this.Sidebar.Visible = false;
+            }
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)

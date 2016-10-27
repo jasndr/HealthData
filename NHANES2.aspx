@@ -1,7 +1,38 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="NHANES2.aspx.cs" Inherits="HealthData2.NHANES2" %>
 <%--<%@ Register TagPrefix="fb" TagName="FileBrowser" Src="~/FileBrowser.ascx" %>--%>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">   
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script type="text/javascript">
+        $(function () {
+            $('#Sidebar').hide();
+            $('#topbarlinks').hide();
+            $('#titleOfPage').hide();
+        });
+    </script>
+
+    <div class="navbar navbar-default" style="margin-top: -60px;">
+        <img src="./images/Banner_Print3.jpg" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
+    </div>
+
+    <div class="navbar-default sidebar">
+        <div class="container" style="margin-left: 10%;">
+            <h5><strong>Data Documentation & Codebook</strong></h5>
+        </div>
+        <div class="container" style="margin-left: 10%;">
+            <p>2013 - 2014</p>
+            <p>2011 - 2012</p>
+            <p>2009 - 2010</p>
+            <p>2007 - 2008</p>
+            <p>2005 - 2006</p>
+            <p>2003 - 2004</p>
+            <p>2001 - 2002</p>
+            <p>1999 - 2000</p>
+        </div>
+        
+
+    </div>
+       
     <script src="Scripts/jquery.cookie.js"></script>
     <script type="text/javascript">
         var Grid = null;
@@ -142,15 +173,15 @@
                     if (columnName == "SEQN") {
                         html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
-                        ////add cookie to SEQN --------------
-                        //if (dict[cookieId]) {
-                        //    dict[cookieId] += this.id + ',';
-                        //}
-                        //else {
-                        //    ClearCookie(cookieId);
-                        //    dict[cookieId] = this.id + ',';
-                        //}
-                        ////end add cookie --------------------
+                        //add cookie to SEQN --------------
+                        if (dict[cookieId]) {
+                            dict[cookieId] += 'SEQN' + ',';
+                        }
+                        else {
+                            ClearCookie(cookieId);
+                            dict[cookieId] = 'SEQN' + ',';
+                        }
+                        //end add cookie --------------------
                     } else {
                         html += "<div class='col-md-4' id='"+specialId+"'><input type='checkbox' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
