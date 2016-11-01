@@ -3,6 +3,8 @@
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <header></header> 
+
     <script type="text/javascript">
         $(function () {
             $('#Sidebar').hide();
@@ -15,19 +17,19 @@
         <img src="./images/Banner_Print3.jpg" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
     </div>
 
-    <div class="navbar-default sidebar">
+    <div class="navbar-default sidebar" style="margin-top: -.5%; margin-left: .7%;">
         <div class="container" style="margin-left: 10%;">
             <h5><strong>Data Documentation & Codebook</strong></h5>
         </div>
-        <div class="container" style="margin-left: 10%;">
-            <p>2013 - 2014</p>
-            <p>2011 - 2012</p>
-            <p>2009 - 2010</p>
-            <p>2007 - 2008</p>
-            <p>2005 - 2006</p>
-            <p>2003 - 2004</p>
-            <p>2001 - 2002</p>
-            <p>1999 - 2000</p>
+        <div class="container text-center" style="margin-left: 1%;">
+            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes13_14.aspx" target="_blank">2013 - 2014</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes11_12.aspx" target="_blank">2011 - 2012</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes09_10.aspx" target="_blank">2009 - 2010</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes07_08.aspx" target="_blank">2007 - 2008</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes05_06.aspx" target="_blank">2005 - 2006</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes03_04.aspx" target="_blank">2003 - 2004</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes01_02.aspx" target="_blank">2001 - 2002</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes99_00.aspx" target="_blank">1999 - 2000</a></p>
         </div>
         
 
@@ -50,7 +52,11 @@
         var n = 1;
         var TimeSpan = 0;
 
+        var numOfChecked = 0;
+        var maxChecked = 100;
+
         var dict = new Object();
+
 
         function pageLoad(sender, args) {
             $('#li_nhanesdata').addClass('active');
@@ -164,8 +170,9 @@
 
 
                 //var html = "<label title='wwwn.cdc.gov/Nchs/Nhanes/2011-2012/CBC_G.htm' for='" + studyname + "'>" + studyname + "</label><br/>";
-                var html = "<a href='http://" + codebook + "' color='white' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
-                html += "<span id='closeDiv' onclick='closeWindow()'>x</span><br />&nbsp;";
+                //var html = "<a href='http://" + codebook + "' color='green' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
+                var html = "<h5><strong>" +studyname+ "</strong></h5>";
+                html = "<span id='closeDiv' onclick='closeWindow()'>x</span><br />&nbsp;";
                 html += "<div class='row'>";
                 for (var i = 0; i < columns.length-1; i++) {
                     var columnName = columns[i];
@@ -267,6 +274,7 @@
                 var pId = this.parentNode.id;
                 if (pId == specialId) {
                     $(this).attr('checked', true);
+
                     //add cookie
                     if (dict[cookieId]) {
                         dict[cookieId] += this.id + ',';
@@ -288,6 +296,9 @@
                 if (pId == specialId) {
                     $(this).attr('checked', false);
                     //remove cookie
+                    //alert(this.id);
+                    //alert(cookieId);
+                    ClearCookie(cookieId);
                     dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
                 }
 
@@ -317,14 +328,35 @@
 
         }
 
-    </script>
+       
+
+            //$(':checkbox').each(function () {
+            //    numOfChecked++;
+            //});
+
+            //if (numOfChecked > maxChecked) {
+            //    alert('WARNING:  You have exceeded the number of allowed variables.  Please limit your number of variables to 100 and try again.');
+            //}
+        
+
+     
+   </script>
     <%--<script src="Scripts/common.js"></script>--%>
 </asp:Content>
  
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <style>
+        .HeaderFreez{
+            position: relative;
+            top:expression(this.offsetParent.scrollTop);
+            z-index:10;
+        }
+        
+    </style>
+    <div style="margin-left: -10px;">
     <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header">NHANES Data</h3>
+                    <h4 class="page-header"><strong>NHANES Data</strong></h4>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -335,15 +367,16 @@
                     <div class="panel panel-default">
                         <div class="panel-body">                           
                        
-                            <div class="table-responsive">
-                                <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False" 
-                                    class="table table-bordered table-hover"
+                            <div class="table-responsive" style="height: 400px; width: 1000px; overflow: auto;">
+                                <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
+                                    class="table table-bordered" CssClass="HeaderFreez"
                                     OnPreRender="GridViewStudy_PreRender"
                                     OnRowDataBound="GridViewStudy_DataBound"
                                     OnRowCreated="GridViewStudy_RowCreated"
                                     OnRowCommand="GridViewStudy_RowCommand"
                                    >
-                                    <HeaderStyle CssClass="ColumnHeaderStyle" />
+                                    <HeaderStyle CssClass="ColumnHeaderStyle" BackColor="#B3FFB3"/>
+                                    <AlternatingRowStyle BackColor="LightYellow" />
                                     <Columns>
                                         <asp:TemplateField HeaderText="DataSet">
                                             <ItemTemplate>
@@ -377,7 +410,7 @@
                                         </asp:TemplateField>--%>
                                         
                                         <asp:TemplateField HeaderText="GroupShortName" Visible="False">
-                                            <ItemTemplate>
+                                            <ItemTemplate>sata
                                                 <asp:Label ID="lblGroupShortName" runat="server" Text='<%# Bind("GroupShortName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
@@ -386,46 +419,61 @@
                                                 <asp:Label ID="lblName" runat="server" Text='<%# Bind("Name") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="1999-2000">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow1999" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="2001-2002">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2001" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="2003-2004">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2003" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="2005-2006">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2005" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="2007-2008">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2007" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="2009-2010">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2009" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="2011-2012">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2011" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+
                                         <asp:TemplateField HeaderText="2013-2014">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2011-2012">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2011" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2009-2010">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2009" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2007-2008">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2007" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2005-2006">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2005" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2003-2004">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2003" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2001-2002">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2001" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="1999-2000">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow1999" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
                                         <asp:TemplateField HeaderText="FileExists" Visible="false">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblFileExists" runat="server" Text='<%# Bind("FileExists") %>'></asp:Label>
@@ -451,5 +499,6 @@
     <div id="moduleListTitle" class="pdsa-column-display hidden">
         <%--<asp:Button id="b1" Text="Close" runat="server" OnClientClick="close()" />--%>
     </div>
-    
+   
+    </div> 
 </asp:Content>
