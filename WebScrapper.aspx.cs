@@ -210,6 +210,12 @@ namespace HealthData
             SASBuilder.RunSAS(SASCode);
         }
 
+        //private void ConvertToTxt(string localPath, string fileName)
+        //{
+        //    string SASCode = SASBuilder.ConvertToTxt(localPath, fileName);
+        //    SASBuilder.RunSAS(SASCode);
+        //}
+
         // ---- prototype of function to be passed to thread
         delegate void ThreadEndDelegate(string s);
 

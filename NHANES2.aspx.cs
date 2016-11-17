@@ -250,6 +250,192 @@ namespace HealthData2
             } 
         }
 
+        //---------Start .txt Button
+        protected void btnSubmit_Click_Txt(object sender, EventArgs e)
+        {
+            //get cookies
+            //string s = Request.Cookies["1999/Dietary/Dietary Interview - Individual Foods"].Value;
+
+            //return;
+
+            string sessionId = this.Session.SessionID;
+
+            string folder = Path.Combine(Path.GetTempPath(), DateTime.Now.ToString("yyyyMMdd"));    //Guid.NewGuid().ToString());
+            if (!Directory.Exists(folder) && !File.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
+            string studyYear = "";
+            List<NHANESFile>[] studyArrayList = new List<NHANESFile>[8];
+            for (int i = 0; i < 8; i++)
+            {
+                studyArrayList[i] = new List<NHANESFile>();
+            }
+
+            CheckBox[] checkBoxArray = new CheckBox[8];
+            foreach (GridViewRow row in GridViewStudy.Rows)
+            {
+                if (row.RowType == DataControlRowType.DataRow)
+                {
+                    int yearFrom = 1999;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        string chkBoxId = "chkRow" + yearFrom.ToString();
+                        checkBoxArray[i] = row.FindControl(chkBoxId) as CheckBox;
+
+                        if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
+                        {
+                            Label lblId = row.FindControl("lblId") as Label;
+                            Label lblName = row.FindControl("lblName") as Label;
+                            Label lblGroupName = row.FindControl("lblGroupName") as Label;
+
+                            if (lblId != null && lblName != null && lblGroupName != null)
+                            {
+                                string cookieName = yearFrom.ToString() + lblId.Text;
+                                if (Request.Cookies[cookieName] != null)
+                                {
+                                    NHANESFile file = new NHANESFile()
+                                    {
+                                        YearFrom = yearFrom.ToString(),
+                                        GroupName = lblGroupName.Text,
+                                        FolderName = lblName.Text,
+                                        ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
+                                    };
+
+                                    studyArrayList[i].Add(file);
+                                    //studyArrayList[i].Add(lblGroupName.Text + "\\" + lblName.Text + "\\" + HttpUtility.UrlDecode(Request.Cookies[cookieName].Value));
+                                }
+                            }
+                        }
+
+                        yearFrom += 2;
+                    }
+
+                    //for (int i = 0; i < 7; i++)
+                    //{
+                    //    if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
+                    //    {
+                    //        Label lblName = row.FindControl("lblName") as Label;
+                    //        Label lblGroupName = row.FindControl("lblGroupName") as Label;
+
+                    //        if (lblName != null && lblGroupName != null)
+                    //        {
+                    //            if (lblGroupName.Text.Equals("Demographic"))
+                    //            {
+                    //                studyArrayList[i].Add(lblName.Text);
+                    //            }
+                    //            else
+                    //            {
+                    //                studyArrayList[i].Add(lblGroupName.Text + " data\\" + lblName.Text);
+                    //            }
+                    //        }
+
+                    //    }
+                    //}
+
+                }
+            }
+
+            int yearHeader = 4;
+            for (int i = 0; i < 8; i++)
+            {
+                studyYear = GridViewStudy.HeaderRow.Cells[yearHeader].Text;
+                //studyYear = studyYear.Replace('-', '_');
+
+                if (studyArrayList[i].Count > 0)
+                {
+                    //_tables.Add(studyYear, studyArrayList[i]);
+
+                    //find the same group in arraylist
+                    _tables = new Dictionary<string, List<NHANESFile>>();
+                    List<string> listGroup = new List<string>();
+
+                    foreach (NHANESFile file in studyArrayList[i])
+                    {
+                        if (file.GroupName.Equals("Demographics"))
+                        {
+                            listGroup.Add(file.GroupName);
+                        }
+                        else
+                        {
+                            //string[] names = fileName.Split('\\');
+                            //if (!listGroup.Contains(names[0]))
+                            //{
+                            //    listGroup.Add(names[0]);
+                            //}
+                            if (!listGroup.Contains(file.GroupName))
+                            {
+                                listGroup.Add(file.GroupName);
+                            }
+                        }
+                    }
+
+                    foreach (string groupName in listGroup)
+                    {
+                        List<NHANESFile> sameGroupList = new List<NHANESFile>();
+                        foreach (NHANESFile file in studyArrayList[i])
+                        {
+                            //string[] names = fileName.Split('\\'); 
+                            //if (groupName.Equals(names[0]))
+                            //{
+                            //    sameGroupList.Add(fileName);
+                            //}
+
+                            if (file.GroupName.Equals(groupName))
+                            {
+                                sameGroupList.Add(file);
+                            }
+                        }
+
+                        _tables.Add(groupName, sameGroupList);
+                    }
+
+                    _yeartables.Add(studyYear, _tables);
+                }
+
+                yearHeader += 1;
+            }
+
+            ////call SAS
+            string macorPath = ConfigurationManager.AppSettings["NHANESMacro"];
+            string macroSource = Server.MapPath(macorPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
+
+            string fileSource = ConfigurationManager.AppSettings["NHANESSource"];
+
+            string SASCode = SASBuilder.BuildNHANESCode(_yeartables, folder, macroSource, fileSource,1);
+
+            //SASCode += "PROC EXPORT DATA =  "+ rootLibName + ;
+
+            SASBuilder.RunSAS(SASCode);
+
+            //download SAS code
+            string codeFileName = @"sascode.txt";
+            string codeFilePath = string.Format("{0}\\{1}", folder, codeFileName);
+            using (StreamWriter sw = File.CreateText(codeFilePath))
+            {
+                sw.Write(SASCode);
+            }
+
+            //open file dialog
+            String FileName = @"merged.txt";
+            String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
+
+            if (DownloadableProduct_Tracking(FilePath, FileName))
+            {
+                //Request.Headers.Add(Request.Headers);
+                //Response.Redirect(Request.RawUrl);
+
+                //Response.AppendHeader("Refresh", "0;URL=/NHANES.aspx");
+            }
+            else
+            {
+                Response.Write("<script>alert('failed');</script>");
+            };
+        } //------------------- End .txt Button
+
+
+        //-----------------Start SAS Button
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
             //get cookies
@@ -429,7 +615,7 @@ namespace HealthData2
             {
                 Response.Write("<script>alert('failed');</script>");
             };
-        }
+        }//-------- END SAS Button
 
         private void RunSAS(string sasCode)
         {

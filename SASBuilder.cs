@@ -12,7 +12,7 @@ namespace HealthData2
     public static class SASBuilder
     {
         public static SasServer activeSession = null;
-        internal static string BuildNHANESCode(Dictionary<string, Dictionary<string, List<NHANESFile>>> _tables, string libFolder, string macroSource, string fileSource)
+        internal static string BuildNHANESCode(Dictionary<string, Dictionary<string, List<NHANESFile>>> _tables, string libFolder, string macroSource, string fileSource, int downloadFileType = 0)//============================
         {            
             StringBuilder sb = new StringBuilder();
             string mergeClause = string.Empty;
@@ -129,10 +129,32 @@ namespace HealthData2
 
             sb.Append("run;");
 
+            //////////////////////////////////////////////////////////////////////////////
+            //switch (downloadFileType)
+            //{
+            //    case 1:
+                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged", rootLibName);
+                    sb.AppendFormat("OUTFILE = '{0}\\merged.txt'", libFolder);
+                    sb.AppendLine("DBMS = TAB REPLACE; RUN;");
+                //    break;
+                //case 2:
+                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged", rootLibName);
+                    sb.AppendFormat("OUTFILE = '{0}\\merged.sav'", libFolder);
+                    sb.AppendLine("DBMS = SPSS REPLACE; RUN;");
+                //    break;
+                //case 3:
+                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged", rootLibName);
+                    sb.AppendFormat("OUTFILE = '{0}\\merged.csv'", libFolder);
+                    sb.AppendLine("DBMS = CSV REPLACE; RUN;");
+            //        break;
+            //}
+            //////////////////////////////////////////////////////////////////////////////
+
+
             sb.AppendLine();
 
             return sb.ToString();
-        }
+        } //End Build NHANES Code===================================================================================================================================================================================
 
         internal static void RunSAS(string sasCode)
         {
@@ -234,6 +256,31 @@ namespace HealthData2
 
             return sb.ToString();
         }
+
+        //CONVERT to .txt file!!!!!!!!!!!!
+        //internal static string ConvertToTxt(string localPath, string fileFullName)
+        //{
+
+        //    StringBuilder sb = new StringBuilder();
+
+        //    sb.AppendFormat("libname sasfile '{0}';", localPath);
+        //    sb.AppendFormat("libname xptfile xport '{0}' access=readonly;", fileFullName);
+        //    sb.AppendFormat("proc copy inlib=xptfile outlib=sasfile; run;");
+
+
+
+        //    //StringBuilder toTxt = new StringBuilder();
+
+        //    sb.AppendFormat("PROC EXPORT DATA = '{0}.txt'", fileFullName);
+        //    sb.AppendFormat("OUTFILE = '{0}'", localPath);
+        //    sb.AppendLine("DBMS = TAB REPLACE; PUTNAMES = YES; RUN;");
+
+
+
+        //    return sb.ToString();
+        //}
+
+
     }
 
     //enum NHANESYear

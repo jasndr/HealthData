@@ -204,7 +204,7 @@
                 }
 
                 html += "<div class='row'><br />&nbsp;</div>"
-                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
+                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + "," + cookieId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
                 html += "</div>"
    
                 
@@ -345,14 +345,6 @@
 </asp:Content>
  
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <style>
-        .HeaderFreez{
-            position: relative;
-            top:expression(this.offsetParent.scrollTop);
-            z-index:10;
-        }
-        
-    </style>
     <div style="margin-left: -10px;">
     <div class="row">
                 <div class="col-lg-12">
@@ -367,9 +359,9 @@
                     <div class="panel panel-default">
                         <div class="panel-body">                           
                        
-                            <div class="table-responsive" style="height: 400px; width: 1000px; overflow: auto;">
+                            <div class="table-responsive container" style="height: 400px; width: 1000px; overflow: auto;">
                                 <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
-                                    class="table table-bordered" CssClass="HeaderFreez"
+                                    class="table table-bordered container-fluid"
                                     OnPreRender="GridViewStudy_PreRender"
                                     OnRowDataBound="GridViewStudy_DataBound"
                                     OnRowCreated="GridViewStudy_RowCreated"
@@ -483,8 +475,17 @@
                                 </asp:GridView>
                             </div>
                             <div class="row">
-                                <div class='col-md-11'></div>
-                                <asp:Button ID="btnSubmit" runat="server" Text="Submit" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False"/>
+                                <div class='col-md-7'></div>
+                                
+                                <strong>Download Format:</strong>
+
+                                <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False"/>
+
+                                <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False"/>
+
+                                <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+
+                                <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False"/>
                             </div>
                         </div> 
                     </div> 
