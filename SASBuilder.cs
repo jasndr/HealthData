@@ -133,19 +133,29 @@ namespace HealthData2
             //switch (downloadFileType)
             //{
             //    case 1:
-                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged", rootLibName);
-                    sb.AppendFormat("OUTFILE = '{0}\\merged.txt'", libFolder);
-                    sb.AppendLine("DBMS = TAB REPLACE; RUN;");
+                    sb.Append(Environment.NewLine);
+                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged\n", rootLibName);
+                    sb.Append(Environment.NewLine);
+                    sb.AppendFormat("OUTFILE = '{0}\\merged.txt'\n", libFolder);
+                    sb.AppendLine(Environment.NewLine);
+                    sb.AppendLine("DBMS = TAB REPLACE; RUN;\n");
+                    sb.Append(Environment.NewLine);
                 //    break;
                 //case 2:
-                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged", rootLibName);
-                    sb.AppendFormat("OUTFILE = '{0}\\merged.sav'", libFolder);
+                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged\n", rootLibName);
+                    sb.Append(Environment.NewLine);
+                    sb.AppendFormat("OUTFILE = '{0}\\merged.sav'\n", libFolder);
+                    sb.Append(Environment.NewLine);
                     sb.AppendLine("DBMS = SPSS REPLACE; RUN;");
+                    sb.Append(Environment.NewLine);
                 //    break;
                 //case 3:
-                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged", rootLibName);
-                    sb.AppendFormat("OUTFILE = '{0}\\merged.csv'", libFolder);
-                    sb.AppendLine("DBMS = CSV REPLACE; RUN;");
+                    sb.AppendFormat("PROC EXPORT DATA = {0}.merged\n", rootLibName);
+                    sb.Append(Environment.NewLine);
+                    sb.AppendFormat("OUTFILE = '{0}\\merged.csv'\n", libFolder);
+                    sb.Append(Environment.NewLine);
+                    sb.AppendLine("DBMS = CSV REPLACE; RUN;\n");
+                    sb.Append(Environment.NewLine);
             //        break;
             //}
             //////////////////////////////////////////////////////////////////////////////

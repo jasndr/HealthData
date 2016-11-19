@@ -178,9 +178,9 @@
                     var columnName = columns[i];
          
                     if (columnName == "SEQN") {
-                        html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' name='columns' id='" + columnName + "' class='module' />";
+                        html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' onclick='return false;' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
-                        //add cookie to SEQN --------------
+                        //add cookie to SEQN (since it's pre-checked)--------------
                         if (dict[cookieId]) {
                             dict[cookieId] += 'SEQN' + ',';
                         }
@@ -206,7 +206,8 @@
                 html += "<div class='row'><br />&nbsp;</div>"
                 html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + "," + cookieId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
                 html += "</div>"
-   
+                
+
                 
                 $("#moduleListTitle").html(html);
                 $('#moduleListTitle').parent().trigger('create');
@@ -234,6 +235,8 @@
                    
                 });
 
+            
+
                 //if (selectedList.length > 0) {
                 //    var columns;
                 //    for (i = 0; i < selectedList.length; i++) {
@@ -248,6 +251,14 @@
                 $(".pdsa-column-display").addClass("hidden");
             }
         }
+
+        //$(':checkbox').each(function () {
+        //    numOfChecked++;
+        //});
+
+        //if (numOfChecked > maxChecked) {
+        //    alert('WARNING:  You have exceeded the number of allowed variables.  Please limit your number of variables to 100 and try again.');
+        //}
 
         function ClearCookie(name) {
             document.cookie = name + '=;expires=Thu, 01 Jan 2000 00:00:01 GMT;';
@@ -285,20 +296,21 @@
                     }
                     //alert('pId' + pId + '\nspecialId' + specialId);
                 }
-                
+
             });
         }
+
 
         //Deselects all checkboxes in the current window
         function deSelectAll(specialId, cookieId) {
             $(':checkbox').each(function () {
                 var pId = this.parentNode.id;
-                if (pId == specialId) {
+                if (pId == specialId && this.id != 'SEQN') {
                     $(this).attr('checked', false);
                     //remove cookie
                     //alert(this.id);
                     //alert(cookieId);
-                    ClearCookie(cookieId);
+                    //ClearCookie(cookieId);
                     dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
                 }
 
@@ -330,13 +342,7 @@
 
        
 
-            //$(':checkbox').each(function () {
-            //    numOfChecked++;
-            //});
-
-            //if (numOfChecked > maxChecked) {
-            //    alert('WARNING:  You have exceeded the number of allowed variables.  Please limit your number of variables to 100 and try again.');
-            //}
+            
         
 
      
@@ -412,7 +418,7 @@
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2013-2014">
+                                        <%--<asp:TemplateField HeaderText="2013-2014">
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
                                             </ItemTemplate>
@@ -458,8 +464,59 @@
                                             <ItemTemplate>
                                                 <asp:CheckBox ID="chkRow1999" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
                                             </ItemTemplate>
-                                        </asp:TemplateField>
+                                        </asp:TemplateField>--%>
                                         
+                                        <%------------------------------------------Alternate Layout----------------------------------------------%>
+
+                                        <asp:TemplateField HeaderText="1999-2000">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow1999" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2001-2002">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2001" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2003-2004">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2003" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2005-2006">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2005" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2007-2008">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2007" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2009-2010">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2009" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2011-2012">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2011" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2013-2014">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <%-----------------------------------------End Alternate Layout-------------------------------------------%>
                                         
                                         
                                         
@@ -479,11 +536,11 @@
                                 
                                 <strong>Download Format:</strong>
 
-                                <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False"/>
+                                <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False"/>
 
-                                <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False"/>
+                                <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False"/>
 
-                                <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+                                <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
 
                                 <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False"/>
                             </div>
