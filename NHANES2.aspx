@@ -284,7 +284,7 @@
             $(':checkbox').each(function () {
                 var pId = this.parentNode.id;
                 if (pId == specialId) {
-                    $(this).attr('checked', true);
+                    $(this).prop('checked', true);
 
                     //add cookie
                     if (dict[cookieId]) {
@@ -306,7 +306,7 @@
             $(':checkbox').each(function () {
                 var pId = this.parentNode.id;
                 if (pId == specialId && this.id != 'SEQN') {
-                    $(this).attr('checked', false);
+                    $(this).prop('checked', false);
                     //remove cookie
                     //alert(this.id);
                     //alert(cookieId);
@@ -365,7 +365,7 @@
                     <div class="panel panel-default">
                         <div class="panel-body">                           
                        
-                            <div class="table-responsive container" style="height: 400px; width: 1000px; overflow: auto;">
+                            <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow: scroll;">
                                 <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
                                     class="table table-bordered container-fluid"
                                     OnPreRender="GridViewStudy_PreRender"
@@ -373,7 +373,7 @@
                                     OnRowCreated="GridViewStudy_RowCreated"
                                     OnRowCommand="GridViewStudy_RowCommand"
                                    >
-                                    <HeaderStyle CssClass="ColumnHeaderStyle" BackColor="#B3FFB3"/>
+                                    <HeaderStyle  CssClass="ColumnHeaderStyle" BackColor="#B3FFB3"/>
                                     <AlternatingRowStyle BackColor="LightYellow" />
                                     <Columns>
                                         <asp:TemplateField HeaderText="DataSet">
@@ -408,7 +408,7 @@
                                         </asp:TemplateField>--%>
                                         
                                         <asp:TemplateField HeaderText="GroupShortName" Visible="False">
-                                            <ItemTemplate>sata
+                                            <ItemTemplate>
                                                 <asp:Label ID="lblGroupShortName" runat="server" Text='<%# Bind("GroupShortName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
@@ -532,17 +532,24 @@
                                 </asp:GridView>
                             </div>
                             <div class="row">
-                                <div class='col-md-7'></div>
+
+                                <br />
+
+                               <%-- <div class='col-md-8'></div>--%>
                                 
-                                <strong>Download Format:</strong>
+                                <div style="text-align:right; margin-right: 10px;">
 
-                                <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False"/>
+                                    <strong>Download Format:</strong>
 
-                                <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False"/>
+                                    <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False"/>
 
-                                <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+                                    <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False"/>
 
-                                <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False"/>
+                                    <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+
+                                    <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False"/>
+                                
+                                </div>
                             </div>
                         </div> 
                     </div> 
