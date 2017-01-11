@@ -17,7 +17,7 @@
         <img src="./images/Banner_Print3.jpg" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
     </div>
 
-    <div class="navbar-default sidebar" style="margin-top: -.5%; margin-left: .7%;">
+    <div class="navbar-default sidebar" style="margin-top: -.5%;">
         <div class="container" style="margin-left: 10%;">
             <h5><strong>Data Documentation & Codebook</strong></h5>
         </div>
@@ -171,8 +171,10 @@
 
                 //var html = "<label title='wwwn.cdc.gov/Nchs/Nhanes/2011-2012/CBC_G.htm' for='" + studyname + "'>" + studyname + "</label><br/>";
                 //var html = "<a href='http://" + codebook + "' color='green' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
-                var html = "<h5><strong>" +studyname+ "</strong></h5>";
-                html = "<span id='closeDiv' onclick='closeWindow()'>x</span><br />&nbsp;";
+                var html = "<h5><strong>" + studyname + "</strong></h5>";
+                html += "<div class='col-md-2'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + "," + cookieId + ")'></div><div class='col-md-4'>"
+                html += "<span id='closeDiv' onclick='closeWindow()'>x</span><br />&nbsp;";
+                html += "<a href='http://" + codebook + "' color='green' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
                 html += "<div class='row'>";
                 for (var i = 0; i < columns.length-1; i++) {
                     var columnName = columns[i];
@@ -348,9 +350,36 @@
      
    </script>
     <%--<script src="Scripts/common.js"></script>--%>
+
+
+
 </asp:Content>
  
+
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
+    <%--<script src="https://raw.githubusercontent.com/twlikol/GridViewScroll/master/gridviewScroll.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            gridViewScroll();
+        });
+        function gridviewScroll() {
+            gridView1 = $('#<%=GridViewStudy.ClientID%>').gridviewScroll({
+                width: 600,
+                height: 300
+            })
+        }
+
+    </script>    --%>
+
+    <%--<style>
+        .HeaderFreeze{
+            position: fixed;
+        }
+    </style>--%>
+
+
+
     <div style="margin-left: -10px;">
     <div class="row">
                 <div class="col-lg-12">
@@ -365,7 +394,22 @@
                     <div class="panel panel-default">
                         <div class="panel-body">                           
                        
+                           <%-- <div  id="falseHeader"></div>--%>
+                            
                             <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow: scroll;">
+
+                              <%--<table id="panelContainerFixed">
+                                  <tr class="header">
+                                      <th>ID</th><th>Name</th>
+                                  </tr>
+                              </table>
+
+                              <table id="panelContainer">
+                                  <tr class="header">
+                                      <th>ID</th><th>Name</th>
+                                  </tr>
+                              </table>--%>
+
                                 <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
                                     class="table table-bordered container-fluid"
                                     OnPreRender="GridViewStudy_PreRender"
@@ -373,7 +417,7 @@
                                     OnRowCreated="GridViewStudy_RowCreated"
                                     OnRowCommand="GridViewStudy_RowCommand"
                                    >
-                                    <HeaderStyle  CssClass="ColumnHeaderStyle" BackColor="#B3FFB3"/>
+                                    <HeaderStyle  CssClass="ColumnHeaderStyle HeaderFreeze" BackColor="#B3FFB3"/>
                                     <AlternatingRowStyle BackColor="LightYellow" />
                                     <Columns>
                                         <asp:TemplateField HeaderText="DataSet">
@@ -517,12 +561,7 @@
                                         </asp:TemplateField>
 
                                         <%-----------------------------------------End Alternate Layout-------------------------------------------%>
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
+                                                                                                               
                                         <asp:TemplateField HeaderText="FileExists" Visible="false">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblFileExists" runat="server" Text='<%# Bind("FileExists") %>'></asp:Label>
@@ -530,6 +569,8 @@
                                         </asp:TemplateField>
                                     </Columns>
                                 </asp:GridView>
+
+
                             </div>
                             <div class="row">
 

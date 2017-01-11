@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -203,6 +204,7 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="SASMacro\combineall.txt" />
+    <Content Include="Scripts\ScrollableGridPlugin_ASP.NetAJAX_2.0.js" />
     <Content Include="WebScrapper.aspx" />
     <None Include="Properties\PublishProfiles\DA.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
