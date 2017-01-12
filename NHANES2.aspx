@@ -32,7 +32,7 @@
             <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes99_00.aspx" target="_blank">1999 - 2000</a></p>
         </div>
         
-
+        
     </div>
        
     <script src="Scripts/jquery.cookie.js"></script>
@@ -168,13 +168,13 @@
 
                 var specialId = (id * (parseFloat(yearfrom) + parseFloat(yearto)));
 
-
+                
                 //var html = "<label title='wwwn.cdc.gov/Nchs/Nhanes/2011-2012/CBC_G.htm' for='" + studyname + "'>" + studyname + "</label><br/>";
                 //var html = "<a href='http://" + codebook + "' color='green' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
-                var html = "<h5><strong>" + studyname + "</strong></h5>";
-                html += "<div class='col-md-2'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + "," + cookieId + ")'></div><div class='col-md-4'>"
+                var html = "<h5 style='color: green;'><strong><a href='http://" + codebook + "' style='color: green;' target='_blank' title='code book'" + "'>" + studyname + "</a></strong></h5>";
+                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + "," + cookieId + ")'>"
                 html += "<span id='closeDiv' onclick='closeWindow()'>x</span><br />&nbsp;";
-                html += "<a href='http://" + codebook + "' color='green' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
+                //html += "<a href='http://" + codebook + "' color='green' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
                 html += "<div class='row'>";
                 for (var i = 0; i < columns.length-1; i++) {
                     var columnName = columns[i];
@@ -372,11 +372,19 @@
 
     </script>    --%>
 
-    <%--<style>
-        .HeaderFreeze{
+    <script>
+
+        $(document).ready(function () {
+            $('dataHeader').clone().prop('id', 'dataHeader2').insertAfter('.dataHeader');
+        });
+       
+    </script>
+
+    <style>
+        .dataHeader2{
             position: fixed;
         }
-    </style>--%>
+    </style>
 
 
 
@@ -417,10 +425,11 @@
                                     OnRowCreated="GridViewStudy_RowCreated"
                                     OnRowCommand="GridViewStudy_RowCommand"
                                    >
-                                    <HeaderStyle  CssClass="ColumnHeaderStyle HeaderFreeze" BackColor="#B3FFB3"/>
+                                    <HeaderStyle  CssClass="ColumnHeaderStyle dataHeader" BackColor="#B3FFB3"/>
                                     <AlternatingRowStyle BackColor="LightYellow" />
                                     <Columns>
                                         <asp:TemplateField HeaderText="DataSet">
+
                                             <ItemTemplate>
                                                 <%--<asp:ImageButton ID="imgExpand" runat="server" Visible="false"
                                                     ImageUrl="images/expand.gif" Height="16px"
