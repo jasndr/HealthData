@@ -18,18 +18,26 @@
     </div>
 
     <div class="navbar-default sidebar" style="margin-top: -.5%;">
-        <div class="container" style="margin-left: 10%;">
-            <h5><strong>Data Documentation & Codebook</strong></h5>
+        <div class="container" style="margin-left: 1%;">
+            <h5 class="text-center"><strong>Codebook</strong></h5>
         </div>
-        <div class="container text-center" style="margin-left: 1%;">
-            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes13_14.aspx" target="_blank">2013 - 2014</a></p>
-            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes11_12.aspx" target="_blank">2011 - 2012</a></p>
-            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes09_10.aspx" target="_blank">2009 - 2010</a></p>
-            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes07_08.aspx" target="_blank">2007 - 2008</a></p>
-            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes05_06.aspx" target="_blank">2005 - 2006</a></p>
-            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes03_04.aspx" target="_blank">2003 - 2004</a></p>
-            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes01_02.aspx" target="_blank">2001 - 2002</a></p>
-            <p><a style="font-weight: bold; color: forestgreen;" href="http://wwwn.cdc.gov/Nchs/Nhanes/Search/nhanes99_00.aspx" target="_blank">1999 - 2000</a></p>
+        <div class="container text-center" style="margin-left: 1%; columns: 2;">
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf" target="_blank">2015</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2014/pdf/codebook14_llcp.pdf" target="_blank">2014</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2013/pdf/codebook13_llcp.pdf" target="_blank">2013</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2012/pdf/codebook12_llcp.pdf" target="_blank">2012</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2011/pdf/codebook11_llcp.pdf" target="_blank">2011</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2010/pdf/codebook_10.pdf" target="_blank">2010</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2009/pdf/codebook_09.pdf" target="_blank">2009</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2008/pdf/codebook08.pdf" target="_blank">2008</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2007/pdf/codebook_07.pdf" target="_blank">2007</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2006/pdf/codebook_06.pdf" target="_blank">2006</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2005/pdf/codebook_05.pdf" target="_blank">2005</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2004/pdf/codebook_04.pdf" target="_blank">2004</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2003/pdf/codebook_03.pdf" target="_blank">2003</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2002/pdf/codebook_02.pdf" target="_blank">2002</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2001/pdf/codebook_01.pdf" target="_blank">2001</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2000/pdf/codebook_00.pdf" target="_blank">2000</a></p>
         </div>
         
         
@@ -396,10 +404,17 @@
             var panelHeader = $('#<%=GridViewStudy.ClientID%>').clone(); 
             panelHeader.attr("class", "panelHeader");
             panelHeader.find("tr:gt(0)").hide();           
-            panelHeader.css('width', '98.5%');
-            panelHeader.find("th:first-child").css('width', '6.7%');
-            panelHeader.find("th:nth-child(2)").css('width', '53%'); 
-            panelHeader.find("th:nth-child(3)").css('width', '5%'); 
+            panelHeader.css('width', '98.5%'); 
+            panelHeader.find("th:first-child").css('width', '3.4%');
+            panelHeader.find("th:nth-child(2)").css('width', '55.1%');
+            panelHeader.find("th:nth-child(3)").css('width', '5%');
+            panelHeader.find("th:nth-child(4)").css('width', '5%');
+            panelHeader.find("th:nth-child(5)").css('width', '5%');
+            panelHeader.find("th:nth-child(6)").css('width', '5%');
+            panelHeader.find("th:nth-child(7)").css('width', '5%');
+            panelHeader.find("th:nth-child(8)").css('width', '5%');
+            panelHeader.find("th:nth-child(9)").css('width', '5%');
+            panelHeader.find("th:nth-child(10)").css('width', '5%');
             panelHeader.prependTo($('#<%=GridViewStudy.ClientID%>')); 
             
 
