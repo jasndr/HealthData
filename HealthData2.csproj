@@ -192,6 +192,7 @@
     <Content Include="images\collapse.gif" />
     <Content Include="images\page-under-construction.jpg" />
     <Content Include="images\expand.gif" />
+    <Content Include="BRFSS.aspx" />
     <Content Include="NHANES2.aspx" />
     <Content Include="NHANES.aspx" />
     <Content Include="packages.config" />
@@ -335,6 +336,13 @@
     <Compile Include="Models\GridViewTemplate.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\NHANESFile.cs" />
+    <Compile Include="BRFSS.aspx.cs">
+      <DependentUpon>BRFSS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BRFSS.aspx.designer.cs">
+      <DependentUpon>BRFSS.aspx</DependentUpon>
+    </Compile>
     <Compile Include="NHANES2.aspx.cs">
       <DependentUpon>NHANES2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

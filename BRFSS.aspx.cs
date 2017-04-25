@@ -16,7 +16,7 @@ using System.Xml.XPath;
 
 namespace HealthData2
 {
-    public partial class NHANES2 : System.Web.UI.Page
+    public partial class BRFSS : System.Web.UI.Page
     {
         public SasServer activeSession = null;
 
