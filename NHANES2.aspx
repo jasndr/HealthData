@@ -14,7 +14,7 @@
     </script>
 
     <div class="navbar navbar-default" style="margin-top: -60px;">
-        <img src="./images/Banner_Print3.jpg" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
+        <img src="./images/Banner_Print(CIM).png" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
     </div>
 
     <div class="navbar-default sidebar" style="margin-top: -.5%;">

@@ -12,7 +12,7 @@ namespace HealthData2
     public static class SASBuilder
     {
         public static SasServer activeSession = null;
-        internal static string BuildNHANESCode(Dictionary<string, Dictionary<string, List<NHANESFile>>> _tables, string libFolder, string macroSource, string fileSource, int downloadFileType = 0)//============================
+        public /*internal*/ static string BuildNHANESCode(Dictionary<string, Dictionary<string, List<NHANESFile>>> _tables, string libFolder, string macroSource, string fileSource, int downloadFileType = 0)//============================
         {            
             StringBuilder sb = new StringBuilder();
             string mergeClause = string.Empty;
@@ -166,7 +166,7 @@ namespace HealthData2
             return sb.ToString();
         } //End Build NHANES Code===================================================================================================================================================================================
 
-        internal static void RunSAS(string sasCode)
+        public /*internal*/ static void RunSAS(string sasCode)
         {
             string connectionStatus = ConnectToSAS();
 

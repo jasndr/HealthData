@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="BRFSS.aspx.cs" Inherits="HealthData2.BRFSS" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="BRFSS.aspx.cs" Inherits="HealthData2.BRFSS" %>
 <%--<%@ Register TagPrefix="fb" TagName="FileBrowser" Src="~/FileBrowser.ascx" %>--%>
 
 
@@ -14,7 +14,7 @@
     </script>
 
     <div class="navbar navbar-default" style="margin-top: -60px;">
-        <img src="./images/Banner_Print3.jpg" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
+        <img src="./images/Banner_Print(CIM).png" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
     </div>
 
     <div class="navbar-default sidebar" style="margin-top: -.5%;">
@@ -427,7 +427,7 @@
     <div style="margin-left: -10px;">
     <div class="row">
                 <div class="col-lg-12">
-                    <h4 class="page-header"><strong>NHANES Data</strong></h4>
+                    <h4 class="page-header"><strong>BRFSS Data</strong></h4>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
