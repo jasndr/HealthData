@@ -65,7 +65,7 @@
 
         var dict = new Object();
 
-
+        
         function pageLoad(sender, args) {
             $('#li_nhanesdata').addClass('active');
             $('#li_nhanes').addClass('active');           
@@ -158,7 +158,7 @@
 
         function ShowColumns(CheckBox) {
             if (CheckBox.checked) {
-                //alert($(CheckBox).parent().attr('columnname'));
+                alert($(CheckBox).parent().attr('columnname') + ' ' + $(CheckBox).parent().attr('id'));
                 $(".pdsa-column-display").removeClass("hidden");
 
                 var columns = $(CheckBox).parent().attr('columnname').split(',');
@@ -356,17 +356,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <script >
-        $(document).ready(function () {
-            /*Code to copy the gridview header with style*/
-            var gridHeader = $('#GridViewStudy').clone(true);
-            /*Code to remove first row which is header row*/
-            var floatingHeader = $(gridHeader).find("tr:gt(0)")
-           
-            $("#floatingHeader").append(floatingHeader);
-            $('#floatingHeader').css('position', 'absolute');
-        });
-</script>
+
 
     <script>
 
@@ -564,28 +554,28 @@
               <table class="table table-bordered text-center">
                   <tbody>
                       <tr>
-                        <td>2015<br /><input type="checkbox" id="chk15"></td>
-                        <td>2014<br /><input type="checkbox" id="chk14"></td>
-                        <td>2013<br /><input type="checkbox" id="chk13"></td>
-                        <td>2012<br /><input type="checkbox" id="chk12"></td>
-                        <td>2011<br /><input type="checkbox" id="chk11"></td>
+                        <td>2015<br /><asp:CheckBox ID="chk15" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                        <td>2014<br /><asp:CheckBox ID="chk14" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                        <td>2013<br /><asp:CheckBox ID="chk13" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                        <td>2012<br /><asp:CheckBox ID="chk12" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                        <td>2011<br /><asp:CheckBox ID="chk11" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
                       </tr>
                       <tr>
-                          <td>2010<br /><input type="checkbox" id="chk10"></td>
-                          <td>2009<br /><input type="checkbox" id="chk09"></td>
-                          <td>2008<br /><input type="checkbox" id="chk08"></td>
-                          <td>2007<br /><input type="checkbox" id="chk07"></td>
-                          <td>2006<br /><input type="checkbox" id="chk06"></td>
+                          <td>2010<br /><asp:CheckBox ID="chk10" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                          <td>2009<br /><asp:CheckBox ID="chk09" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                          <td>2008<br /><asp:CheckBox ID="chk08" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                          <td>2007<br /><asp:CheckBox ID="chk07" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                          <td>2006<br /><asp:CheckBox ID="chk06" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
                       </tr>
                       <tr>
-                          <td>2005<br /><input type="checkbox" id="chk05"></td>
-                          <td>2004<br /><input type="checkbox" id="chk04"></td>
-                          <td>2003<br /><input type="checkbox" id="chk03"></td>
-                          <td>2002<br /><input type="checkbox" id="chk02"></td>
-                          <td>2001<br /><input type="checkbox" id="chk01"></td>
+                          <td>2005<br /><asp:CheckBox ID="chk05" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                          <td>2004<br /><asp:CheckBox ID="chk04" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                          <td>2003<br /><asp:CheckBox ID="chk03" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                          <td>2002<br /><asp:CheckBox ID="chk02" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
+                          <td>2001<br /><asp:CheckBox ID="chk01" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
                       </tr>
                       <tr>
-                          <td>2000<br /><input type="checkbox" id="chk00"></td>
+                          <td>2000<br /><asp:CheckBox ID="chk00" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox></td>
                           <td></td>
                           <td></td>
                           <td></td>
@@ -593,7 +583,23 @@
                       </tr>
                   </tbody>
               </table>
+
+          <div style="text-align:right; margin-right: 10px;">
+
+            <strong>Download Format:</strong>
+
+            <asp:Button ID="Button1" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+
+            <asp:Button ID="Button2" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+
+            <asp:Button ID="Button3" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+
+            <asp:Button ID="Button4" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+                                
+          </div>
+
       </div>
+
         
 
     

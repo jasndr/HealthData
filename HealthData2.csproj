@@ -167,6 +167,7 @@
     <Content Include="Account\OpenAuthProviders.ascx" />
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
+    <Content Include="App_Data\BRFSS_columns.xml" />
     <Content Include="App_Data\NHANES_column.xml" />
     <Content Include="App_Data\NHANES_demo.xml" />
     <Content Include="App_Data\NHANES_study.xml">
@@ -188,7 +189,7 @@
     <Content Include="FileBrowser.ascx" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="images\Banner_Print3.jpg" />
+    <Content Include="images\Banner_Print%28CIM%29.png" />
     <Content Include="images\collapse.gif" />
     <Content Include="images\page-under-construction.jpg" />
     <Content Include="images\expand.gif" />

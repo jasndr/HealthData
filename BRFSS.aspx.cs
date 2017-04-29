@@ -23,6 +23,8 @@ namespace HealthData2
         //first dictionary for group, second for year, tree might be a better structure
         Dictionary<string, List<NHANESFile>> _tables;
         Dictionary<string, Dictionary<string, List<NHANESFile>>> _yeartables = new Dictionary<string, Dictionary<string, List<NHANESFile>>>();
+        //Dictionary<string, List<NHANESFile>> _tables;
+        //Dictionary<string, Dictionary<string, List<NHANESFile>>> yeartables = new Dictionary<string, Dictionary<string, List<NHANESFile>>>();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -241,6 +243,7 @@ namespace HealthData2
             return sb.ToString();
         }
 
+        //(not needed for BRFSS)
         private void MergeGridviewRows(GridView gridView)
         {
             for (int rowIndex = gridView.Rows.Count - 2; rowIndex >= 0; rowIndex--)
@@ -320,28 +323,7 @@ namespace HealthData2
 
                         yearFrom += 2;
                     }
-
-                    //for (int i = 0; i < 7; i++)
-                    //{
-                    //    if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
-                    //    {
-                    //        Label lblName = row.FindControl("lblName") as Label;
-                    //        Label lblGroupName = row.FindControl("lblGroupName") as Label;
-
-                    //        if (lblName != null && lblGroupName != null)
-                    //        {
-                    //            if (lblGroupName.Text.Equals("Demographic"))
-                    //            {
-                    //                studyArrayList[i].Add(lblName.Text);
-                    //            }
-                    //            else
-                    //            {
-                    //                studyArrayList[i].Add(lblGroupName.Text + " data\\" + lblName.Text);
-                    //            }
-                    //        }
-
-                    //    }
-                    //}
+                    
 
                 }
             }
@@ -509,28 +491,7 @@ namespace HealthData2
 
                         yearFrom += 2;
                     }
-
-                    //for (int i = 0; i < 7; i++)
-                    //{
-                    //    if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
-                    //    {
-                    //        Label lblName = row.FindControl("lblName") as Label;
-                    //        Label lblGroupName = row.FindControl("lblGroupName") as Label;
-
-                    //        if (lblName != null && lblGroupName != null)
-                    //        {
-                    //            if (lblGroupName.Text.Equals("Demographic"))
-                    //            {
-                    //                studyArrayList[i].Add(lblName.Text);
-                    //            }
-                    //            else
-                    //            {
-                    //                studyArrayList[i].Add(lblGroupName.Text + " data\\" + lblName.Text);
-                    //            }
-                    //        }
-
-                    //    }
-                    //}
+                    
 
                 }
             }
@@ -693,28 +654,6 @@ namespace HealthData2
                         yearFrom += 2;
                     }
 
-                    //for (int i = 0; i < 7; i++)
-                    //{
-                    //    if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
-                    //    {
-                    //        Label lblName = row.FindControl("lblName") as Label;
-                    //        Label lblGroupName = row.FindControl("lblGroupName") as Label;
-
-                    //        if (lblName != null && lblGroupName != null)
-                    //        {
-                    //            if (lblGroupName.Text.Equals("Demographic"))
-                    //            {
-                    //                studyArrayList[i].Add(lblName.Text);
-                    //            }
-                    //            else
-                    //            {
-                    //                studyArrayList[i].Add(lblGroupName.Text + " data\\" + lblName.Text);
-                    //            }
-                    //        }
-
-                    //    }
-                    //}
-
                 }
             }
 
@@ -876,28 +815,6 @@ namespace HealthData2
 
                         yearFrom += 2;
                     }
-
-                    //for (int i = 0; i < 7; i++)
-                    //{
-                    //    if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
-                    //    {
-                    //        Label lblName = row.FindControl("lblName") as Label;
-                    //        Label lblGroupName = row.FindControl("lblGroupName") as Label;
-
-                    //        if (lblName != null && lblGroupName != null)
-                    //        {
-                    //            if (lblGroupName.Text.Equals("Demographic"))
-                    //            {
-                    //                studyArrayList[i].Add(lblName.Text);
-                    //            }
-                    //            else
-                    //            {
-                    //                studyArrayList[i].Add(lblGroupName.Text + " data\\" + lblName.Text);
-                    //            }
-                    //        }
-
-                    //    }
-                    //}
 
                 }
             }
