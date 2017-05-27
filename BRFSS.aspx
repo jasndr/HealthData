@@ -179,7 +179,7 @@
   
                 //---> Create HTML elements of page
                 var html = "<h5 style='color: green;'><strong><a href='" + codebook + "' style='color: green;' target='_blank' title='code book'" + "'> BRFSS " + year + " Datasets</a></strong></h5>";
-                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + "," + cookieId + ")'>";
+                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll2(this, " + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll2(this, " + specialId + "," + cookieId + ")'>";
                 html += "<span id='closeDiv' onclick='closeWindow()'>X</span><br />&nbsp;";
                 html += "<div class='row'>";
                 for (var i = 0; i < columns.length - 1; i++) {
@@ -213,7 +213,7 @@
 
                //---> Add row of buttons
                 html += "<div class='row'><br />&nbsp;</div>"
-                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll2(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll2(" + specialId + "," + cookieId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
+                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll2(this, " + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll2(this, " + specialId + "," + cookieId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
                 html += "</div>"
  
                // alert('id: ' + id + '\n year: ' + year + '\n cookieID: ' + cookieID + '\n specialID: ' + specialID + '\n codebook: ' + codebook);
@@ -415,11 +415,11 @@
 
 
         //Selects all checkboxes in the current window
-        function selectAll2(specialId, cookieId) {
-            alert('Comment t`allez vous?');
+        function selectAll2(me, specialId, cookieId) {
+            //alert('Comment t`allez vous?');
             $(':checkbox').each(function () {
                 //Obtains the parent node
-                var pId = this.attr.special;
+                var pId = me.special;
 
                 //If the parent node equals the special id specified, then check this box
                 if (pId == specialId) {
@@ -441,9 +441,9 @@
         }
 
         //Deselects all checkboxes in the current window
-        function deSelectAll2(specialId, cookieId) {
+        function deSelectAll2(me, specialId, cookieId) {
             $(':checkbox').each(function () {
-                var pId = this.attr.special;
+                var pId = me.special;
                 if (pId == specialId /*&& this.id != 'SEQN'*/) {
                     $(this).prop('checked', false);
                     dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
