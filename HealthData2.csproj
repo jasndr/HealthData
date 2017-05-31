@@ -336,6 +336,7 @@
     </Compile>
     <Compile Include="Models\GridViewTemplate.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\BRFSSFile.cs" />
     <Compile Include="Models\NHANESFile.cs" />
     <Compile Include="BRFSS.aspx.cs">
       <DependentUpon>BRFSS.aspx</DependentUpon>

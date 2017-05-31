@@ -27,7 +27,7 @@
     <link href="Content/font-awesome.min.css" rel="stylesheet" />
 </head>
 <body>
-    <form runat="server">
+    <form id="healthForm" runat="server" class="healthForm1">
         <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>

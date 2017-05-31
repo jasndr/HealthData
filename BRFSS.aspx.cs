@@ -21,8 +21,8 @@ namespace HealthData2
         public SasServer activeSession = null;
 
         //first dictionary for group, second for year, tree might be a better structure
-        Dictionary<string, List<NHANESFile>> _tables;
-        Dictionary<string, Dictionary<string, List<NHANESFile>>> _yeartables = new Dictionary<string, Dictionary<string, List<NHANESFile>>>();
+        Dictionary<string, List<BRFSSFile>> _tables;
+        Dictionary<string, Dictionary<string, List<BRFSSFile>>> _yeartables = new Dictionary<string, Dictionary<string, List<BRFSSFile>>>();
         //Dictionary<string, List<NHANESFile>> _tables;
         //Dictionary<string, Dictionary<string, List<NHANESFile>>> yeartables = new Dictionary<string, Dictionary<string, List<NHANESFile>>>();
         protected void Page_Load(object sender, EventArgs e)
@@ -279,108 +279,77 @@ namespace HealthData2
             }
 
             string studyYear = "";
-            List<NHANESFile>[] studyArrayList = new List<NHANESFile>[8];
+            int studyYearFrom = 0;
+            List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[8];
             for (int i = 0; i < 8; i++)
             {
-                studyArrayList[i] = new List<NHANESFile>();
+                studyArrayList[i] = new List<BRFSSFile>();
             }
 
-            CheckBox[] checkBoxArray = new CheckBox[8];
-            foreach (GridViewRow row in GridViewStudy.Rows)
+            CheckBox[] checkBoxArray = new CheckBox[15];
+
+            //Adds label for each checkbox in web form
+            foreach (Control ctl in Form.FindControl("brfssTable").Controls) 
             {
-                if (row.RowType == DataControlRowType.DataRow)
+               
+                if (ctl is CheckBox)
                 {
-                    int yearFrom = 1999;
-                    for (int i = 0; i < 8; i++)
+                    if (((CheckBox)ctl).Checked)
                     {
-                        string chkBoxId = "chkRow" + yearFrom.ToString();
-                        checkBoxArray[i] = row.FindControl(chkBoxId) as CheckBox;
 
-                        if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
+                        int yearFrom = 2001;
+                        for (int i = 0; i < 15; i++)
                         {
-                            Label lblId = row.FindControl("lblId") as Label;
-                            Label lblName = row.FindControl("lblName") as Label;
-                            Label lblGroupName = row.FindControl("lblGroupName") as Label;
+                            string chkBoxId = "chk" + yearFrom.ToString("yy");
+                            checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox; 
 
-                            if (lblId != null && lblName != null && lblGroupName != null)
+                            if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
                             {
-                                string cookieName = yearFrom.ToString() + lblId.Text;
-                                if (Request.Cookies[cookieName] != null)
-                                {
-                                    NHANESFile file = new NHANESFile()
+                               
+                                    string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
+                                    if (Request.Cookies[cookieName] != null)
                                     {
-                                        YearFrom = yearFrom.ToString(),
-                                        GroupName = lblGroupName.Text,
-                                        FolderName = lblName.Text,
-                                        ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
-                                    };
+                                        BRFSSFile file = new BRFSSFile()
+                                        {
+                                            YearFrom = yearFrom.ToString(),
+                                            ColumnName =  HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
+                                        };
 
-                                    studyArrayList[i].Add(file);
-                                    //studyArrayList[i].Add(lblGroupName.Text + "\\" + lblName.Text + "\\" + HttpUtility.UrlDecode(Request.Cookies[cookieName].Value));
-                                }
+                                        studyArrayList[i].Add(file);
+                                    }
+                                
                             }
+
+                            yearFrom++;
                         }
 
-                        yearFrom += 2;
+
+
                     }
+                }
+
                     
 
-                }
+                
             }
 
             int yearHeader = 4;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 15; i++)
             {
-                studyYear = GridViewStudy.HeaderRow.Cells[yearHeader].Text;
-                //studyYear = studyYear.Replace('-', '_');
+                studyYear = "" + studyYearFrom;
 
                 if (studyArrayList[i].Count > 0)
                 {
-                    //_tables.Add(studyYear, studyArrayList[i]);
-
-                    //find the same group in arraylist
-                    _tables = new Dictionary<string, List<NHANESFile>>();
+                    
+                    _tables = new Dictionary<string, List<BRFSSFile>>();
                     List<string> listGroup = new List<string>();
 
-                    foreach (NHANESFile file in studyArrayList[i])
-                    {
-                        if (file.GroupName.Equals("Demographics"))
-                        {
-                            listGroup.Add(file.GroupName);
-                        }
-                        else
-                        {
-                            //string[] names = fileName.Split('\\');
-                            //if (!listGroup.Contains(names[0]))
-                            //{
-                            //    listGroup.Add(names[0]);
-                            //}
-                            if (!listGroup.Contains(file.GroupName))
-                            {
-                                listGroup.Add(file.GroupName);
-                            }
-                        }
-                    }
-
-                    foreach (string groupName in listGroup)
-                    {
-                        List<NHANESFile> sameGroupList = new List<NHANESFile>();
-                        foreach (NHANESFile file in studyArrayList[i])
-                        {
-                            //string[] names = fileName.Split('\\'); 
-                            //if (groupName.Equals(names[0]))
-                            //{
-                            //    sameGroupList.Add(fileName);
-                            //}
-
-                            if (file.GroupName.Equals(groupName))
-                            {
-                                sameGroupList.Add(file);
-                            }
-                        }
-
-                        _tables.Add(groupName, sameGroupList);
-                    }
+                    
+                    //foreach (string groupName in listGroup)
+                    //{
+                    //    List<BRFSSFile> sameGroupList = new List<BRFSSFile>();
+                    //    _tables.Add(groupName, sameGroupList);
+                    //}
 
                     _yeartables.Add(studyYear, _tables);
                 }
@@ -389,12 +358,12 @@ namespace HealthData2
             }
 
             ////call SAS
-            string macorPath = ConfigurationManager.AppSettings["NHANESMacro"];
-            string macroSource = Server.MapPath(macorPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
+            string macroPath = ConfigurationManager.AppSettings["BRFSSMacro"];
+            string macroSource = Server.MapPath(macroPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
 
-            string fileSource = ConfigurationManager.AppSettings["NHANESSource"];
+            string fileSource = ConfigurationManager.AppSettings["BRFSSSource"];
 
-            string SASCode = SASBuilder.BuildNHANESCode(_yeartables, folder, macroSource, fileSource, 1);
+            string SASCode = SASBuilder.BuildBRFSSCode(_yeartables, folder, macroSource, fileSource, 1);
 
           
             SASBuilder.RunSAS(SASCode);
@@ -424,6 +393,7 @@ namespace HealthData2
             };
         } //------------------- End .txt Button
 
+ /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
         //---------Start SPSS Button
         /// <summary>
@@ -447,108 +417,77 @@ namespace HealthData2
             }
 
             string studyYear = "";
-            List<NHANESFile>[] studyArrayList = new List<NHANESFile>[8];
+            int studyYearFrom = 0;
+            List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[8];
             for (int i = 0; i < 8; i++)
             {
-                studyArrayList[i] = new List<NHANESFile>();
+                studyArrayList[i] = new List<BRFSSFile>();
             }
 
-            CheckBox[] checkBoxArray = new CheckBox[8];
-            foreach (GridViewRow row in GridViewStudy.Rows)
+            CheckBox[] checkBoxArray = new CheckBox[15];
+
+            //Adds label for each checkbox in web form
+            foreach (Control ctl in Form.FindControl("brfssTable").Controls)
             {
-                if (row.RowType == DataControlRowType.DataRow)
+
+                if (ctl is CheckBox)
                 {
-                    int yearFrom = 1999;
-                    for (int i = 0; i < 8; i++)
+                    if (((CheckBox)ctl).Checked)
                     {
-                        string chkBoxId = "chkRow" + yearFrom.ToString();
-                        checkBoxArray[i] = row.FindControl(chkBoxId) as CheckBox;
 
-                        if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
+                        int yearFrom = 2001;
+                        for (int i = 0; i < 15; i++)
                         {
-                            Label lblId = row.FindControl("lblId") as Label;
-                            Label lblName = row.FindControl("lblName") as Label;
-                            Label lblGroupName = row.FindControl("lblGroupName") as Label;
+                            string chkBoxId = "chk" + yearFrom.ToString("yy");
+                            checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox;
 
-                            if (lblId != null && lblName != null && lblGroupName != null)
+                            if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
                             {
-                                string cookieName = yearFrom.ToString() + lblId.Text;
+
+                                string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
                                 if (Request.Cookies[cookieName] != null)
                                 {
-                                    NHANESFile file = new NHANESFile()
+                                    BRFSSFile file = new BRFSSFile()
                                     {
                                         YearFrom = yearFrom.ToString(),
-                                        GroupName = lblGroupName.Text,
-                                        FolderName = lblName.Text,
                                         ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
                                     };
 
                                     studyArrayList[i].Add(file);
-                                    //studyArrayList[i].Add(lblGroupName.Text + "\\" + lblName.Text + "\\" + HttpUtility.UrlDecode(Request.Cookies[cookieName].Value));
                                 }
+
                             }
+
+                            yearFrom++;
                         }
 
-                        yearFrom += 2;
-                    }
-                    
 
+
+                    }
                 }
+
+
+
+
             }
 
             int yearHeader = 4;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 15; i++)
             {
-                studyYear = GridViewStudy.HeaderRow.Cells[yearHeader].Text;
-                //studyYear = studyYear.Replace('-', '_');
+                studyYear = "" + studyYearFrom;
 
                 if (studyArrayList[i].Count > 0)
                 {
-                    //_tables.Add(studyYear, studyArrayList[i]);
 
-                    //find the same group in arraylist
-                    _tables = new Dictionary<string, List<NHANESFile>>();
+                    _tables = new Dictionary<string, List<BRFSSFile>>();
                     List<string> listGroup = new List<string>();
 
-                    foreach (NHANESFile file in studyArrayList[i])
-                    {
-                        if (file.GroupName.Equals("Demographics"))
-                        {
-                            listGroup.Add(file.GroupName);
-                        }
-                        else
-                        {
-                            //string[] names = fileName.Split('\\');
-                            //if (!listGroup.Contains(names[0]))
-                            //{
-                            //    listGroup.Add(names[0]);
-                            //}
-                            if (!listGroup.Contains(file.GroupName))
-                            {
-                                listGroup.Add(file.GroupName);
-                            }
-                        }
-                    }
 
-                    foreach (string groupName in listGroup)
-                    {
-                        List<NHANESFile> sameGroupList = new List<NHANESFile>();
-                        foreach (NHANESFile file in studyArrayList[i])
-                        {
-                            //string[] names = fileName.Split('\\'); 
-                            //if (groupName.Equals(names[0]))
-                            //{
-                            //    sameGroupList.Add(fileName);
-                            //}
-
-                            if (file.GroupName.Equals(groupName))
-                            {
-                                sameGroupList.Add(file);
-                            }
-                        }
-
-                        _tables.Add(groupName, sameGroupList);
-                    }
+                    //foreach (string groupName in listGroup)
+                    //{
+                    //    List<BRFSSFile> sameGroupList = new List<BRFSSFile>();
+                    //    _tables.Add(groupName, sameGroupList);
+                    //}
 
                     _yeartables.Add(studyYear, _tables);
                 }
@@ -557,12 +496,12 @@ namespace HealthData2
             }
 
             ////call SAS
-            string macorPath = ConfigurationManager.AppSettings["NHANESMacro"];
-            string macroSource = Server.MapPath(macorPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
+            string macroPath = ConfigurationManager.AppSettings["BRFSSMacro"];
+            string macroSource = Server.MapPath(macroPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
 
-            string fileSource = ConfigurationManager.AppSettings["NHANESSource"];
+            string fileSource = ConfigurationManager.AppSettings["BRFSSSource"];
 
-            string SASCode = SASBuilder.BuildNHANESCode(_yeartables, folder, macroSource, fileSource, 1);
+            string SASCode = SASBuilder.BuildBRFSSCode(_yeartables, folder, macroSource, fileSource, 1);
 
 
             SASBuilder.RunSAS(SASCode);
@@ -576,7 +515,7 @@ namespace HealthData2
             }
 
             //open file dialog
-            String FileName = @"merged.sav";
+            String FileName = @"merged.txt";
             String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
 
             if (DownloadableProduct_Tracking(FilePath, FileName))
@@ -609,107 +548,77 @@ namespace HealthData2
             }
 
             string studyYear = "";
-            List<NHANESFile>[] studyArrayList = new List<NHANESFile>[8];
+            int studyYearFrom = 0;
+            List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[8];
             for (int i = 0; i < 8; i++)
             {
-                studyArrayList[i] = new List<NHANESFile>();
+                studyArrayList[i] = new List<BRFSSFile>();
             }
 
-            CheckBox[] checkBoxArray = new CheckBox[8];
-            foreach (GridViewRow row in GridViewStudy.Rows)
+            CheckBox[] checkBoxArray = new CheckBox[15];
+
+            //Adds label for each checkbox in web form
+            foreach (Control ctl in Form.FindControl("brfssTable").Controls)
             {
-                if (row.RowType == DataControlRowType.DataRow)
+
+                if (ctl is CheckBox)
                 {
-                    int yearFrom = 1999;
-                    for (int i = 0; i < 8; i++)
+                    if (((CheckBox)ctl).Checked)
                     {
-                        string chkBoxId = "chkRow" + yearFrom.ToString();
-                        checkBoxArray[i] = row.FindControl(chkBoxId) as CheckBox;
 
-                        if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
+                        int yearFrom = 2001;
+                        for (int i = 0; i < 15; i++)
                         {
-                            Label lblId = row.FindControl("lblId") as Label;
-                            Label lblName = row.FindControl("lblName") as Label;
-                            Label lblGroupName = row.FindControl("lblGroupName") as Label;
+                            string chkBoxId = "chk" + yearFrom.ToString("yy");
+                            checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox;
 
-                            if (lblId != null && lblName != null && lblGroupName != null)
+                            if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
                             {
-                                string cookieName = yearFrom.ToString() + lblId.Text;
+
+                                string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
                                 if (Request.Cookies[cookieName] != null)
                                 {
-                                    NHANESFile file = new NHANESFile()
+                                    BRFSSFile file = new BRFSSFile()
                                     {
                                         YearFrom = yearFrom.ToString(),
-                                        GroupName = lblGroupName.Text,
-                                        FolderName = lblName.Text,
                                         ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
                                     };
 
                                     studyArrayList[i].Add(file);
-                                    //studyArrayList[i].Add(lblGroupName.Text + "\\" + lblName.Text + "\\" + HttpUtility.UrlDecode(Request.Cookies[cookieName].Value));
                                 }
+
                             }
+
+                            yearFrom++;
                         }
 
-                        yearFrom += 2;
-                    }
 
+
+                    }
                 }
+
+
+
+
             }
 
             int yearHeader = 4;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 15; i++)
             {
-                studyYear = GridViewStudy.HeaderRow.Cells[yearHeader].Text;
-                //studyYear = studyYear.Replace('-', '_');
+                studyYear = "" + studyYearFrom;
 
                 if (studyArrayList[i].Count > 0)
                 {
-                    //_tables.Add(studyYear, studyArrayList[i]);
 
-                    //find the same group in arraylist
-                    _tables = new Dictionary<string, List<NHANESFile>>();
+                    _tables = new Dictionary<string, List<BRFSSFile>>();
                     List<string> listGroup = new List<string>();
 
-                    foreach (NHANESFile file in studyArrayList[i])
-                    {
-                        if (file.GroupName.Equals("Demographics"))
-                        {
-                            listGroup.Add(file.GroupName);
-                        }
-                        else
-                        {
-                            //string[] names = fileName.Split('\\');
-                            //if (!listGroup.Contains(names[0]))
-                            //{
-                            //    listGroup.Add(names[0]);
-                            //}
-                            if (!listGroup.Contains(file.GroupName))
-                            {
-                                listGroup.Add(file.GroupName);
-                            }
-                        }
-                    }
 
-                    foreach (string groupName in listGroup)
-                    {
-                        List<NHANESFile> sameGroupList = new List<NHANESFile>();
-                        foreach (NHANESFile file in studyArrayList[i])
-                        {
-                            //string[] names = fileName.Split('\\'); 
-                            //if (groupName.Equals(names[0]))
-                            //{
-                            //    sameGroupList.Add(fileName);
-                            //}
-
-                            if (file.GroupName.Equals(groupName))
-                            {
-                                sameGroupList.Add(file);
-                            }
-                        }
-
-                        _tables.Add(groupName, sameGroupList);
-                    }
+                    //foreach (string groupName in listGroup)
+                    //{
+                    //    List<BRFSSFile> sameGroupList = new List<BRFSSFile>();
+                    //    _tables.Add(groupName, sameGroupList);
+                    //}
 
                     _yeartables.Add(studyYear, _tables);
                 }
@@ -718,12 +627,12 @@ namespace HealthData2
             }
 
             ////call SAS
-            string macorPath = ConfigurationManager.AppSettings["NHANESMacro"];
-            string macroSource = Server.MapPath(macorPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
+            string macroPath = ConfigurationManager.AppSettings["BRFSSMacro"];
+            string macroSource = Server.MapPath(macroPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
 
-            string fileSource = ConfigurationManager.AppSettings["NHANESSource"];
+            string fileSource = ConfigurationManager.AppSettings["BRFSSSource"];
 
-            string SASCode = SASBuilder.BuildNHANESCode(_yeartables, folder, macroSource, fileSource, 1);
+            string SASCode = SASBuilder.BuildBRFSSCode(_yeartables, folder, macroSource, fileSource, 1);
 
 
             SASBuilder.RunSAS(SASCode);
@@ -737,7 +646,7 @@ namespace HealthData2
             }
 
             //open file dialog
-            String FileName = @"merged.csv";
+            String FileName = @"merged.txt";
             String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
 
             if (DownloadableProduct_Tracking(FilePath, FileName))
@@ -768,124 +677,95 @@ namespace HealthData2
             if (!Directory.Exists(folder) && !File.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
-            }            
-
-            string studyYear = "";
-            List<NHANESFile>[] studyArrayList = new List<NHANESFile>[8];
-            for (int i = 0; i < 8; i++)
-            {
-                studyArrayList[i] = new List<NHANESFile>();
             }
 
-            CheckBox[] checkBoxArray = new CheckBox[8];
-            foreach (GridViewRow row in GridViewStudy.Rows)
+            string studyYear = "";
+            int studyYearFrom = 0;
+            List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[8];
+            for (int i = 0; i < 8; i++)
             {
-                if (row.RowType == DataControlRowType.DataRow)
+                studyArrayList[i] = new List<BRFSSFile>();
+            }
+
+            CheckBox[] checkBoxArray = new CheckBox[15];
+
+            //Adds label for each checkbox in web form
+            foreach (Control ctl in Form.FindControl("brfssTable").Controls)
+            {
+
+                if (ctl is CheckBox)
                 {
-                    int yearFrom = 1999;
-                    for (int i = 0; i < 8; i++)
+                    if (((CheckBox)ctl).Checked)
                     {
-                        string chkBoxId = "chkRow" + yearFrom.ToString();
-                        checkBoxArray[i] = row.FindControl(chkBoxId) as CheckBox;
 
-                        if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
+                        int yearFrom = 2001;
+                        for (int i = 0; i < 15; i++)
                         {
-                            Label lblId = row.FindControl("lblId") as Label;
-                            Label lblName = row.FindControl("lblName") as Label;
-                            Label lblGroupName = row.FindControl("lblGroupName") as Label;
+                            string chkBoxId = "chk" + yearFrom.ToString("yy");
+                            checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox;
 
-                            if (lblId != null && lblName != null && lblGroupName != null)
+                            if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
                             {
-                                string cookieName = yearFrom.ToString() + lblId.Text;
+
+                                string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
                                 if (Request.Cookies[cookieName] != null)
                                 {
-                                    NHANESFile file = new NHANESFile()
+                                    BRFSSFile file = new BRFSSFile()
                                     {
                                         YearFrom = yearFrom.ToString(),
-                                        GroupName = lblGroupName.Text,
-                                        FolderName = lblName.Text,
                                         ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
                                     };
 
                                     studyArrayList[i].Add(file);
-                                    //studyArrayList[i].Add(lblGroupName.Text + "\\" + lblName.Text + "\\" + HttpUtility.UrlDecode(Request.Cookies[cookieName].Value));
                                 }
+
                             }
+
+                            yearFrom++;
                         }
 
-                        yearFrom += 2;
-                    }
 
+
+                    }
                 }
+
+
+
+
             }
 
             int yearHeader = 4;
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 15; i++)
             {
-                studyYear = GridViewStudy.HeaderRow.Cells[yearHeader].Text;
-                //studyYear = studyYear.Replace('-', '_');
+                studyYear = "" + studyYearFrom;
 
                 if (studyArrayList[i].Count > 0)
                 {
-                    //_tables.Add(studyYear, studyArrayList[i]);
 
-                    //find the same group in arraylist
-                    _tables = new Dictionary<string, List<NHANESFile>>();
+                    _tables = new Dictionary<string, List<BRFSSFile>>();
                     List<string> listGroup = new List<string>();
 
-                    foreach (NHANESFile file in studyArrayList[i])
-                    {
-                        if (file.GroupName.Equals("Demographics"))
-                        {
-                            listGroup.Add(file.GroupName);
-                        }
-                        else
-                        {
-                            //string[] names = fileName.Split('\\');
-                            //if (!listGroup.Contains(names[0]))
-                            //{
-                            //    listGroup.Add(names[0]);
-                            //}
-                            if (!listGroup.Contains(file.GroupName))
-                            {
-                                listGroup.Add(file.GroupName);
-                            }
-                        }
-                    }
 
-                    foreach (string groupName in listGroup)
-                    {
-                        List<NHANESFile> sameGroupList = new List<NHANESFile>();
-                        foreach (NHANESFile file in studyArrayList[i])
-                        {
-                            //string[] names = fileName.Split('\\'); 
-                            //if (groupName.Equals(names[0]))
-                            //{
-                            //    sameGroupList.Add(fileName);
-                            //}
-
-                            if (file.GroupName.Equals(groupName))
-                            {
-                                sameGroupList.Add(file);
-                            }
-                        }
-
-                        _tables.Add(groupName, sameGroupList);
-                    }
+                    //foreach (string groupName in listGroup)
+                    //{
+                    //    List<BRFSSFile> sameGroupList = new List<BRFSSFile>();
+                    //    _tables.Add(groupName, sameGroupList);
+                    //}
 
                     _yeartables.Add(studyYear, _tables);
                 }
 
                 yearHeader += 1;
             }
-           
+
             ////call SAS
-            string macorPath = ConfigurationManager.AppSettings["NHANESMacro"];
-            string macroSource = Server.MapPath(macorPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
+            string macroPath = ConfigurationManager.AppSettings["BRFSSMacro"];
+            string macroSource = Server.MapPath(macroPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
 
-            string fileSource = ConfigurationManager.AppSettings["NHANESSource"];
+            string fileSource = ConfigurationManager.AppSettings["BRFSSSource"];
 
-            string SASCode = SASBuilder.BuildNHANESCode(_yeartables, folder, macroSource, fileSource);
+            string SASCode = SASBuilder.BuildBRFSSCode(_yeartables, folder, macroSource, fileSource, 1);
+
 
             SASBuilder.RunSAS(SASCode);
 
@@ -898,7 +778,7 @@ namespace HealthData2
             }
 
             //open file dialog
-            String FileName = @"merged.sas7bdat";
+            String FileName = @"merged.txt";
             String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
 
             if (DownloadableProduct_Tracking(FilePath, FileName))

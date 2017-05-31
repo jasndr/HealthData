@@ -760,7 +760,7 @@
                 </div> 
             </div> 
 
-      <div class="row container">
+      <div id="brfssTable" class="row container">
               <table class="table table-bordered text-center">
                   <tbody>
                       <tr>

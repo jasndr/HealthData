@@ -166,6 +166,130 @@ namespace HealthData2
             return sb.ToString();
         } //End Build NHANES Code===================================================================================================================================================================================
 
+        public /*internal*/ static string BuildBRFSSCode(Dictionary<string, Dictionary<string, List<BRFSSFile>>> _tables, string libFolder, string macroSource, string fileSource, int downloadFileType = 0)//============================
+        {
+            StringBuilder sb = new StringBuilder();
+            string mergeClause = string.Empty;
+                       
+
+            sb.AppendFormat("%include '{0}';", macroSource);
+            sb.AppendLine();
+
+            string rootLibName = string.Empty;
+            bool hasKey = true;     // has key column SEQN
+
+            foreach (var pair in _tables)
+            {
+                string year = pair.Key;
+                Dictionary<string, List<BRFSSFile>> files = pair.Value;
+
+                rootLibName = 'Y' + year.Split('-')[0];
+                sb.AppendFormat("libname {0} '{1}';", rootLibName, libFolder);
+                sb.AppendLine();
+
+                sb.Append(Environment.NewLine);
+
+               
+                int index = 1;
+                foreach (var group in files)
+                {
+                    string groupName = group.Key;
+                    List<BRFSSFile> groupFiles = group.Value;
+
+                    foreach (BRFSSFile file in groupFiles)
+                    {
+                        string fileFullPath = fileSource + "BRFSS_" + year + "\\";
+                        if (Directory.GetFiles(fileFullPath, "*.sas7bdat").Length > 0)
+                        {
+                            string fileName = Path.GetFileName(Directory.GetFiles(fileFullPath, "*.sas7bdat")[0]);
+
+                            string subLibName = rootLibName + index;
+                            sb.AppendFormat("libname {0} '{1}';", subLibName, fileFullPath);
+                            sb.AppendLine();
+
+                            sb.AppendFormat("data {0}.{1}; set {2}.{3} (keep={4}); run;", rootLibName, subLibName, subLibName, fileName.Split('.')[0], file.ColumnName.Replace(",", " "));
+                            sb.AppendLine();
+
+                            string[] columns = file.ColumnName.Split(',');
+                            if (Array.FindAll(columns, s => s.Equals("SEQNO")).Length == 0)
+                            {
+                                hasKey = false;
+                            }
+
+                            index++;
+                        }
+
+                    }
+
+                }
+
+                sb.Append(Environment.NewLine);
+
+                if (index > 1)
+                {
+                    if (hasKey)
+                    {
+                        sb.AppendFormat("%combineyear({0}.{1}, {2}, {3});", rootLibName, rootLibName, --index, "SEQNO");
+                    }
+                    else
+                        sb.AppendFormat("%combineyear({0}.{1}, {2}, {3});", rootLibName, rootLibName, --index, string.Empty);
+
+                    sb.AppendLine("run;");
+                }
+
+
+                mergeClause += string.Format("{0}.{0}merged ", rootLibName);
+            }
+
+            //final merge
+            sb.Append(Environment.NewLine);
+
+            sb.AppendFormat("data {0}.merged; merge {1}; ", rootLibName, mergeClause);
+
+            if (hasKey)
+            {
+                sb.AppendFormat("by {0}; ", "SEQNO");
+            }
+
+            sb.Append("run;");
+
+            //////////////////////////////////////////////////////////////////////////////
+            //switch (downloadFileType)
+            //{
+            //    case 1:
+            sb.Append(Environment.NewLine);
+            sb.AppendFormat("PROC EXPORT DATA = {0}.merged\n", rootLibName);
+            sb.Append(Environment.NewLine);
+            sb.AppendFormat("OUTFILE = '{0}\\merged.txt'\n", libFolder);
+            sb.AppendLine(Environment.NewLine);
+            sb.AppendLine("DBMS = TAB REPLACE; RUN;\n");
+            sb.Append(Environment.NewLine);
+            //    break;
+            //case 2:
+            sb.AppendFormat("PROC EXPORT DATA = {0}.merged\n", rootLibName);
+            sb.Append(Environment.NewLine);
+            sb.AppendFormat("OUTFILE = '{0}\\merged.sav'\n", libFolder);
+            sb.Append(Environment.NewLine);
+            sb.AppendLine("DBMS = SPSS REPLACE; RUN;");
+            sb.Append(Environment.NewLine);
+            //    break;
+            //case 3:
+            sb.AppendFormat("PROC EXPORT DATA = {0}.merged\n", rootLibName);
+            sb.Append(Environment.NewLine);
+            sb.AppendFormat("OUTFILE = '{0}\\merged.csv'\n", libFolder);
+            sb.Append(Environment.NewLine);
+            sb.AppendLine("DBMS = CSV REPLACE; RUN;\n");
+            sb.Append(Environment.NewLine);
+            //        break;
+            //}
+            //////////////////////////////////////////////////////////////////////////////
+
+
+            sb.AppendLine();
+
+            return sb.ToString();
+        } //End Build BRFSS Code==============================================================================================
+
         public /*internal*/ static void RunSAS(string sasCode)
         {
             string connectionStatus = ConnectToSAS();
