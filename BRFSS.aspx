@@ -65,94 +65,6 @@
 
         var dict = new Object();
   
-
-        //<<=================================================================== NOT NEEDED (start) ========================================================================>>//
-        function pageLoad(sender, args) {
-            $('#li_nhanesdata').addClass('active');
-            $('#li_nhanes').addClass('active');           
-           
-            Grid = document.getElementById('<%= this.GridViewStudy.ClientID %>');
-            <%--UpperBound = parseInt('<%= this.GridViewStudy.Rows.Count %>');--%>
-            UpperBound = 2;
-            Rows = Grid.getElementsByTagName('tr');
-        }
-
-        function Toggle(Image) {            
-            ToggleImage(Image);   
-            ToggleRows();
-        }
-
-        function ToggleImage(Image) {
-            var group = document.getElementById(Image.id).nextElementSibling;
-            var groupName = group.innerText || group.textContent;
-            //alert(groupName);
-            switch (groupName) {
-                case "Demographics":
-                    LowerBound = 2;
-                    UpperBound = 2;
-                    IsExpanded = DemoIsExpanded;
-                    DemoIsExpanded = !DemoIsExpanded;
-                    break;
-                case "Dietary":
-                    LowerBound = 4;
-                    UpperBound = 28;
-                    IsExpanded = DietIsExpanded;
-                    DietIsExpanded = !DietIsExpanded;
-                    break;
-                case "Examination":
-                    LowerBound = 30;
-                    UpperBound = 63;
-                    IsExpanded = ExamIsExpanded;
-                    ExamIsExpanded = !ExamIsExpanded;
-                    break;
-                case "Laboratory":
-                    LowerBound = 65;
-                    UpperBound = 252;
-                    //UpperBound = 74;
-                    IsExpanded = LabIsExpanded;
-                    LabIsExpanded = !LabIsExpanded;
-                    break;
-                case "Questionnaire":
-                    LowerBound = 254;
-                    UpperBound = 321;
-                    //LowerBound = 76;
-                    //UpperBound = 77;
-                    IsExpanded = QuesIsExpanded;
-                    QuesIsExpanded = !QuesIsExpanded;
-                    break;
-            }
-
-            //alert(IsExpanded);
-            if (IsExpanded) {
-                Image.src = ExpandImage;
-                Image.title = 'Expand';
-                Grid.rules = 'none';
-                n = LowerBound;
-
-                //IsExpanded = false;
-            }
-            else {
-                Image.src = CollapseImage;
-                Image.title = 'Collapse';
-                Grid.rules = 'cols';
-                n = UpperBound;
-
-                //IsExpanded = true;
-            }
-
-            //alert(LowerBound + ' ' + UpperBound + ' ' + n);
-
-        }
-
-        function ToggleRows() {
-            if (n < LowerBound || n > UpperBound) return;
-
-            Rows[n].style.display = Rows[n].style.display == '' ? 'none' : '';
-            if (!IsExpanded) n--; else n++;
-            setTimeout("ToggleRows()", TimeSpan);
-        }
-        //<<================================================================== NOT NEEDED (end) =====================================================================>>//
-
         $(document).ready(function () {
             $('#ct101').submit(function () {
                 blockUIForDownload();
@@ -498,28 +410,8 @@
 
         $(document).ready(function () {
 
-           
-
-            var target = $('#<%=GridViewStudy.ClientID%>');     
-            var target_children = target.children();
-            var panelHeader = $('#<%=GridViewStudy.ClientID%>').clone(); 
-            panelHeader.attr("class", "panelHeader");
-            panelHeader.find("tr:gt(0)").hide();           
-            panelHeader.css('width', '98.5%'); 
-            panelHeader.find("th:first-child").css('width', '3.4%');
-            panelHeader.find("th:nth-child(2)").css('width', '55.1%');
-            panelHeader.find("th:nth-child(3)").css('width', '5%');
-            panelHeader.find("th:nth-child(4)").css('width', '5%');
-            panelHeader.find("th:nth-child(5)").css('width', '5%');
-            panelHeader.find("th:nth-child(6)").css('width', '5%');
-            panelHeader.find("th:nth-child(7)").css('width', '5%');
-            panelHeader.find("th:nth-child(8)").css('width', '5%');
-            panelHeader.find("th:nth-child(9)").css('width', '5%');
-            panelHeader.find("th:nth-child(10)").css('width', '5%');
-            panelHeader.prependTo($('#<%=GridViewStudy.ClientID%>'));          
-
             //Set checkbox parent attributes
-            $('#<%=chk15.ClientID%>').attr('columnname', '_STATE, FMONTH, IDATE, IMONTH, IDAY, IYEAR, DISPCODE, SEQNO, _PSU, CTELENUM, PVTRESD1, COLGHOUS, STATERES, CELLFON3, LADULT, NUMADULT, NUMMEN, NUMWOMEN, CTELNUM1, CELLFON2, CADULT, PVTRESD2, CCLGHOUS, CSTATE, LANDLINE, HHADULT, GENHLTH, PHYSHLTH, MENTHLTH, POORHLTH, HLTHPLN1, PERSDOC2, MEDCOST, CHECKUP1, BPHIGH4, BPMEDS, BLOODCHO, CHOLCHK, TOLDHI2, CVDINFR4, CVDCRHD4, CVDSTRK3, ASTHMA3, ASTHNOW, CHCSCNCR, CHCOCNCR, CHCCOPD1, HAVARTH3, ADDEPEV2, CHCKIDNY, DIABETE3, DIABAGE2, SEX, MARITAL, EDUCA, RENTHOM1, NUMHHOL2, NUMPHON2, CPDEMO1, VETERAN3, EMPLOY1, CHILDREN, INCOME2, INTERNET, WEIGHT2, HEIGHT3, PREGNANT, QLACTLM2, USEEQUIP, BLIND, DECIDE, DIFFWALK, DIFFDRES, DIFFALON, SMOKE100, SMOKDAY2, STOPSMK2, LASTSMK2, USENOW3, ALCDAY5, AVEDRNK2, DRNK3GE5, MAXDRNKS, FRUITJU1, FRUIT1, FVBEANS, FVGREEN, FVORANG, VEGETAB1, EXERANY2, EXRACT11, EXEROFT1, EXERHMM1, EXRACT21, EXEROFT2, EXERHMM2, STRENGTH, LMTJOIN3, ARTHDIS2, ARTHSOCL, JOINPAIN, SEATBELT, FLUSHOT6, FLSHTMY2, IMFVPLAC, PNEUVAC3, HIVTST6, HIVTSTD3, WHRTST10, PDIABTST, PREDIAB1, INSULIN, BLDSUGAR, FEETCHK2, DOCTDIAB, CHKHEMO3, FEETCHK, EYEEXAM, DIABEYE, DIABEDU, PAINACT2, QLMENTL2, QLSTRES2, QLHLTH2, CAREGIV1, CRGVREL1, CRGVLNG1, CRGVHRS1, CRGVPRB1, CRGVPERS, CRGVHOUS, CRGVMST2, CRGVEXPT, VIDFCLT2, VIREDIF3, VIPRFVS2, VINOCRE2, VIEYEXM2, VIINSUR2, VICTRCT4, VIGLUMA2, VIMACDG2, CIMEMLOS, CDHOUSE, CDASSIST, CDHELP, CDSOCIAL, CDDISCUS, WTCHSALT, LONGWTCH, DRADVISE, ASTHMAGE, ASATTACK, ASERVIST, ASDRVIST, ASRCHKUP, ASACTLIM, ASYMPTOM, ASNOSLEP, ASTHMED3, ASINHALR, HAREHAB1, STREHAB1, CVDASPRN, ASPUNSAF, RLIVPAIN, RDUCHART, RDUCSTRK, ARTTODAY, ARTHWGT, ARTHEXER, ARTHEDU, TETANUS, HPVADVC2, HPVADSHT, SHINGLE2, HADMAM, HOWLONG, HADPAP2, LASTPAP2, HPVTEST, HPLSTTST, HADHYST2, PROFEXAM, LENGEXAM, BLDSTOOL, LSTBLDS3, HADSIGM3, HADSGCO1, LASTSIG3, PCPSAAD2, PCPSADI1, PCPSARE1, PSATEST1, PSATIME, PCPSARS1, PCPSADE1, PCDMDECN, SCNTMNY1, SCNTMEL1, SCNTPAID, SCNTWRK1, SCNTLPAD, SCNTLWK1, SXORIENT, TRNSGNDR, RCSGENDR, RCSRLTN2, CASTHDX2, CASTHNO2, EMTSUPRT, LSATISFY, ADPLEASR, ADDOWN, ADSLEEP, ADENERGY, ADEAT1, ADFAIL, ADTHINK, ADMOVE, MISTMNT, ADANXEV, QSTVER, QSTLANG, EXACTOT1, EXACTOT2, MSCODE, _STSTR, _STRWT, _RAWRAKE, _WT2RAKE, _CHISPNC, _CRACE1, _CPRACE, _CLLCPWT, _DUALUSE, _DUALCOR, _LLCPWT, _RFHLTH, _HCVU651, _RFHYPE5, _CHOLCHK, _RFCHOL, _MICHD, _LTASTH1, _CASTHM1, _ASTHMS1, _DRDXAR1, _PRACE1, _MRACE1, _HISPANC, _RACE, _RACEG21, _RACEGR3, _RACE_G1, _AGEG5YR, _AGE65YR, _AGE80, _AGE_G, HTIN4, HTM4, WTKG3, _BMI5, _BMI5CAT, _RFBMI5, _CHLDCNT, _EDUCAG, _INCOMG, _SMOKER3, _RFSMOK3, DRNKANY5, DROCDY3_, _RFBING5, _DRNKWEK, _RFDRHV5, FTJUDA1_, FRUTDA1_, BEANDAY_, GRENDAY_, ORNGDAY_, VEGEDA1_, _MISFRTN, _MISVEGN, _FRTRESP, _VEGRESP, _FRUTSUM, _VEGESUM, _FRTLT1, _VEGLT1, _FRT16, _VEG23, _FRUITEX, _VEGETEX, _TOTINDA, METVL11_, METVL21_, MAXVO2_, FC60_, ACTIN11_, ACTIN21_, PADUR1_, PADUR2_, PAFREQ1_, PAFREQ2_, _MINAC11, _MINAC21, STRFREQ_, PAMISS1_, PAMIN11_, PAMIN21_, PA1MIN_, PAVIG11_, PAVIG21_, PA1VIGM_, _PACAT1, _PAINDX1, _PA150R2, _PA300R2, _PA30021, _PASTRNG, _PAREC1, _PASTAE1, _LMTACT1, _LMTWRK1, _LMTSCL1, _RFSEAT2, _RFSEAT3, _FLSHOT6, _PNEUMO2, _AIDTST3');
+            <%--$('#<%=chk15.ClientID%>').attr('columnname', '_STATE, FMONTH, IDATE, IMONTH, IDAY, IYEAR, DISPCODE, SEQNO, _PSU, CTELENUM, PVTRESD1, COLGHOUS, STATERES, CELLFON3, LADULT, NUMADULT, NUMMEN, NUMWOMEN, CTELNUM1, CELLFON2, CADULT, PVTRESD2, CCLGHOUS, CSTATE, LANDLINE, HHADULT, GENHLTH, PHYSHLTH, MENTHLTH, POORHLTH, HLTHPLN1, PERSDOC2, MEDCOST, CHECKUP1, BPHIGH4, BPMEDS, BLOODCHO, CHOLCHK, TOLDHI2, CVDINFR4, CVDCRHD4, CVDSTRK3, ASTHMA3, ASTHNOW, CHCSCNCR, CHCOCNCR, CHCCOPD1, HAVARTH3, ADDEPEV2, CHCKIDNY, DIABETE3, DIABAGE2, SEX, MARITAL, EDUCA, RENTHOM1, NUMHHOL2, NUMPHON2, CPDEMO1, VETERAN3, EMPLOY1, CHILDREN, INCOME2, INTERNET, WEIGHT2, HEIGHT3, PREGNANT, QLACTLM2, USEEQUIP, BLIND, DECIDE, DIFFWALK, DIFFDRES, DIFFALON, SMOKE100, SMOKDAY2, STOPSMK2, LASTSMK2, USENOW3, ALCDAY5, AVEDRNK2, DRNK3GE5, MAXDRNKS, FRUITJU1, FRUIT1, FVBEANS, FVGREEN, FVORANG, VEGETAB1, EXERANY2, EXRACT11, EXEROFT1, EXERHMM1, EXRACT21, EXEROFT2, EXERHMM2, STRENGTH, LMTJOIN3, ARTHDIS2, ARTHSOCL, JOINPAIN, SEATBELT, FLUSHOT6, FLSHTMY2, IMFVPLAC, PNEUVAC3, HIVTST6, HIVTSTD3, WHRTST10, PDIABTST, PREDIAB1, INSULIN, BLDSUGAR, FEETCHK2, DOCTDIAB, CHKHEMO3, FEETCHK, EYEEXAM, DIABEYE, DIABEDU, PAINACT2, QLMENTL2, QLSTRES2, QLHLTH2, CAREGIV1, CRGVREL1, CRGVLNG1, CRGVHRS1, CRGVPRB1, CRGVPERS, CRGVHOUS, CRGVMST2, CRGVEXPT, VIDFCLT2, VIREDIF3, VIPRFVS2, VINOCRE2, VIEYEXM2, VIINSUR2, VICTRCT4, VIGLUMA2, VIMACDG2, CIMEMLOS, CDHOUSE, CDASSIST, CDHELP, CDSOCIAL, CDDISCUS, WTCHSALT, LONGWTCH, DRADVISE, ASTHMAGE, ASATTACK, ASERVIST, ASDRVIST, ASRCHKUP, ASACTLIM, ASYMPTOM, ASNOSLEP, ASTHMED3, ASINHALR, HAREHAB1, STREHAB1, CVDASPRN, ASPUNSAF, RLIVPAIN, RDUCHART, RDUCSTRK, ARTTODAY, ARTHWGT, ARTHEXER, ARTHEDU, TETANUS, HPVADVC2, HPVADSHT, SHINGLE2, HADMAM, HOWLONG, HADPAP2, LASTPAP2, HPVTEST, HPLSTTST, HADHYST2, PROFEXAM, LENGEXAM, BLDSTOOL, LSTBLDS3, HADSIGM3, HADSGCO1, LASTSIG3, PCPSAAD2, PCPSADI1, PCPSARE1, PSATEST1, PSATIME, PCPSARS1, PCPSADE1, PCDMDECN, SCNTMNY1, SCNTMEL1, SCNTPAID, SCNTWRK1, SCNTLPAD, SCNTLWK1, SXORIENT, TRNSGNDR, RCSGENDR, RCSRLTN2, CASTHDX2, CASTHNO2, EMTSUPRT, LSATISFY, ADPLEASR, ADDOWN, ADSLEEP, ADENERGY, ADEAT1, ADFAIL, ADTHINK, ADMOVE, MISTMNT, ADANXEV, QSTVER, QSTLANG, EXACTOT1, EXACTOT2, MSCODE, _STSTR, _STRWT, _RAWRAKE, _WT2RAKE, _CHISPNC, _CRACE1, _CPRACE, _CLLCPWT, _DUALUSE, _DUALCOR, _LLCPWT, _RFHLTH, _HCVU651, _RFHYPE5, _CHOLCHK, _RFCHOL, _MICHD, _LTASTH1, _CASTHM1, _ASTHMS1, _DRDXAR1, _PRACE1, _MRACE1, _HISPANC, _RACE, _RACEG21, _RACEGR3, _RACE_G1, _AGEG5YR, _AGE65YR, _AGE80, _AGE_G, HTIN4, HTM4, WTKG3, _BMI5, _BMI5CAT, _RFBMI5, _CHLDCNT, _EDUCAG, _INCOMG, _SMOKER3, _RFSMOK3, DRNKANY5, DROCDY3_, _RFBING5, _DRNKWEK, _RFDRHV5, FTJUDA1_, FRUTDA1_, BEANDAY_, GRENDAY_, ORNGDAY_, VEGEDA1_, _MISFRTN, _MISVEGN, _FRTRESP, _VEGRESP, _FRUTSUM, _VEGESUM, _FRTLT1, _VEGLT1, _FRT16, _VEG23, _FRUITEX, _VEGETEX, _TOTINDA, METVL11_, METVL21_, MAXVO2_, FC60_, ACTIN11_, ACTIN21_, PADUR1_, PADUR2_, PAFREQ1_, PAFREQ2_, _MINAC11, _MINAC21, STRFREQ_, PAMISS1_, PAMIN11_, PAMIN21_, PA1MIN_, PAVIG11_, PAVIG21_, PA1VIGM_, _PACAT1, _PAINDX1, _PA150R2, _PA300R2, _PA30021, _PASTRNG, _PAREC1, _PASTAE1, _LMTACT1, _LMTWRK1, _LMTSCL1, _RFSEAT2, _RFSEAT3, _FLSHOT6, _PNEUMO2, _AIDTST3');
             $('#<%=chk15.ClientID%>').attr('year', '2015');
             $('#<%=chk15.ClientID%>').attr('codebook', 'https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf');
             $('#<%=chk15.ClientID%>').attr('special', 'chk15709280');
@@ -593,10 +485,11 @@
             $('#<%=chk01.ClientID%>').attr('year', '2001');
             $('#<%=chk01.ClientID%>').attr('codebook', 'https://www.cdc.gov/brfss/annual_data/2001/pdf/codebook_01.pdf');
             $('#<%=chk01.ClientID%>').attr('special', 'chk01704352');
+        --%>
 
         });
        
-    </script>
+     </script>
 
     <style>
         table{
@@ -621,147 +514,32 @@
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->           
-            <div class="row">
-                <input type="hidden" id="download_token_value_id" runat="server"/>
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">                           
-                       
-                        
-                            <div style="position: relative;">
-                            <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow:scroll">
+            <!-- /.row -->  
 
-                                <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
-                                    class="table table-bordered container-fluid"
-                                    OnPreRender="GridViewStudy_PreRender"
-                                    OnRowDataBound="GridViewStudy_DataBound"
-                                    OnRowCreated="GridViewStudy_RowCreated"
-                                    OnRowCommand="GridViewStudy_RowCommand"
-                                   >
-                                    <HeaderStyle  CssClass="ColumnHeaderStyle dataHeader" BackColor="#B3FFB3"/>
-
-                                    <AlternatingRowStyle BackColor="LightYellow" />
-                                    <Columns>
-                                        <asp:TemplateField HeaderText="DataSet">
-
-                                            <ItemTemplate>
-
-                                                <asp:Image ID="imgCollapse" runat="server" onclick="javascript:Toggle(this);"
-                                                    Visible="true" ImageUrl="~/images/collapse.gif"
-                                                    Height="17px" Width="14px"  />
-                                                <asp:Label ID="lblGroupName" runat="server"
-                                                    Text='<%#Eval("GroupName")%>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="Id" Visible="false">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>     
-                                        
-                                        <asp:TemplateField HeaderText="GroupShortName" Visible="False">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblGroupShortName" runat="server" Text='<%# Bind("GroupShortName") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField HeaderText="Name">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblName" runat="server" Text='<%# Bind("Name") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+      <div id="brfssTable" class="row container" runat="server">
 
 
-                                        <asp:TemplateField HeaderText="1999-2000">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow1999" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="2001-2002">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2001" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="2003-2004">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2003" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="2005-2006">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2005" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="2007-2008">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2007" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="2009-2010">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2009" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="2011-2012">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2011" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        <asp:TemplateField HeaderText="2013-2014">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                                                                                               
-                                        <asp:TemplateField HeaderText="FileExists" Visible="false">
-                                            <ItemTemplate>
-                                                <asp:Label ID="lblFileExists" runat="server" Text='<%# Bind("FileExists") %>'></asp:Label>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-
-                                        
-
-                                    </Columns>
-                                </asp:GridView>
-
-
-                            </div></div>
-                            <div class="row">
-
-                                <br />
-
-                               <%-- <div class='col-md-8'></div>--%>
-                                
-                                <div style="text-align:right; margin-right: 10px;">
-
-                                    <strong>Download Format:</strong>
-
-                                    <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False"/>
-
-                                    <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False"/>
-
-                                    <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
-
-                                    <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False"/>
-                                
-                                </div>
-                            </div>
-                        </div> 
-                    </div> 
-                </div> 
-            </div> 
-
-      <div id="brfssTable" class="row container">
-              <table class="table table-bordered text-center">
+          <div class="text-center" style="margin-bottom: 20px;">
+              <asp:CheckBoxList ID ="brfssCheckboxes" runat="server" RepeatDirection="Horizontal" RepeatColumns="5">
+                  <asp:ListItem Text="2015" Value="2015"></asp:ListItem>
+                  <asp:ListItem Text="2014" Value="2014"></asp:ListItem>
+                  <asp:ListItem Text="2013" Value="2013"></asp:ListItem>
+                  <asp:ListItem Text="2012" Value="2012"></asp:ListItem>
+                  <asp:ListItem Text="2011" Value="2011"></asp:ListItem>
+                  <asp:ListItem Text="2010" Value="2010"></asp:ListItem>
+                  <asp:ListItem Text="2009" Value="2009"></asp:ListItem>
+                  <asp:ListItem Text="2008" Value="2008"></asp:ListItem>
+                  <asp:ListItem Text="2007" Value="2007"></asp:ListItem>
+                  <asp:ListItem Text="2006" Value="2006"></asp:ListItem>
+                  <asp:ListItem Text="2005" Value="2005"></asp:ListItem>
+                  <asp:ListItem Text="2004" Value="2004"></asp:ListItem>
+                  <asp:ListItem Text="2003" Value="2003"></asp:ListItem>
+                  <asp:ListItem Text="2002" Value="2002"></asp:ListItem>
+                  <asp:ListItem Text="2001" Value="2001"></asp:ListItem>
+              </asp:CheckBoxList>
+          </div>
+          
+<%--              <table class="table table-bordered text-center">
                   <tbody>
                       <tr>
                         <td>2015<br /><asp:CheckBox ID="chk15" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
@@ -786,18 +564,18 @@
                       </tr>
                   </tbody>
               </table>
-
+            --%>
           <div style="text-align:right; margin-right: 10px;">
 
             <strong>Download Format:</strong>
 
-            <asp:Button ID="Button1" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+            <asp:Button ID="Button1" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button2" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+            <asp:Button ID="Button2" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button3" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+            <asp:Button ID="Button3" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button4" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+            <asp:Button ID="Button4" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary btn-xs" UseSubmitBehavior="False"/>
                                 
           </div>
 

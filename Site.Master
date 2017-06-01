@@ -259,7 +259,7 @@
                 </asp:ContentPlaceHolder>
                 <hr />
                 <footer>
-                    <p>&copy; <%: DateTime.Now.Year %> - BQHS</p>
+                    <p>&copy; <%: DateTime.Now.Year %> - JABSOM Biostatistics Core, Department of Complementary & Integrative Medicine</p>
                 </footer>
             </div>
         </div>
