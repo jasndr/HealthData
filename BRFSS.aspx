@@ -74,7 +74,8 @@
         function ShowColumns2(CheckBox) {
             if (CheckBox.checked) {
 
-                //--Test to view column name and id--//alert($(CheckBox).attr('id') + '\n ' + $(CheckBox).attr('columnname'));
+                //--Test to view column name and id--//
+                alert($(CheckBox).attr('id') + '\n ' + $(CheckBox).attr('columnname'));
               
                 //Unhide viewbox
                 $(".pdsa-column-display").removeClass("hidden");
@@ -156,117 +157,6 @@
                 $(".pdsa-column-display").addClass("hidden");
             }
         }
-
-        function ShowColumns(CheckBox) {
-            if (CheckBox.checked) {
-                //alert($(CheckBox).parent().attr('columnname') + ' ' + $(CheckBox).parent().attr('id'));
-                //alert($(CheckBox).attr('id'));
-                //Remove Window
-                $(".pdsa-column-display").removeClass("hidden");
-
-                //Split the column names by columns
-                var columns = $(CheckBox).parent().attr('columnname').split(',');
-                //var studyName = $(CheckBox).closest('td').prev('td').text();
-                
-                var id = $(CheckBox).parent().attr('id');
-                var yearfrom = $(CheckBox).parent().attr('yearfrom');
-                var yearto = parseInt(yearfrom) + 1;
-                var groupname = $(CheckBox).parent().attr('groupname');
-                var foldername = $(CheckBox).parent().attr('foldername');
-                var codebook = $(CheckBox).parent().attr('codebook');
-                var studyname = yearfrom + '-' + yearto + '/' + groupname + '/' + foldername;
-                var selectedList = [];
-                var cookieId = yearfrom + id;
-
-                var specialId = (id * (parseFloat(yearfrom) + parseFloat(yearto)));
-
-                
-                //var html = "<label title='wwwn.cdc.gov/Nchs/Nhanes/2011-2012/CBC_G.htm' for='" + studyname + "'>" + studyname + "</label><br/>";
-                //var html = "<a href='http://" + codebook + "' color='green' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
-                var html = "<h5 style='color: green;'><strong><a href='http://" + codebook + "' style='color: green;' target='_blank' title='code book'" + "'>" + studyname + "</a></strong></h5>";
-                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + "," + cookieId + ")'>"
-                html += "<span id='closeDiv' onclick='closeWindow()'>x</span><br />&nbsp;";
-                //html += "<a href='http://" + codebook + "' color='green' target='_blank' title='code book'" + "'>" + studyname + "</a>"; 
-                html += "<div class='row'>";
-                for (var i = 0; i < columns.length-1; i++) {
-                    var columnName = columns[i];
-         
-                    if (columnName == "SEQN") {
-                        html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' onclick='return false;' name='columns' id='" + columnName + "' class='module' />";
-                        html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
-                        //add cookie to SEQN (since it's pre-checked)--------------
-                        if (dict[cookieId]) {
-                            dict[cookieId] += 'SEQN' + ',';
-                        }
-                        else {
-                            ClearCookie(cookieId);
-                            dict[cookieId] = 'SEQN' + ',';
-                        }
-                        //end add cookie --------------------
-                    } else {
-                        html += "<div class='col-md-4' id='"+specialId+"'><input type='checkbox' name='columns' id='" + columnName + "' class='module' />";
-                        html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
-                    }
-
-                    //$('#' + columnName).attr("specialId", specialId);
-                    
-                    if ((i + 1) % 3 == 0) {
-                        html += "</div>"
-                        html += "<div class='row'>";
-                    }
-
-                }
-
-                html += "<div class='row'><br />&nbsp;</div>"
-                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll(" + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll(" + specialId + "," + cookieId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
-                html += "</div>"
-                
-
-                
-                $("#moduleListTitle").html(html);
-                $('#moduleListTitle').parent().trigger('create');
-                
-                $('input:checkbox.module').on('change', function () {
-                    if ($(this).is(':checked')) {
-                        if (dict[cookieId]) {
-                            dict[cookieId] += this.id + ',';
-                        }
-                        else {                            
-                            ClearCookie(cookieId);
-                            dict[cookieId] = this.id + ',';
-                        }                            
-                    }
-                    else {
-                        dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
-                    }
-                       
-                   
-                });
-
-            
-
-                //if (selectedList.length > 0) {
-                //    var columns;
-                //    for (i = 0; i < selectedList.length; i++) {
-                //        columns += selectedList[i].value;
-                //    }
-
-                //    SetCookie(id, columns);
-                //}
-
-            }
-            else {
-                $(".pdsa-column-display").addClass("hidden");
-            }
-        }
-
-        //$(':checkbox').each(function () {
-        //    numOfChecked++;
-        //});
-
-        //if (numOfChecked > maxChecked) {
-        //    alert('WARNING:  You have exceeded the number of allowed variables.  Please limit your number of variables to 100 and try again.');
-        //}
 
         function ClearCookie(name) {
             document.cookie = name + '=;expires=Thu, 01 Jan 2000 00:00:01 GMT;';
@@ -512,9 +402,9 @@
                 <div class="col-lg-12">
                     <h4 class="page-header"><strong>BRFSS Data</strong></h4>
                 </div>
-                <!-- /.col-lg-12 -->
+                <%-- /.col-lg-12 --%>
             </div>
-            <!-- /.row -->  
+            <%-- -- /.row --%>  
 
       <div id="brfssTable" class="row container" runat="server">
 
