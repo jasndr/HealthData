@@ -42,7 +42,8 @@
         
         
     </div>
-       
+    
+
     <script src="Scripts/jquery.cookie.js"></script>
     <script type="text/javascript">
         var Grid = null;
@@ -71,43 +72,45 @@
             });
         });
         
-        function ShowColumns2(CheckBox) {
+        function ShowColumns2(CheckBox, chkbox_columnname, chkbox_year, chkbox_codebook, chkbox_special) {
             if (CheckBox.checked) {
 
                 //--Test to view column name and id--//
-                alert($(CheckBox).attr('id') + '\n ' + $(CheckBox).attr('columnname'));
+                //alert($(CheckBox).attr('id') + '\n ' + chkbox_year + '\n' + chkbox_codebook + '\n' + chkbox_special);
               
                 //Unhide viewbox
                 $(".pdsa-column-display").removeClass("hidden");
                 
 
-                var columns = $(CheckBox).attr('columnname').split(',');
+                var columns = chkbox_columnname.split(',');
                 //---> Set id, year, cookieID, specialID, codebook
                 var id = $(CheckBox).attr('id');
-                var year = $(CheckBox).attr('year');
+                var year = chkbox_year;
                 var cookieId = year + id;
                 var specialId = (id + (parseFloat(year)*352));
-                var codebook = $(CheckBox).attr('codebook');
+                var codebook = chkbox_codebook;
                 
-  
+
                 //---> Create HTML elements of page
                 var html = "<h5 style='color: green;'><strong><a href='" + codebook + "' style='color: green;' target='_blank' title='code book'" + "'> BRFSS " + year + " Datasets</a></strong></h5>";
-                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll2(this, " + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll2(this, " + specialId + "," + cookieId + ")'>";
+                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-xs' value='Select All' onclick='selectAll2(" + CheckBox + ", " + specialId + "," + cookieId + ")' /><input type='button' id='btnDeselectAll' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll2(" + CheckBox + ", " + specialId + "," + cookieId + ")' />";
                 html += "<span id='closeDiv' onclick='closeWindow()'>X</span><br />&nbsp;";
                 html += "<div class='row'>";
                 for (var i = 0; i < columns.length - 1; i++) {
                     var columnName = columns[i];
 
-                    if (columnName == "SEQNO") {
+                    if (columnName == " SEQNO") {
+                        
+
                         html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' onclick='return false;' name='columns' id='" + columnName + "' class='module' />";
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
                         //add cookie to SEQN (since it's pre-checked)--------------
                         if (dict[cookieId]) {
-                            dict[cookieId] += 'SEQN0' + ',';
+                            dict[cookieId] += 'SEQNO' + ',';
                         }
                         else {
                             ClearCookie(cookieId);
-                            dict[cookieId] = 'SEQN0' + ',';
+                            dict[cookieId] = 'SEQNO' + ',';
                         }
                         //end add cookie --------------------
                     } else {
@@ -126,7 +129,7 @@
 
                //---> Add row of buttons
                 html += "<div class='row'><br />&nbsp;</div>"
-                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-sm' value='Select All' onclick='selectAll2(this, " + specialId + "," + cookieId + ")'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-sm' value='Deselect All' onclick='deSelectAll2(this, " + specialId + "," + cookieId + ")'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
+                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-xs' value='Select All' onclick='selectAll2(" + CheckBox + ", " + specialId + "," + cookieId + ")' /><input type='button' id='btnDeselectAll' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll2(" + CheckBox + ", " + specialId + "," + cookieId + ")'/></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary btn-xs' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
                 html += "</div>"
  
                // alert('id: ' + id + '\n year: ' + year + '\n cookieID: ' + cookieID + '\n specialID: ' + specialID + '\n codebook: ' + codebook);
@@ -139,11 +142,11 @@
                 $('input:checkbox.module').on('change', function () {
                     if ($(this).is(':checked')) {
                         if (dict[cookieId]) {
-                            dict[cookieId] += this.id + ',';
+                            dict[cookieId] += $(CheckBox).attr('id') + ',';
                         }
                         else {
                             ClearCookie(cookieId);
-                            dict[cookieId] = this.id + ',';
+                            dict[cookieId] = $(CheckBox).attr('id') + ',';
                         }
                     }
                     else {
@@ -176,7 +179,7 @@
             $(".pdsa-column-display").addClass("hidden");
         }
 
-
+        /************************************************************************************
         //Selects all checkboxes in the current window
         function selectAll(specialId, cookieId) {
             $(':checkbox').each(function () {
@@ -214,18 +217,18 @@
 
             });
         }
-
+        ****************************************************************************************/
 
         //Selects all checkboxes in the current window
         function selectAll2(me, specialId, cookieId) {
-            //alert('Comment t`allez vous?');
+            alert('Comment t`allez vous?');
             $(':checkbox').each(function () {
                 //Obtains the parent node
                 var pId = me.special;
 
                 //If the parent node equals the special id specified, then check this box
                 if (pId == specialId) {
-                    $(this).prop('checked', true);
+                    me.prop('checked', true);
 
                     //add cookie
                     if (dict[cookieId]) {
@@ -247,7 +250,7 @@
             $(':checkbox').each(function () {
                 var pId = me.special;
                 if (pId == specialId /*&& this.id != 'SEQN'*/) {
-                    $(this).prop('checked', false);
+                    me.prop('checked', false);
                     dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
                 }
 
@@ -410,7 +413,7 @@
 
 
           <div class="text-center" style="margin-bottom: 20px;">
-              <asp:CheckBoxList ID ="brfssCheckboxes" runat="server" RepeatDirection="Horizontal" RepeatColumns="5">
+              <asp:CheckBoxList ID ="brfssCheckboxes" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" ClientIDMode="Static">
                   <asp:ListItem Text="2015" Value="2015"></asp:ListItem>
                   <asp:ListItem Text="2014" Value="2014"></asp:ListItem>
                   <asp:ListItem Text="2013" Value="2013"></asp:ListItem>
