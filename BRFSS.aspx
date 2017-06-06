@@ -45,6 +45,7 @@
     
 
     <script src="Scripts/jquery.cookie.js"></script>
+    <script src="Scripts/jquery-1.10.2.js"></script>
     <script type="text/javascript">
         var Grid = null;
         var UpperBound = 0;
@@ -72,7 +73,7 @@
             });
         });
         
-        function ShowColumns2(CheckBox, chkbox_columnname, chkbox_year, chkbox_codebook, chkbox_special) {
+        function ShowColumns2(CheckBox, chkbox_id, chkbox_columnname, chkbox_year, chkbox_codebook, chkbox_special) {
             if (CheckBox.checked) {
 
                 //--Test to view column name and id--//
@@ -84,17 +85,17 @@
 
                 var columns = chkbox_columnname.split(',');
                 //---> Set id, year, cookieID, specialID, codebook
-                var id = $(CheckBox).attr('id');
+                var id = chkbox_id;
                 var year = chkbox_year;
                 var cookieId = year + id;
-                var specialId = (id + (parseFloat(year)*352));
+                var specialId = chkbox_special;
                 var codebook = chkbox_codebook;
                 
 
                 //---> Create HTML elements of page
-                var html = "<h5 style='color: green;'><strong><a href='" + codebook + "' style='color: green;' target='_blank' title='code book'" + "'> BRFSS " + year + " Datasets</a></strong></h5>";
-                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-xs' value='Select All' onclick='selectAll2(" + CheckBox + ", " + specialId + "," + cookieId + ")' /><input type='button' id='btnDeselectAll' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll2(" + CheckBox + ", " + specialId + "," + cookieId + ")' />";
-                html += "<span id='closeDiv' onclick='closeWindow()'>X</span><br />&nbsp;";
+                var html = "<h5 style='color: green;'><strong><a href='" + codebook + "' style='color: green;' target='_blank' title='code book'" + "'> BRFSS " + year + " Datasets</a></strong></h5>"
+                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-xs' value='Select All' onclick='selectAll2(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll2(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'>"
+                html += "<span id='closeDiv' onclick='closeWindow()'>X</span><br />&nbsp;"
                 html += "<div class='row'>";
                 for (var i = 0; i < columns.length - 1; i++) {
                     var columnName = columns[i];
@@ -102,9 +103,9 @@
                     if (columnName == " SEQNO") {
                         
 
-                        html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' onclick='return false;' name='columns' id='" + columnName + "' class='module' />";
+                        html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' onclick='return false;' name='columns' id='" + columnName + "' class='module' />"
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
-                        //add cookie to SEQN (since it's pre-checked)--------------
+                        //add cookie to SEQNO (since it's pre-checked)--------------
                         if (dict[cookieId]) {
                             dict[cookieId] += 'SEQNO' + ',';
                         }
@@ -114,7 +115,7 @@
                         }
                         //end add cookie --------------------
                     } else {
-                        html += "<div class='col-md-4' id='" + specialId + "'><input type='checkbox' name='columns' id='" + columnName + "' class='module' />";
+                        html += "<div class='col-md-4' id='" + specialId + "'><input type='checkbox' name='columns' id='" + columnName + "' class='module' />"
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
                     }
 
@@ -127,10 +128,12 @@
 
                 }
 
+              //  alert('cookieID: ' + cookieId + '\n specialID: ' + specialId);
+
                //---> Add row of buttons
                 html += "<div class='row'><br />&nbsp;</div>"
-                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll' class='btn btn-success btn-xs' value='Select All' onclick='selectAll2(" + CheckBox + ", " + specialId + "," + cookieId + ")' /><input type='button' id='btnDeselectAll' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll2(" + CheckBox + ", " + specialId + "," + cookieId + ")'/></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary btn-xs' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
-                html += "</div>"
+                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll2' class='btn btn-success btn-xs' value='Select All' onclick='selectAll2(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'><input type='button' id='btnDeselectAll2' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll2(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary btn-xs' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
+                html += "</div>";
  
                // alert('id: ' + id + '\n year: ' + year + '\n cookieID: ' + cookieID + '\n specialID: ' + specialID + '\n codebook: ' + codebook);
 
@@ -219,16 +222,16 @@
         }
         ****************************************************************************************/
 
+
         //Selects all checkboxes in the current window
-        function selectAll2(me, specialId, cookieId) {
-            alert('Comment t`allez vous?');
+        function selectAll2(specialId, cookieId) {
+            
             $(':checkbox').each(function () {
                 //Obtains the parent node
-                var pId = me.special;
-
+                var pId = this.parentNode.id;
                 //If the parent node equals the special id specified, then check this box
                 if (pId == specialId) {
-                    me.prop('checked', true);
+                    $(this).prop('checked', true);
 
                     //add cookie
                     if (dict[cookieId]) {
@@ -246,13 +249,14 @@
         }
 
         //Deselects all checkboxes in the current window
-        function deSelectAll2(me, specialId, cookieId) {
+        function deSelectAll2(specialId, cookieId) {
             $(':checkbox').each(function () {
-                var pId = me.special;
-                if (pId == specialId /*&& this.id != 'SEQN'*/) {
-                    me.prop('checked', false);
+                var pId = this.parentNode.id;
+                if (pId == specialId && this.id != ' SEQNO') {
+                    $(this).prop('checked', false);
                     dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
                 }
+
 
             });
         }
