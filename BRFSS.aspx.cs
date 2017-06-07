@@ -31,6 +31,7 @@ namespace HealthData2
 
                 string itemName = "";
 
+               
                 foreach (ListItem item in brfssCheckboxes.Items)
                 { 
                         //item.Attributes.Add("onclick", "javascript:ShowColumns2(this)");
@@ -224,47 +225,48 @@ namespace HealthData2
             
 
             //Adds label for each checkbox in web form
-            foreach (Control ctl in FindControl("brfssCheckboxes").Controls) 
-            {
-               
-                if (ctl is CheckBox)
-                {
-                    if (((CheckBox)ctl).Checked)
-                    {
+            //foreach (Control ctl in FindControl("brfssCheckboxes").Controls) 
+            //{
+                
 
-                        int yearFrom = 2001;
-                        for (int i = 0; i < 15; i++)
-                        {
-                            string chkBoxId = "chk" + yearFrom.ToString("yy");
-                            checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox; 
+            //    if (ctl is CheckBox)
+            //    {
+            //        if (((CheckBox)ctl).Checked)
+            //        {
 
-                            if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
-                            {
+            //            int yearFrom = 2001;
+            //            for (int i = 0; i < 15; i++)
+            //            {
+            //                string chkBoxId = "chk" + yearFrom.ToString("yy");
+            //                checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox; 
+
+            //                if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
+            //                {
                                
-                                    string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
-                                    if (Request.Cookies[cookieName] != null)
-                                    {
-                                        BRFSSFile file = new BRFSSFile()
-                                        {
-                                            YearFrom = yearFrom.ToString(),
-                                            ColumnName =  HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
-                                        };
+            //                        string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
+            //                        if (Request.Cookies[cookieName] != null)
+            //                        {
+            //                            BRFSSFile file = new BRFSSFile()
+            //                            {
+            //                                YearFrom = yearFrom.ToString(),
+            //                                ColumnName =  HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
+            //                            };
 
-                                        studyArrayList[i].Add(file);
-                                    }
+            //                            studyArrayList[i].Add(file);
+            //                        }
                                 
-                            }
+            //                }
 
-                            yearFrom++;
-                        }
+            //                yearFrom++;
+            //            }
 
 
 
-                    }
-                }
+            //        }
+            //    }
 
                                   
-            }
+            //}
 
             int yearHeader = 4;
             for (int i = 0; i < 15; i++)

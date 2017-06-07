@@ -466,13 +466,13 @@
 
             <strong>Download Format:</strong>
 
-            <asp:Button ID="Button1" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success btn-xs" UseSubmitBehavior="False"/>
+            <asp:Button ID="Button1" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" CssClass="btn btn-success btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button2" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger btn-xs" UseSubmitBehavior="False"/>
+            <asp:Button ID="Button2" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" CssClass="btn btn-danger btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button3" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default btn-xs" UseSubmitBehavior="False"/>
+            <asp:Button ID="Button3" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" CssClass="btn btn-default btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button4" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary btn-xs" UseSubmitBehavior="False"/>
+            <asp:Button ID="Button4" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()"  CssClass="btn btn-primary btn-xs" UseSubmitBehavior="False"/>
                                 
           </div>
 
