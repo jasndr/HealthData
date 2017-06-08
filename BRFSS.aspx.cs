@@ -27,6 +27,7 @@ namespace HealthData2
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
+                BindGrid();
             {
 
                 string itemName = "";
@@ -168,7 +169,7 @@ namespace HealthData2
 
                 }
 
-                //   //BindGrid();
+                   BindGrid();
 
 
 
@@ -190,10 +191,39 @@ namespace HealthData2
             }
 
 
-        }   
-        
+        }
 
- /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+        private void BindGrid()
+        {
+            string filePath = ConfigurationManager.AppSettings["BRFSS"];
+            string path = Server.MapPath(filePath);
+            //DataTable dt = new DataTable("Study");
+
+            //try
+            //{
+            //    //Add Columns in datatable - Column names must match XML File nodes 
+            //    dt.Columns.Add("Id", typeof(System.String));
+            //    dt.Columns.Add("GroupName", typeof(System.String));
+            //    dt.Columns.Add("GroupShortName", typeof(System.String));
+            //    dt.Columns.Add("Name", typeof(System.String));
+            //    dt.Columns.Add("FileExists", typeof(System.String));
+
+            //    // Reading the XML file and display data in the gridview         
+            //    dt.ReadXml(path);
+            //}
+            //catch (Exception e)
+            //{
+            //    throw e;
+            //}
+
+            ////GridViewStudy.DataSource = dt;
+            //GridViewStudy.DataSource = InsertGroupHeaderRow(dt);
+            //GridViewStudy.DataBind();
+
+        }
+
+
+        /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
         //---------Start .txt Button
         protected void btnSubmit_Click_Txt(object sender, EventArgs e)
@@ -317,16 +347,21 @@ namespace HealthData2
 
             if (DownloadableProduct_Tracking(FilePath, FileName))
             {
-                //Request.Headers.Add(Request.Headers);
-                //Response.Redirect(Request.RawUrl);
-
-                //Response.AppendHeader("Refresh", "0;URL=/NHANES.aspx");
+                //Response.Write("<script>alert('reached DownloadableProduct_Tracking() point!!!');</script>");
             }
             else
             {
                 Response.Write("<script>alert('failed');</script>");
+                //Response.Write("<script>alert('FilePath: "+FilePath.ToString()+"');</script>");
+                //Response.Write("<script>alert('FileName: " + FileName.ToString() + "');</script>");
             };
         } //------------------- End .txt Button
+
+        //private bool DownloadableProduct_Tracking2(string _filePath, string _fileName)
+        //{
+        //    Response.Write("<script>alert('Hello 'yall!  This is what y'all see here huh?');</script>");
+        //    return false;
+        //}
 
         //---------Start SPSS Button
         /// <summary>
@@ -448,7 +483,7 @@ namespace HealthData2
             }
 
             //open file dialog
-            String FileName = @"merged.txt";
+            String FileName = @"merged.sav";
             String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
 
             if (DownloadableProduct_Tracking(FilePath, FileName))
@@ -579,7 +614,7 @@ namespace HealthData2
             }
 
             //open file dialog
-            String FileName = @"merged.txt";
+            String FileName = @"merged.csv";
             String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
 
             if (DownloadableProduct_Tracking(FilePath, FileName))
@@ -711,7 +746,7 @@ namespace HealthData2
             }
 
             //open file dialog
-            String FileName = @"merged.txt";
+            String FileName = @"merged.sas7bdat";
             String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
 
             if (DownloadableProduct_Tracking(FilePath, FileName))
@@ -823,9 +858,10 @@ namespace HealthData2
 
         private bool DownloadableProduct_Tracking(string _filePath, string _fileName)
         {
+         
             //File Path and File Name
             string filePath = _filePath;                                         //Server.MapPath("~/ApplicationData/DownloadableProducts");
-            string _DownloadableProductFileName = _fileName;          //"DownloadableProduct_FileName.pdf";
+            string _DownloadableProductFileName = _fileName;                     //"DownloadableProduct_FileName.pdf";
 
             System.IO.FileInfo FileName = new System.IO.FileInfo(filePath);
             FileStream myFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);

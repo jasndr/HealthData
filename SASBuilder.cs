@@ -176,7 +176,7 @@ namespace HealthData2
             sb.AppendLine();
 
             string rootLibName = string.Empty;
-            bool hasKey = true;     // has key column SEQN
+            bool hasKey = true;     // has key column SEQNO
 
             foreach (var pair in _tables)
             {
@@ -199,6 +199,7 @@ namespace HealthData2
                     foreach (BRFSSFile file in groupFiles)
                     {
                         string fileFullPath = fileSource + "BRFSS_" + year + "\\";
+                       
                         if (Directory.GetFiles(fileFullPath, "*.sas7bdat").Length > 0)
                         {
                             string fileName = Path.GetFileName(Directory.GetFiles(fileFullPath, "*.sas7bdat")[0]);
@@ -211,7 +212,7 @@ namespace HealthData2
                             sb.AppendLine();
 
                             string[] columns = file.ColumnName.Split(',');
-                            if (Array.FindAll(columns, s => s.Equals("SEQNO")).Length == 0)
+                            if (Array.FindAll(columns, s => s.Equals(" SEQNO")).Length == 0)
                             {
                                 hasKey = false;
                             }
