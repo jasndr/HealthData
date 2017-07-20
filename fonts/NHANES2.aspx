@@ -13,8 +13,10 @@
         });
     </script>
 
+    <
+
     <div class="navbar navbar-default" style="margin-top: -60px;">
-        <img src="./images/Banner_Print(CIM).png" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
+        <img src="./images/Banner_Print3.jpg" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
     </div>
 
     <div class="navbar-default sidebar" style="margin-top: -.5%;">
@@ -215,7 +217,12 @@
                 $('#moduleListTitle').parent().trigger('create');
                 
                 $('input:checkbox.module').on('change', function () {
-                  
+                    //console.log(this.tagName);
+                    //alert(this.id);
+                    //console.log(this.id);
+                    //console.log("-----");
+                    //selectedList.push({ id: id, value: this.id + ','});                    
+                    //SetCookie(studyname, this.id);
                     if ($(this).is(':checked')) {
                         if (dict[cookieId]) {
                             dict[cookieId] += this.id + ',';
@@ -291,7 +298,7 @@
                         ClearCookie(cookieId);
                         dict[cookieId] = this.id + ',';
                     }
-       
+                    //alert('pId' + pId + '\nspecialId' + specialId);
                 }
 
             });
@@ -304,6 +311,10 @@
                 var pId = this.parentNode.id;
                 if (pId == specialId && this.id != 'SEQN') {
                     $(this).prop('checked', false);
+                    //remove cookie
+                    //alert(this.id);
+                    //alert(cookieId);
+                    //ClearCookie(cookieId);
                     dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
                 }
 
@@ -340,7 +351,7 @@
 
      
    </script>
-
+    <%--<script src="Scripts/common.js"></script>--%>
 
 
 
@@ -349,49 +360,32 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
- 
+    <%--<script src="https://raw.githubusercontent.com/twlikol/GridViewScroll/master/gridviewScroll.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            gridViewScroll();
+        });
+        function gridviewScroll() {
+            gridView1 = $('#<%=GridViewStudy.ClientID%>').gridviewScroll({
+                width: 600,
+                height: 300
+            })
+        }
+
+    </script>    --%>
 
     <script>
 
         $(document).ready(function () {
-
-           
-
-            var target = $('#<%=GridViewStudy.ClientID%>');     
-            var target_children = target.children();
-            var panelHeader = $('#<%=GridViewStudy.ClientID%>').clone(); 
-            panelHeader.attr("class", "panelHeader");
-            panelHeader.find("tr:gt(0)").hide();           
-            panelHeader.css('width', '98.6%');
-            panelHeader.find("th:first-child").css('width', '3.4%');
-            panelHeader.find("th:nth-child(2)").css('width', '55.1%');
-            panelHeader.find("th:nth-child(3)").css('width', '5%');
-            panelHeader.find("th:nth-child(4)").css('width', '5%');
-            panelHeader.find("th:nth-child(5)").css('width', '5%');
-            panelHeader.find("th:nth-child(6)").css('width', '5%');
-            panelHeader.find("th:nth-child(7)").css('width', '5%');
-            panelHeader.find("th:nth-child(8)").css('width', '5%');
-            panelHeader.find("th:nth-child(9)").css('width', '5%');
-            panelHeader.find("th:nth-child(10)").css('width', '5%');
-            panelHeader.prependTo($('#<%=GridViewStudy.ClientID%>')); 
-            
-
-
+            $('.dataHeader').clone().appendTo($('.floatingheader'))
         });
        
     </script>
 
     <style>
-        table{
-            width: 100%;
-        }
-
-        #panelHeader, .panelHeader{
+        .floatingHeader{
             position: absolute;
-        }
-
-        html{
-            overflow-y: scroll;
+            font-weight: bold;
         }
     </style>
 
@@ -411,8 +405,21 @@
                     <div class="panel panel-default">
                         <div class="panel-body">                           
                        
-                            <div style="position: relative;">
-                            <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow:scroll">
+                           <%-- <div  id="falseHeader"></div>--%>
+                            
+                            <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow: scroll;">
+
+                              <%--<table id="panelContainerFixed">
+                                  <tr class="header">
+                                      <th>ID</th><th>Name</th>
+                                  </tr>
+                              </table>
+
+                              <table id="panelContainer">
+                                  <tr class="header">
+                                      <th>ID</th><th>Name</th>
+                                  </tr>
+                              </table>--%>
 
                                 <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
                                     class="table table-bordered container-fluid"
@@ -422,11 +429,16 @@
                                     OnRowCommand="GridViewStudy_RowCommand"
                                    >
                                     <HeaderStyle  CssClass="ColumnHeaderStyle dataHeader" BackColor="#B3FFB3"/>
+                                    <%--<FooterStyle CssClass="ColumnHeaderStyle dataHeader2" BackColor="#B3FFB3" />--%>
 
                                     <AlternatingRowStyle BackColor="LightYellow" />
                                     <Columns>
                                         <asp:TemplateField HeaderText="DataSet">
-                                            <ItemTemplate>   
+
+                                            <ItemTemplate>
+                                                <%--<asp:ImageButton ID="imgExpand" runat="server" Visible="false"
+                                                    ImageUrl="images/expand.gif" Height="16px"
+                                                    CommandName="Expand" />--%>
                                                 <asp:Image ID="imgCollapse" runat="server" onclick="javascript:Toggle(this);"
                                                     Visible="true" ImageUrl="~/images/collapse.gif"
                                                     Height="17px" Width="14px"  />
@@ -434,24 +446,85 @@
                                                     Text='<%#Eval("GroupName")%>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-
+                                       <%-- <asp:TemplateField>
+                                            <HeaderStyle Width="25px" />
+                                            <ItemStyle Width="25px" BackColor="White" />
+                                            <HeaderTemplate>
+                                                <asp:Image ID="imgTab" onclick="javascript:Toggle(this);" runat="server" ImageUrl="~/images/minus.gif"
+                                                    ToolTip="Collapse" />
+                                            </HeaderTemplate>
+                                        </asp:TemplateField>--%>
                                         <asp:TemplateField HeaderText="Id" Visible="false">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
                                             </ItemTemplate>
-                                        </asp:TemplateField>     
+                                        </asp:TemplateField>                                        
+                                        <%--<asp:TemplateField HeaderText="GroupName">
+                                            <ItemTemplate>
+                                                <asp:Label ID="lblGroupName" runat="server" Text='<%# Bind("GroupName") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>--%>
                                         
                                         <asp:TemplateField HeaderText="GroupShortName" Visible="False">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblGroupShortName" runat="server" Text='<%# Bind("GroupShortName") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-
                                         <asp:TemplateField HeaderText="Name">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblName" runat="server" Text='<%# Bind("Name") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
+
+                                        <%--<asp:TemplateField HeaderText="2013-2014">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2011-2012">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2011" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2009-2010">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2009" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2007-2008">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2007" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2005-2006">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2005" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2003-2004">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2003" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2001-2002">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2001" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="1999-2000">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow1999" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>--%>
+                                        
+                                        <%------------------------------------------Alternate Layout----------------------------------------------%>
 
                                         <asp:TemplateField HeaderText="1999-2000">
                                             <ItemTemplate>
@@ -500,6 +573,8 @@
                                                 <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
+
+                                        <%-----------------------------------------End Alternate Layout-------------------------------------------%>
                                                                                                                
                                         <asp:TemplateField HeaderText="FileExists" Visible="false">
                                             <ItemTemplate>
@@ -513,7 +588,7 @@
                                 </asp:GridView>
 
 
-                            </div></div>
+                            </div>
                             <div class="row">
 
                                 <br />
@@ -538,19 +613,6 @@
                     </div> 
                 </div> 
             </div> 
-
-        <%--<style>
-            button:active{
-                background-color: black !important;
-                font-weight: bold;
-            }
-            button:focus{
-                background-color: black !important;
-                font-weight: bold;
-            }
-        </style>--%>
-        
-
     
      <div class="pdsa-submit-progress hidden">
         <i class="fa fa-2x fa-spinner fa-spin"></i>

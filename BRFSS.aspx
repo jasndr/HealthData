@@ -302,13 +302,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 
-
+    <%--
     <script>
 
         $(document).ready(function () {
 
             //Set checkbox parent attributes
-            <%--$('#<%=chk15.ClientID%>').attr('columnname', '_STATE, FMONTH, IDATE, IMONTH, IDAY, IYEAR, DISPCODE, SEQNO, _PSU, CTELENUM, PVTRESD1, COLGHOUS, STATERES, CELLFON3, LADULT, NUMADULT, NUMMEN, NUMWOMEN, CTELNUM1, CELLFON2, CADULT, PVTRESD2, CCLGHOUS, CSTATE, LANDLINE, HHADULT, GENHLTH, PHYSHLTH, MENTHLTH, POORHLTH, HLTHPLN1, PERSDOC2, MEDCOST, CHECKUP1, BPHIGH4, BPMEDS, BLOODCHO, CHOLCHK, TOLDHI2, CVDINFR4, CVDCRHD4, CVDSTRK3, ASTHMA3, ASTHNOW, CHCSCNCR, CHCOCNCR, CHCCOPD1, HAVARTH3, ADDEPEV2, CHCKIDNY, DIABETE3, DIABAGE2, SEX, MARITAL, EDUCA, RENTHOM1, NUMHHOL2, NUMPHON2, CPDEMO1, VETERAN3, EMPLOY1, CHILDREN, INCOME2, INTERNET, WEIGHT2, HEIGHT3, PREGNANT, QLACTLM2, USEEQUIP, BLIND, DECIDE, DIFFWALK, DIFFDRES, DIFFALON, SMOKE100, SMOKDAY2, STOPSMK2, LASTSMK2, USENOW3, ALCDAY5, AVEDRNK2, DRNK3GE5, MAXDRNKS, FRUITJU1, FRUIT1, FVBEANS, FVGREEN, FVORANG, VEGETAB1, EXERANY2, EXRACT11, EXEROFT1, EXERHMM1, EXRACT21, EXEROFT2, EXERHMM2, STRENGTH, LMTJOIN3, ARTHDIS2, ARTHSOCL, JOINPAIN, SEATBELT, FLUSHOT6, FLSHTMY2, IMFVPLAC, PNEUVAC3, HIVTST6, HIVTSTD3, WHRTST10, PDIABTST, PREDIAB1, INSULIN, BLDSUGAR, FEETCHK2, DOCTDIAB, CHKHEMO3, FEETCHK, EYEEXAM, DIABEYE, DIABEDU, PAINACT2, QLMENTL2, QLSTRES2, QLHLTH2, CAREGIV1, CRGVREL1, CRGVLNG1, CRGVHRS1, CRGVPRB1, CRGVPERS, CRGVHOUS, CRGVMST2, CRGVEXPT, VIDFCLT2, VIREDIF3, VIPRFVS2, VINOCRE2, VIEYEXM2, VIINSUR2, VICTRCT4, VIGLUMA2, VIMACDG2, CIMEMLOS, CDHOUSE, CDASSIST, CDHELP, CDSOCIAL, CDDISCUS, WTCHSALT, LONGWTCH, DRADVISE, ASTHMAGE, ASATTACK, ASERVIST, ASDRVIST, ASRCHKUP, ASACTLIM, ASYMPTOM, ASNOSLEP, ASTHMED3, ASINHALR, HAREHAB1, STREHAB1, CVDASPRN, ASPUNSAF, RLIVPAIN, RDUCHART, RDUCSTRK, ARTTODAY, ARTHWGT, ARTHEXER, ARTHEDU, TETANUS, HPVADVC2, HPVADSHT, SHINGLE2, HADMAM, HOWLONG, HADPAP2, LASTPAP2, HPVTEST, HPLSTTST, HADHYST2, PROFEXAM, LENGEXAM, BLDSTOOL, LSTBLDS3, HADSIGM3, HADSGCO1, LASTSIG3, PCPSAAD2, PCPSADI1, PCPSARE1, PSATEST1, PSATIME, PCPSARS1, PCPSADE1, PCDMDECN, SCNTMNY1, SCNTMEL1, SCNTPAID, SCNTWRK1, SCNTLPAD, SCNTLWK1, SXORIENT, TRNSGNDR, RCSGENDR, RCSRLTN2, CASTHDX2, CASTHNO2, EMTSUPRT, LSATISFY, ADPLEASR, ADDOWN, ADSLEEP, ADENERGY, ADEAT1, ADFAIL, ADTHINK, ADMOVE, MISTMNT, ADANXEV, QSTVER, QSTLANG, EXACTOT1, EXACTOT2, MSCODE, _STSTR, _STRWT, _RAWRAKE, _WT2RAKE, _CHISPNC, _CRACE1, _CPRACE, _CLLCPWT, _DUALUSE, _DUALCOR, _LLCPWT, _RFHLTH, _HCVU651, _RFHYPE5, _CHOLCHK, _RFCHOL, _MICHD, _LTASTH1, _CASTHM1, _ASTHMS1, _DRDXAR1, _PRACE1, _MRACE1, _HISPANC, _RACE, _RACEG21, _RACEGR3, _RACE_G1, _AGEG5YR, _AGE65YR, _AGE80, _AGE_G, HTIN4, HTM4, WTKG3, _BMI5, _BMI5CAT, _RFBMI5, _CHLDCNT, _EDUCAG, _INCOMG, _SMOKER3, _RFSMOK3, DRNKANY5, DROCDY3_, _RFBING5, _DRNKWEK, _RFDRHV5, FTJUDA1_, FRUTDA1_, BEANDAY_, GRENDAY_, ORNGDAY_, VEGEDA1_, _MISFRTN, _MISVEGN, _FRTRESP, _VEGRESP, _FRUTSUM, _VEGESUM, _FRTLT1, _VEGLT1, _FRT16, _VEG23, _FRUITEX, _VEGETEX, _TOTINDA, METVL11_, METVL21_, MAXVO2_, FC60_, ACTIN11_, ACTIN21_, PADUR1_, PADUR2_, PAFREQ1_, PAFREQ2_, _MINAC11, _MINAC21, STRFREQ_, PAMISS1_, PAMIN11_, PAMIN21_, PA1MIN_, PAVIG11_, PAVIG21_, PA1VIGM_, _PACAT1, _PAINDX1, _PA150R2, _PA300R2, _PA30021, _PASTRNG, _PAREC1, _PASTAE1, _LMTACT1, _LMTWRK1, _LMTSCL1, _RFSEAT2, _RFSEAT3, _FLSHOT6, _PNEUMO2, _AIDTST3');
+            $('#<%=chk15.ClientID%>').attr('columnname', '_STATE, FMONTH, IDATE, IMONTH, IDAY, IYEAR, DISPCODE, SEQNO, _PSU, CTELENUM, PVTRESD1, COLGHOUS, STATERES, CELLFON3, LADULT, NUMADULT, NUMMEN, NUMWOMEN, CTELNUM1, CELLFON2, CADULT, PVTRESD2, CCLGHOUS, CSTATE, LANDLINE, HHADULT, GENHLTH, PHYSHLTH, MENTHLTH, POORHLTH, HLTHPLN1, PERSDOC2, MEDCOST, CHECKUP1, BPHIGH4, BPMEDS, BLOODCHO, CHOLCHK, TOLDHI2, CVDINFR4, CVDCRHD4, CVDSTRK3, ASTHMA3, ASTHNOW, CHCSCNCR, CHCOCNCR, CHCCOPD1, HAVARTH3, ADDEPEV2, CHCKIDNY, DIABETE3, DIABAGE2, SEX, MARITAL, EDUCA, RENTHOM1, NUMHHOL2, NUMPHON2, CPDEMO1, VETERAN3, EMPLOY1, CHILDREN, INCOME2, INTERNET, WEIGHT2, HEIGHT3, PREGNANT, QLACTLM2, USEEQUIP, BLIND, DECIDE, DIFFWALK, DIFFDRES, DIFFALON, SMOKE100, SMOKDAY2, STOPSMK2, LASTSMK2, USENOW3, ALCDAY5, AVEDRNK2, DRNK3GE5, MAXDRNKS, FRUITJU1, FRUIT1, FVBEANS, FVGREEN, FVORANG, VEGETAB1, EXERANY2, EXRACT11, EXEROFT1, EXERHMM1, EXRACT21, EXEROFT2, EXERHMM2, STRENGTH, LMTJOIN3, ARTHDIS2, ARTHSOCL, JOINPAIN, SEATBELT, FLUSHOT6, FLSHTMY2, IMFVPLAC, PNEUVAC3, HIVTST6, HIVTSTD3, WHRTST10, PDIABTST, PREDIAB1, INSULIN, BLDSUGAR, FEETCHK2, DOCTDIAB, CHKHEMO3, FEETCHK, EYEEXAM, DIABEYE, DIABEDU, PAINACT2, QLMENTL2, QLSTRES2, QLHLTH2, CAREGIV1, CRGVREL1, CRGVLNG1, CRGVHRS1, CRGVPRB1, CRGVPERS, CRGVHOUS, CRGVMST2, CRGVEXPT, VIDFCLT2, VIREDIF3, VIPRFVS2, VINOCRE2, VIEYEXM2, VIINSUR2, VICTRCT4, VIGLUMA2, VIMACDG2, CIMEMLOS, CDHOUSE, CDASSIST, CDHELP, CDSOCIAL, CDDISCUS, WTCHSALT, LONGWTCH, DRADVISE, ASTHMAGE, ASATTACK, ASERVIST, ASDRVIST, ASRCHKUP, ASACTLIM, ASYMPTOM, ASNOSLEP, ASTHMED3, ASINHALR, HAREHAB1, STREHAB1, CVDASPRN, ASPUNSAF, RLIVPAIN, RDUCHART, RDUCSTRK, ARTTODAY, ARTHWGT, ARTHEXER, ARTHEDU, TETANUS, HPVADVC2, HPVADSHT, SHINGLE2, HADMAM, HOWLONG, HADPAP2, LASTPAP2, HPVTEST, HPLSTTST, HADHYST2, PROFEXAM, LENGEXAM, BLDSTOOL, LSTBLDS3, HADSIGM3, HADSGCO1, LASTSIG3, PCPSAAD2, PCPSADI1, PCPSARE1, PSATEST1, PSATIME, PCPSARS1, PCPSADE1, PCDMDECN, SCNTMNY1, SCNTMEL1, SCNTPAID, SCNTWRK1, SCNTLPAD, SCNTLWK1, SXORIENT, TRNSGNDR, RCSGENDR, RCSRLTN2, CASTHDX2, CASTHNO2, EMTSUPRT, LSATISFY, ADPLEASR, ADDOWN, ADSLEEP, ADENERGY, ADEAT1, ADFAIL, ADTHINK, ADMOVE, MISTMNT, ADANXEV, QSTVER, QSTLANG, EXACTOT1, EXACTOT2, MSCODE, _STSTR, _STRWT, _RAWRAKE, _WT2RAKE, _CHISPNC, _CRACE1, _CPRACE, _CLLCPWT, _DUALUSE, _DUALCOR, _LLCPWT, _RFHLTH, _HCVU651, _RFHYPE5, _CHOLCHK, _RFCHOL, _MICHD, _LTASTH1, _CASTHM1, _ASTHMS1, _DRDXAR1, _PRACE1, _MRACE1, _HISPANC, _RACE, _RACEG21, _RACEGR3, _RACE_G1, _AGEG5YR, _AGE65YR, _AGE80, _AGE_G, HTIN4, HTM4, WTKG3, _BMI5, _BMI5CAT, _RFBMI5, _CHLDCNT, _EDUCAG, _INCOMG, _SMOKER3, _RFSMOK3, DRNKANY5, DROCDY3_, _RFBING5, _DRNKWEK, _RFDRHV5, FTJUDA1_, FRUTDA1_, BEANDAY_, GRENDAY_, ORNGDAY_, VEGEDA1_, _MISFRTN, _MISVEGN, _FRTRESP, _VEGRESP, _FRUTSUM, _VEGESUM, _FRTLT1, _VEGLT1, _FRT16, _VEG23, _FRUITEX, _VEGETEX, _TOTINDA, METVL11_, METVL21_, MAXVO2_, FC60_, ACTIN11_, ACTIN21_, PADUR1_, PADUR2_, PAFREQ1_, PAFREQ2_, _MINAC11, _MINAC21, STRFREQ_, PAMISS1_, PAMIN11_, PAMIN21_, PA1MIN_, PAVIG11_, PAVIG21_, PA1VIGM_, _PACAT1, _PAINDX1, _PA150R2, _PA300R2, _PA30021, _PASTRNG, _PAREC1, _PASTAE1, _LMTACT1, _LMTWRK1, _LMTSCL1, _RFSEAT2, _RFSEAT3, _FLSHOT6, _PNEUMO2, _AIDTST3');
             $('#<%=chk15.ClientID%>').attr('year', '2015');
             $('#<%=chk15.ClientID%>').attr('codebook', 'https://www.cdc.gov/brfss/annual_data/2015/pdf/codebook15_llcp.pdf');
             $('#<%=chk15.ClientID%>').attr('special', 'chk15709280');
@@ -382,11 +382,12 @@
             $('#<%=chk01.ClientID%>').attr('year', '2001');
             $('#<%=chk01.ClientID%>').attr('codebook', 'https://www.cdc.gov/brfss/annual_data/2001/pdf/codebook_01.pdf');
             $('#<%=chk01.ClientID%>').attr('special', 'chk01704352');
-        --%>
+        
 
-        });
+        }); 
        
-     </script>
+     </script> 
+        --%>
 
     <style>
         table{
@@ -436,32 +437,118 @@
               </asp:CheckBoxList>
           </div>
           
-<%--              <table class="table table-bordered text-center">
-                  <tbody>
-                      <tr>
-                        <td>2015<br /><asp:CheckBox ID="chk15" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                        <td>2014<br /><asp:CheckBox ID="chk14" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                        <td>2013<br /><asp:CheckBox ID="chk13" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                        <td>2012<br /><asp:CheckBox ID="chk12" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                        <td>2011<br /><asp:CheckBox ID="chk11" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                      </tr>
-                      <tr>
-                          <td>2010<br /><asp:CheckBox ID="chk10" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                          <td>2009<br /><asp:CheckBox ID="chk09" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                          <td>2008<br /><asp:CheckBox ID="chk08" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                          <td>2007<br /><asp:CheckBox ID="chk07" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                          <td>2006<br /><asp:CheckBox ID="chk06" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                      </tr>
-                      <tr>
-                          <td>2005<br /><asp:CheckBox ID="chk05" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                          <td>2004<br /><asp:CheckBox ID="chk04" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                          <td>2003<br /><asp:CheckBox ID="chk03" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                          <td>2002<br /><asp:CheckBox ID="chk02" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                          <td>2001<br /><asp:CheckBox ID="chk01" runat="server" onclick="javascript:ShowColumns2(this)" ClientIDMode="Static"></asp:CheckBox></td>
-                      </tr>
-                  </tbody>
-              </table>
-            --%>
+          <hr />
+
+                      <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow:scroll; position: relative;">
+                        <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
+                                                            class="table table-bordered container-fluid"
+                                                            OnPreRender="GridViewStudy_PreRender"
+                                                            OnRowDataBound="GridViewStudy_DataBound"
+                                                            OnRowCreated="GridViewStudy_RowCreated"
+                                                            OnRowCommand="GridViewStudy_RowCommand"
+                                                           >
+                                    <HeaderStyle  CssClass="ColumnHeaderStyle dataHeader" BackColor="#B3FFB3"/>
+
+                                    <AlternatingRowStyle BackColor="LightYellow" />
+                                    <Columns>
+                                        
+                                        <asp:TemplateField HeaderText="2001">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2001" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2002">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2002" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2003">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2003" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2004">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2004" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2005">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2005" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2006">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2006" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2007">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2007" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2008">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2008" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2009">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2009" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                                                                                               
+                                        <asp:TemplateField HeaderText="2010">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2010" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2011">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2011" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2012">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2012" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2013">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2014">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2014" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        <asp:TemplateField HeaderText="2015">
+                                            <ItemTemplate>
+                                                <asp:CheckBox ID="chkRow2015" runat="server" onclick="javascript:ShowColumns2(this)"></asp:CheckBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+
+                                        
+
+                                    </Columns>
+                                </asp:GridView>
+                       </div>
+          <hr />
+
           <div style="text-align:right; margin-right: 10px;">
 
             <strong>Download Format:</strong>
