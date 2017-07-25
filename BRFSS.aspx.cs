@@ -28,10 +28,73 @@ namespace HealthData2
         {
             if (!Page.IsPostBack)
             {
-                //BindGrid();
+                BindGrid();
             }
 
         }
+
+        private void BindGrid()
+        {
+            string filePath = ConfigurationManager.AppSettings["BRFSS"];
+            string path = Server.MapPath(filePath);
+            DataTable dt = new DataTable("Study");
+
+            try
+            {
+                //Add Columns in datatable - Column names must match XML File nodes 
+                dt.Columns.Add("Section", typeof(System.String));
+
+                // Reading the XML file and display data in the gridview         
+                dt.ReadXml(path);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            //GridViewStudy.DataSource = dt;
+            GridViewStudy.DataSource = InsertGroupHeaderRow(dt);
+            GridViewStudy.DataBind();
+
+        }
+
+
+        private DataTable InsertGroupHeaderRow(DataTable dt)
+        {
+            //clone the dataschema into a new table
+            //this is our final sorted list
+            DataTable dtNew = dt.Clone();
+
+            //group rows by productsubcategory
+            var results = from myRow in dt.AsEnumerable()
+                          group myRow by myRow["Section"]
+                              into grp
+                          select new
+                          {
+                              Id = grp.Key,
+                              Rows = grp.Select(x => x)
+                          };
+            DataRow newRow;
+            //iterate through resultset and insert the group header row
+            //at the start of each subcategory
+            foreach (var row in results)
+            {
+                //create a new row with only subcategoryid and name populated
+                //do not populate any other attributes as that would be our
+                //criteria to figure out the group start
+                newRow = dtNew.NewRow();
+                newRow["Section"] = row.Rows.FirstOrDefault()["Section"];
+                List<DataRow> dataRows = row.Rows.ToList();
+                //dataRows.Insert(0, newRow);
+                //copy results to a new resultset
+                foreach (DataRow dr in dataRows)
+                {
+                    dtNew.Rows.Add(dr.ItemArray);
+                }
+            };
+            return dtNew;
+        }
+
 
         protected void GridViewStudy_DataBound(object sender, GridViewRowEventArgs e)
         {
@@ -48,11 +111,11 @@ namespace HealthData2
                 }
 
             }
+
         }
 
         protected void GridViewStudy_PreRender(object sender, EventArgs e)
         {
-
             //// disable check box if file doesn't exist
             DisableCheckBox(GridViewStudy);
         }
@@ -62,40 +125,44 @@ namespace HealthData2
             string filePath = ConfigurationManager.AppSettings["BRFSSFile"];
             string path = Server.MapPath(filePath);
             XPathDocument docNav = new XPathDocument(path); //(@"C:\VS2013\HealthData2\App_Data\NHANES_column.xml");
-            String strExpression;
+            String strExpression;    
 
             foreach (GridViewRow row in GridViewStudy.Rows)
             {
                 if (row.RowType == DataControlRowType.DataRow)
                 {
-
-
+                    
                     int yearFrom = 2015;
-                    int value = 1;
+                    //int value = 1;
 
                     for (int i = 15; i > 0; i--)
                     {
                         string chkBoxId = "chkRow" + yearFrom.ToString();
                         CheckBox chkBox = row.FindControl(chkBoxId) as CheckBox;
 
+                        Response.Write("<script>alert("+chkBox.ClientID+");</script>");
+                        Response.Write("<script>alert('Ano ba naman yan!');</script>");
+
 
                         if (chkBox.Enabled)
                         {
-                            string folderName;
+                            //string folderName;
 
-                            XPathNodeIterator NodeIter;
+                            //XPathNodeIterator NodeIter;
                             XPathItem nodeItem;
                             XPathNavigator nav;
+                            
 
                             nav = docNav.CreateNavigator();
                             strExpression = String.Format("/BRFSS_Columns/File[YearFrom='{0}']/ColumnName", yearFrom);
-
+                           
                             nodeItem = nav.SelectSingleNode(strExpression);
 
                             if (nodeItem != null)
                             {
                                 chkBox.Attributes.Add("YearFrom", yearFrom.ToString());
                                 chkBox.Attributes.Add("ColumnName", nodeItem.Value);
+
                             }
 
                             strExpression = String.Format("/BRFSS_Columns/File[YearFrom='{0}']/CodeBook", yearFrom);
@@ -107,10 +174,12 @@ namespace HealthData2
                             }
                         }
 
+                        yearFrom -= 1;
+
                     }
 
 
-                    yearFrom -= 1;
+                    
                 }
 
 
@@ -118,13 +187,15 @@ namespace HealthData2
             }
         }
 
-        private string GetColumnName(int yearFrom, string folderName)
-        {
-            //find column name from xml file
-            StringBuilder sb = new StringBuilder();
+        //private string GetColumnName(int yearFrom, string folderName)
+        //{
+        //    //find column name from xml file
+        //    StringBuilder sb = new StringBuilder();
 
-            return sb.ToString();
-        }
+        //    return sb.ToString();
+        //}
+
+
 
 
 
@@ -151,10 +222,43 @@ namespace HealthData2
             }
 
             CheckBox[] checkBoxArray = new CheckBox[15];
+            foreach(GridViewRow row in GridViewStudy.Rows)
+            {
+                if (row.RowType == DataControlRowType.DataRow)
+                {
+                    int yearFrom = 2015;
+                    for (int i = 15; i>0; i--)
+                    {
+                        string chkBoxId = "chkRow" + yearFrom.ToString();
+                        checkBoxArray[i] = row.FindControl(chkBoxId) as CheckBox;
+
+                        if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
+                        {
+                            string cookieName = yearFrom.ToString() + "cookie";
+                            if(Request.Cookies[cookieName] != null)
+                            {
+                                BRFSSFile file = new BRFSSFile()
+                                {
+                                    YearFrom = yearFrom.ToString(),
+                                    ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
+                                };
+
+                                studyArrayList[i].Add(file);
+
+                            }
+                 
+
+                        }
+
+                        yearFrom -= 1;
+
+                    }
+                }
+            }
 
 
             int yearHeader = 4;
-            for (int i = 0; i < 15; i++)
+            for (int i = 15; i < 0; i--)
             {
                 studyYear = "" + studyYearFrom;
 
@@ -163,7 +267,7 @@ namespace HealthData2
 
                     _tables = new Dictionary<string, List<BRFSSFile>>();
                     List<string> listGroup = new List<string>();
-
+                 
                     _yeartables.Add(studyYear, _tables);
                 }
 
@@ -200,16 +304,9 @@ namespace HealthData2
             else
             {
                 Response.Write("<script>alert('failed');</script>");
-                //Response.Write("<script>alert('FilePath: "+FilePath.ToString()+"');</script>");
-                //Response.Write("<script>alert('FileName: " + FileName.ToString() + "');</script>");
             };
         } //------------------- End .txt Button
 
-        //private bool DownloadableProduct_Tracking2(string _filePath, string _fileName)
-        //{
-        //    Response.Write("<script>alert('Hello 'yall!  This is what y'all see here huh?');</script>");
-        //    return false;
-        //}
 
         //---------Start SPSS Button
         /// <summary>

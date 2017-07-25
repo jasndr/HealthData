@@ -210,10 +210,11 @@
                 html += "</div>"
                 
 
-                
+                //Generate viewBox
                 $("#moduleListTitle").html(html);
                 $('#moduleListTitle').parent().trigger('create');
                 
+                //-->Add cookie through dict[cookieID]
                 $('input:checkbox.module').on('change', function () {
                   
                     if ($(this).is(':checked')) {
@@ -354,43 +355,41 @@
     <script>
 
         $(document).ready(function () {
-
-           
-
+       
             var target = $('#<%=GridViewStudy.ClientID%>');     
             var target_children = target.children();
             var panelHeader = $('#<%=GridViewStudy.ClientID%>').clone(); 
             panelHeader.attr("class", "panelHeader");
             panelHeader.find("tr:gt(0)").hide();           
             panelHeader.css('width', '98.6%');
-            panelHeader.find("th:first-child").css('width', '3.4%');
-            panelHeader.find("th:nth-child(2)").css('width', '55.1%');
-            panelHeader.find("th:nth-child(3)").css('width', '5%');
-            panelHeader.find("th:nth-child(4)").css('width', '5%');
+            panelHeader.css('height', '60px');
+            panelHeader.find("th:first-child").css('width', '6.2%');//3.4%
+            panelHeader.find("th:nth-child(2)").css('width', '54.45%');//55.1%
+            panelHeader.find("th:nth-child(3)").css('width', '4.8%');
+            panelHeader.find("th:nth-child(4)").css('width', '4.8%');
             panelHeader.find("th:nth-child(5)").css('width', '5%');
             panelHeader.find("th:nth-child(6)").css('width', '5%');
             panelHeader.find("th:nth-child(7)").css('width', '5%');
             panelHeader.find("th:nth-child(8)").css('width', '5%');
             panelHeader.find("th:nth-child(9)").css('width', '5%');
             panelHeader.find("th:nth-child(10)").css('width', '5%');
-            panelHeader.prependTo($('#<%=GridViewStudy.ClientID%>')); 
-            
-
+            panelHeader.prependTo($('#results_table')); 
 
         });
-       
+       
     </script>
 
     <style>
-        table{
+        table {
             width: 100%;
         }
 
-        #panelHeader, .panelHeader{
+        #panelHeader, .panelHeader {
             position: absolute;
+            
         }
 
-        html{
+        html{ 
             overflow-y: scroll;
         }
     </style>
@@ -398,38 +397,38 @@
     <div id="floatingHeader"></div>
 
     <div style="margin-left: -10px;">
-    <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="page-header"><strong>NHANES Data</strong></h4>
-                </div>
-                <!-- /.col-lg-12 -->
+     <div class="row">
+            <div class="col-lg-12">
+                <h4 class="page-header"><strong>NHANES Data</strong></h4>
             </div>
-            <!-- /.row -->           
-            <div class="row">
-                <input type="hidden" id="download_token_value_id" runat="server"/>
-                <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">                           
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->           
+           <div class="row">
+            <input type="hidden" id="download_token_value_id" runat="server" >
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">                           
                        
-                            <div style="position: relative;">
-                            <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow:scroll">
+                           <div style="position: relative;">
+                            <div id="results_table" class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow: scroll">
 
                                 <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
                                     class="table table-bordered container-fluid"
                                     OnPreRender="GridViewStudy_PreRender"
                                     OnRowDataBound="GridViewStudy_DataBound"
                                     OnRowCreated="GridViewStudy_RowCreated"
-                                    OnRowCommand="GridViewStudy_RowCommand"
-                                   >
-                                    <HeaderStyle  CssClass="ColumnHeaderStyle dataHeader" BackColor="#B3FFB3"/>
+                                    OnRowCommand="GridViewStudy_RowCommand">
+                                   
+                                    <HeaderStyle CssClass="ColumnHeaderStyle dataHeader" BackColor="#B3FFB3" />
 
                                     <AlternatingRowStyle BackColor="LightYellow" />
                                     <Columns>
                                         <asp:TemplateField HeaderText="DataSet">
-                                            <ItemTemplate>   
+                                            <ItemTemplate>   
                                                 <asp:Image ID="imgCollapse" runat="server" onclick="javascript:Toggle(this);"
                                                     Visible="true" ImageUrl="~/images/collapse.gif"
-                                                    Height="17px" Width="14px"  />
+                                                    Height="17px" Width="14px" />
                                                 <asp:Label ID="lblGroupName" runat="server"
                                                     Text='<%#Eval("GroupName")%>'></asp:Label>
                                             </ItemTemplate>
@@ -439,7 +438,7 @@
                                             <ItemTemplate>
                                                 <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
                                             </ItemTemplate>
-                                        </asp:TemplateField>     
+                                        </asp:TemplateField>     
                                         
                                         <asp:TemplateField HeaderText="GroupShortName" Visible="False">
                                             <ItemTemplate>
@@ -500,44 +499,44 @@
                                                 <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                                                                                               
+                                                                                                               
                                         <asp:TemplateField HeaderText="FileExists" Visible="false">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblFileExists" runat="server" Text='<%# Bind("FileExists") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        
+                                        
 
                                     </Columns>
                                 </asp:GridView>
 
 
-                            </div></div>
-                            <div class="row">
+                            </div></div>
+                        <div class="row">
 
-                                <br />
+                            <br />
 
-                               <%-- <div class='col-md-8'></div>--%>
-                                
-                                <div style="text-align:right; margin-right: 10px;">
+                            <%-- <div class='col-md-8'></div>--%>
+                                
+                               <div style="text-align: right; margin-right: 10px;">
 
-                                    <strong>Download Format:</strong>
+                                <strong>Download Format:</strong>
 
-                                    <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False"/>
+                                <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False" />
 
-                                    <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False"/>
+                                <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False" />
 
-                                    <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False"/>
+                                <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False" />
 
-                                    <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False"/>
-                                
-                                </div>
-                            </div>
-                        </div> 
-                    </div> 
-                </div> 
-            </div> 
+                                <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False" />
+                                
+                               </div>
+                        </div>
+                    </div> 
+                   </div> 
+               </div> 
+           </div> 
 
         <%--<style>
             button:active{
@@ -549,17 +548,17 @@
                 font-weight: bold;
             }
         </style>--%>
-        
+        
 
     
-     <div class="pdsa-submit-progress hidden">
-        <i class="fa fa-2x fa-spinner fa-spin"></i>
-        <label>Please wait while Downloading...</label>
+    <div class="pdsa-submit-progress hidden">s
+         <i class="fa fa-2x fa-spinner fa-spin"></i>
+         <label>Please wait while Downloading...</label>
       </div>
 
-    <div id="moduleListTitle" class="pdsa-column-display hidden">
-        <%--<asp:Button id="b1" Text="Close" runat="server" OnClientClick="close()" />--%>
-    </div>
-   
-    </div> 
+     <div id="moduleListTitle" class="pdsa-column-display hidden">
+         <%--<asp:Button id="b1" Text="Close" runat="server" OnClientClick="close()" />--%>
+     </div>
+   
+    </div> 
 </asp:Content>
