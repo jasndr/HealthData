@@ -131,7 +131,7 @@ namespace HealthData2
             {
                 if (row.RowType == DataControlRowType.DataRow)
                 {
-                    
+                  
                     int yearFrom = 2015;
                     //int value = 1;
 
@@ -139,10 +139,7 @@ namespace HealthData2
                     {
                         string chkBoxId = "chkRow" + yearFrom.ToString();
                         CheckBox chkBox = row.FindControl(chkBoxId) as CheckBox;
-
-                        Response.Write("<script>alert("+chkBox.ClientID+");</script>");
-                        Response.Write("<script>alert('Ano ba naman yan!');</script>");
-
+                        
 
                         if (chkBox.Enabled)
                         {
@@ -151,22 +148,25 @@ namespace HealthData2
                             //XPathNodeIterator NodeIter;
                             XPathItem nodeItem;
                             XPathNavigator nav;
-                            
 
                             nav = docNav.CreateNavigator();
                             strExpression = String.Format("/BRFSS_Columns/File[YearFrom='{0}']/ColumnName", yearFrom);
                            
                             nodeItem = nav.SelectSingleNode(strExpression);
 
+                            //Response.Write("<script>alert('The strExpression is "+strExpression+"')</script>");
+
                             if (nodeItem != null)
                             {
                                 chkBox.Attributes.Add("YearFrom", yearFrom.ToString());
-                                chkBox.Attributes.Add("ColumnName", nodeItem.Value);
+                                chkBox.Attributes.Add("ColumnName", nodeItem.Value);   
 
                             }
 
                             strExpression = String.Format("/BRFSS_Columns/File[YearFrom='{0}']/CodeBook", yearFrom);
                             nodeItem = nav.SelectSingleNode(strExpression);
+
+                           // Response.Write("<script>alert('The nodeItem is : "+nodeItem+"')</script>");
 
                             if (nodeItem != null)
                             {

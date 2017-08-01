@@ -78,8 +78,7 @@
 
                 //--Test to view column name and id--//
                 //alert($(CheckBox).attr('id') + '\n ' + chkbox_year + '\n' + chkbox_codebook + '\n' + chkbox_special);
-              
-               
+         
 
                 //Unhide viewbox
                 $(".pdsa-column-display").removeClass("hidden");
@@ -87,15 +86,15 @@
 
                 var columns = $(CheckBox).parent().attr('columnname').split(',');
                 //---> Set id, year, cookieID, specialID, codebook
-                var id = $(CheckBox).parent.attr('yearfrom');
-                var year = $(CheckBox).parent.attr('yearfrom');
+                var id = $(CheckBox).parent().attr('yearfrom');
+                var year = $(CheckBox).parent().attr('yearfrom');
                 var codebook = $(CheckBox).parent().attr('codebook');
                 var cookieId = year + "cookie";
 
-                //alert(year);
-                alert("Kamusta kayong lahat diyan?  Mucho salsa.");
+                //alert(columns + '/n ' + id + '/n ' + year + '/n ' + codebook + '/n ' + cookieId);
+                //alert('Kamusta kayong lahat diyan?  Mucho salsa.');
                 
-                var specialId = (395 * parseFload(year));
+                var specialId = (395 * parseFloat(year));
 
                 //---> Create HTML elements of page
                 var html = "<h5 style='color: green;'><strong><a href='" + codebook + "' style='color: green;' target='_blank' title='code book'" + "'> BRFSS " + year + " Datasets</a></strong></h5>"
