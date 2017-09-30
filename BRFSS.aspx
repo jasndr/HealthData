@@ -98,7 +98,7 @@
 
                 //---> Create HTML elements of page
                 var html = "<h5 style='color: green;'><strong><a href='" + codebook + "' style='color: green;' target='_blank' title='code book'" + "'> BRFSS " + year + " Datasets</a></strong></h5>"
-                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-xs' value='Select All' onclick='selectAll2(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll2(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'>"
+                html += "<input type='button' id='btnSelectAll' class='btn btn-success btn-xs' value='Select All' onclick='selectAll(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'><input type='button' id='btnDeselectAll' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'>"
                 html += "<span id='closeDiv' onclick='closeWindow()'>X</span><br />&nbsp;"
                 html += "<div class='row'>";
                 for (var i = 0; i < columns.length - 1; i++) {
@@ -136,7 +136,7 @@
 
                //---> Add row of buttons
                 html += "<div class='row'><br />&nbsp;</div>"
-                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll2' class='btn btn-success btn-xs' value='Select All' onclick='selectAll2(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'><input type='button' id='btnDeselectAll2' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll2(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary btn-xs' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
+                html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll2' class='btn btn-success btn-xs' value='Select All' onclick='selectAll(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'><input type='button' id='btnDeselectAll2' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary btn-xs' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
                 html += "</div>";
  
                // alert('id: ' + id + '\n year: ' + year + '\n cookieID: ' + cookieID + '\n specialID: ' + specialID + '\n codebook: ' + codebook);
@@ -213,7 +213,7 @@
         function deSelectAll(specialId, cookieId) {
             $(':checkbox').each(function () {
                 var pId = this.parentNode.id;
-                if (pId == specialId && this.id != 'SEQN') {
+                if (pId == specialId && this.id != ' SEQNO') {
                     $(this).prop('checked', false);
                     dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
                 }
@@ -282,6 +282,7 @@
             $(".pdsa-submit-progress").addClass("hidden");
             $('#MainContent_btnSubmit').prop("disabled", false);
             location.reload();
+            location.reload();
 
         }
 
@@ -336,31 +337,9 @@
       <div id="brfssTable" class="row container" runat="server">
 
 
-          <div class="text-center" style="margin-bottom: 20px;">
-              <asp:CheckBoxList ID ="brfssCheckboxes" runat="server" RepeatDirection="Horizontal" RepeatColumns="5" ClientIDMode="Static">
-                  <asp:ListItem Text="2015" Value="2015"></asp:ListItem>
-                  <asp:ListItem Text="2014" Value="2014"></asp:ListItem>
-                  <asp:ListItem Text="2013" Value="2013"></asp:ListItem>
-                  <asp:ListItem Text="2012" Value="2012"></asp:ListItem>
-                  <asp:ListItem Text="2011" Value="2011"></asp:ListItem>
-                  <asp:ListItem Text="2010" Value="2010"></asp:ListItem>
-                  <asp:ListItem Text="2009" Value="2009"></asp:ListItem>
-                  <asp:ListItem Text="2008" Value="2008"></asp:ListItem>
-                  <asp:ListItem Text="2007" Value="2007"></asp:ListItem>
-                  <asp:ListItem Text="2006" Value="2006"></asp:ListItem>
-                  <asp:ListItem Text="2005" Value="2005"></asp:ListItem>
-                  <asp:ListItem Text="2004" Value="2004"></asp:ListItem>
-                  <asp:ListItem Text="2003" Value="2003"></asp:ListItem>
-                  <asp:ListItem Text="2002" Value="2002"></asp:ListItem>
-                  <asp:ListItem Text="2001" Value="2001"></asp:ListItem>
-              </asp:CheckBoxList>
-          </div>
-          
-          <hr />
-
                       <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow-x:auto; position: relative;">
                         <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
-                                                            class="table table-bordered container-fluid"
+                                                            CssClass="table table-bordered container-fluid"
                                                             OnPreRender="GridViewStudy_PreRender"
                                                             OnRowDataBound="GridViewStudy_DataBound"
                                                             OnRowCreated="GridViewStudy_RowCreated"
@@ -373,7 +352,7 @@
                                         
                                         <asp:TemplateField HeaderText="2015">
                                             <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2015" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                                                <asp:CheckBox ID="chkRow2015" runat="server"  onclick="javascript:ShowColumns(this)"></asp:CheckBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 

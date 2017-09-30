@@ -21,9 +21,17 @@ namespace HealthData2
         public SasServer activeSession = null;
 
         //first dictionary for group, second for year, tree might be a better structure
+
+        //Dictionary for group --------------------------------------------> (not required for BRFSS)
         Dictionary<string, List<BRFSSFile>> _tables;
+        //Dictionary for year
         Dictionary<string, Dictionary<string, List<BRFSSFile>>> _yeartables = new Dictionary<string, Dictionary<string, List<BRFSSFile>>>();
 
+        /// <summary>
+        /// Loads the Page
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -33,18 +41,24 @@ namespace HealthData2
 
         }
 
+        /// <summary>
+        /// Generates GridView table
+        /// </summary>
         private void BindGrid()
         {
+            //File path to ~/App_Data/BRFSS_study.xml
             string filePath = ConfigurationManager.AppSettings["BRFSS"];
+            //Map to aforementioned (^) file path
             string path = Server.MapPath(filePath);
+            //Creates new DataTable to display on Gridview
             DataTable dt = new DataTable("Study");
 
             try
             {
-                //Add Columns in datatable - Column names must match XML File nodes 
+                //Add Columns in datatable - Column names must match XML File nodes (in aformentioned file path) 
                 dt.Columns.Add("Section", typeof(System.String));
 
-                // Reading the XML file and display data in the gridview         
+                // Reading the XML file and display data in the gridview
                 dt.ReadXml(path);
             }
             catch (Exception e)
@@ -52,20 +66,27 @@ namespace HealthData2
                 throw e;
             }
 
-            //GridViewStudy.DataSource = dt;
+            //GridViewStudy.DataSource = dt; (Originally commented out)
+
+            //Connects Gridview with DataTable and aligns with group header [Calls InsertGroupHeader(DataTable), see below]
             GridViewStudy.DataSource = InsertGroupHeaderRow(dt);
+            //Binds Data to Gridview
             GridViewStudy.DataBind();
 
         }
 
-
+        /// <summary>
+        /// Partitions data items by their group headers (years)
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns>DataTable organized by group header as assigned</returns>
         private DataTable InsertGroupHeaderRow(DataTable dt)
         {
             //clone the dataschema into a new table
             //this is our final sorted list
             DataTable dtNew = dt.Clone();
 
-            //group rows by productsubcategory
+            //group rows by productsubcategory (not necessary for BRFSS, but useful to create one row of sections)
             var results = from myRow in dt.AsEnumerable()
                           group myRow by myRow["Section"]
                               into grp
@@ -95,7 +116,12 @@ namespace HealthData2
             return dtNew;
         }
 
-
+        /// <summary>
+        /// Creates header if row is a header row.  
+        /// If not, adds more height for increased visibility.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void GridViewStudy_DataBound(object sender, GridViewRowEventArgs e)
         {
             //check if it is a datarow or header row
@@ -114,19 +140,34 @@ namespace HealthData2
 
         }
 
+        /// <summary>
+        /// Disables checkbox if file doesn't exist.
+        /// Gridview iterates this class before assigning 
+        /// data to checkboxes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void GridViewStudy_PreRender(object sender, EventArgs e)
         {
             //// disable check box if file doesn't exist
             DisableCheckBox(GridViewStudy);
         }
 
+        /// <summary>
+        /// Disables checkbox if it doesn't exist in the XML file. ----------> (Not required for BRFSS)
+        /// </summary>
+        /// <param name="GridViewStudy"></param>
         private void DisableCheckBox(GridView GridViewStudy)
         {
+            //Provides linkage to "~/App_Data/BRFSS_columns.xml"
             string filePath = ConfigurationManager.AppSettings["BRFSSFile"];
             string path = Server.MapPath(filePath);
-            XPathDocument docNav = new XPathDocument(path); //(@"C:\VS2013\HealthData2\App_Data\NHANES_column.xml");
+
+            //Adds navigation to columns XML file
+            XPathDocument docNav = new XPathDocument(path);
             String strExpression;    
 
+            //For each gridview row, if checkbox
             foreach (GridViewRow row in GridViewStudy.Rows)
             {
                 if (row.RowType == DataControlRowType.DataRow)
@@ -187,13 +228,37 @@ namespace HealthData2
             }
         }
 
-        //private string GetColumnName(int yearFrom, string folderName)
+        //(Originally commented out from DisableCheckBox method, so not required)
+        // ----------------------------------------------------------------------
+        //private string GetColumnName(int yearFrom, string folderName) 
         //{
         //    //find column name from xml file
         //    StringBuilder sb = new StringBuilder();
 
         //    return sb.ToString();
         //}
+
+        // (Orginally commented out from GridViewStudy_PreRender method, so not required)
+        // ------------------------------------------------------------------------------
+        //private void MergeGridviewRows(GridView gridView)
+        //{
+        //    for (int rowIndex = gridView.Rows.Count - 2; rowIndex >= 0; rowIndex--)
+        //    {
+        //        GridViewRow row = gridView.Rows[rowIndex];
+        //        GridViewRow previousRow = gridView.Rows[rowIndex + 1];
+
+        //        string s1 = ((Label)row.Cells[1].FindControl("lblGroupName")).Text;
+        //        string s2 = ((Label)previousRow.Cells[1].FindControl("lblGroupName")).Text;
+        //        if (s1 == s2)
+        //        {
+        //            row.Cells[1].RowSpan = previousRow.Cells[1].RowSpan < 2 ? 2 : previousRow.Cells[1].RowSpan + 1;
+
+        //            previousRow.Cells[1].Visible = false;
+        //        }
+        //    }
+        //}
+
+
 
 
 
@@ -202,11 +267,20 @@ namespace HealthData2
         /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
         //---------Start .txt Button
+        /// <summary>
+        /// Download .txt file from dataset
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnSubmit_Click_Txt(object sender, EventArgs e)
         {
 
+
+            //Tracks current session
             string sessionId = this.Session.SessionID;
 
+            //Creates temporary folder to store information, 
+            //with current date value in year, month, day format
             string folder = Path.Combine(Path.GetTempPath(), DateTime.Now.ToString("yyyyMMdd"));
             if (!Directory.Exists(folder) && !File.Exists(folder))
             {
@@ -214,27 +288,40 @@ namespace HealthData2
             }
 
             string studyYear = "";
-            int studyYearFrom = 0;
+           // int studyYearFrom = 0;
+
+            //Adds a new array list of columns of GridViewStudy
             List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[15];
             for (int i = 0; i < 15; i++)
             {
                 studyArrayList[i] = new List<BRFSSFile>();
             }
 
+            //Creates array of checkbox with distinct ids for each rows
             CheckBox[] checkBoxArray = new CheckBox[15];
             foreach(GridViewRow row in GridViewStudy.Rows)
             {
+                //Checks if row is datatype (not required to check in BRFSS)
                 if (row.RowType == DataControlRowType.DataRow)
                 {
                     int yearFrom = 2015;
-                    for (int i = 15; i>0; i--)
+                    for (int i = 0; i<15; i++)
                     {
+                        //Adds checkboxid name from each row and finds & binds to GridView
                         string chkBoxId = "chkRow" + yearFrom.ToString();
                         checkBoxArray[i] = row.FindControl(chkBoxId) as CheckBox;
 
+                        //
                         if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
                         {
+
+                            // [Assigned label and checks if label used to be in this area, 
+                            //                          but not used in BRFSS, so redacted]
+
+                            // Creates cookiename from yearfrom information
                             string cookieName = yearFrom.ToString() + "cookie";
+                            //As long as cookie exist, a new instance of BRFSS file model
+                            //and adds year from and column name information 
                             if(Request.Cookies[cookieName] != null)
                             {
                                 BRFSSFile file = new BRFSSFile()
@@ -243,13 +330,14 @@ namespace HealthData2
                                     ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
                                 };
 
+                                //Adds file of BRFSS information as into column
                                 studyArrayList[i].Add(file);
 
                             }
                  
 
                         }
-
+                        //Increments yearly from 2015 to 2001
                         yearFrom -= 1;
 
                     }
@@ -257,17 +345,39 @@ namespace HealthData2
             }
 
 
-            int yearHeader = 4;
-            for (int i = 15; i < 0; i--)
+            int yearHeader = 0;
+            for (int i = 0; i < 15; i++)
             {
-                studyYear = "" + studyYearFrom;
+                studyYear = GridViewStudy.HeaderRow.Cells[yearHeader].Text;
 
                 if (studyArrayList[i].Count > 0)
                 {
-
+                    //Instantiates new group dictionary and new listgroup 
                     _tables = new Dictionary<string, List<BRFSSFile>>();
-                    List<string> listGroup = new List<string>();
-                 
+                   List<string> listGroup = new List<string>();
+
+                    foreach(BRFSSFile file in studyArrayList[i])
+                    {
+
+                        listGroup.Add(file.YearFrom);
+
+                    }
+
+                    foreach (string groupName in listGroup)
+                    {
+                        List<BRFSSFile> sameGroupList = new List<BRFSSFile>();
+                        foreach (BRFSSFile file in studyArrayList[i])
+                        {
+                            if (file.YearFrom.Equals(groupName))
+                            {
+                                sameGroupList.Add(file);
+                            }
+                        }
+
+                        _tables.Add(groupName, sameGroupList);
+
+                    }
+                    
                     _yeartables.Add(studyYear, _tables);
                 }
 
@@ -277,11 +387,8 @@ namespace HealthData2
             ////call SAS
             string macroPath = ConfigurationManager.AppSettings["BRFSSMacro"];
             string macroSource = Server.MapPath(macroPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
-
             string fileSource = ConfigurationManager.AppSettings["BRFSSSource"];
-
             string SASCode = SASBuilder.BuildBRFSSCode(_yeartables, folder, macroSource, fileSource, 1);
-
 
             SASBuilder.RunSAS(SASCode);
 
@@ -296,6 +403,7 @@ namespace HealthData2
             //open file dialog
             String FileName = @"merged.txt";
             String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
+ 
 
             if (DownloadableProduct_Tracking(FilePath, FileName))
             {

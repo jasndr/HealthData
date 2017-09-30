@@ -8,6 +8,9 @@ namespace HealthData2.Models
     public class BRFSSFile
     {
         public string YearFrom { get; set; }
+        public string FolderName { get; set; }
         public string ColumnName { get; set; }
+        public string CodeBook { get; set; }
+
     }
 }

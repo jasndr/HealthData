@@ -376,7 +376,8 @@
             panelHeader.prependTo($('#results_table')); 
 
         });
-       
+
+       
     </script>
 
     <style>
@@ -403,12 +404,14 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
-        <!-- /.row -->           
+        <!-- /.row -->
+           
            <div class="row">
             <input type="hidden" id="download_token_value_id" runat="server" >
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-body">                           
+                    <div class="panel-body">
+                           
                        
                            <div style="position: relative;">
                             <div id="results_table" class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow: scroll">
@@ -425,7 +428,8 @@
                                     <AlternatingRowStyle BackColor="LightYellow" />
                                     <Columns>
                                         <asp:TemplateField HeaderText="DataSet">
-                                            <ItemTemplate>   
+                                            <ItemTemplate>
+   
                                                 <asp:Image ID="imgCollapse" runat="server" onclick="javascript:Toggle(this);"
                                                     Visible="true" ImageUrl="~/images/collapse.gif"
                                                     Height="17px" Width="14px" />
@@ -438,7 +442,8 @@
                                             <ItemTemplate>
                                                 <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
                                             </ItemTemplate>
-                                        </asp:TemplateField>     
+                                        </asp:TemplateField>
+     
                                         
                                         <asp:TemplateField HeaderText="GroupShortName" Visible="False">
                                             <ItemTemplate>
@@ -499,26 +504,30 @@
                                                 <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
-                                                                                                               
+
+                                                                                                               
                                         <asp:TemplateField HeaderText="FileExists" Visible="false">
                                             <ItemTemplate>
                                                 <asp:Label ID="lblFileExists" runat="server" Text='<%# Bind("FileExists") %>'></asp:Label>
                                             </ItemTemplate>
                                         </asp:TemplateField>
 
-                                        
+
+                                        
 
                                     </Columns>
                                 </asp:GridView>
 
 
-                            </div></div>
+                            </div>
+</div>
                         <div class="row">
 
                             <br />
 
                             <%-- <div class='col-md-8'></div>--%>
-                                
+
+                                
                                <div style="text-align: right; margin-right: 10px;">
 
                                 <strong>Download Format:</strong>
@@ -530,13 +539,18 @@
                                 <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False" />
 
                                 <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False" />
-                                
+
+                                
                                </div>
                         </div>
-                    </div> 
-                   </div> 
-               </div> 
-           </div> 
+                    </div>
+ 
+                   </div>
+ 
+               </div>
+ 
+           </div>
+ 
 
         <%--<style>
             button:active{
@@ -548,7 +562,8 @@
                 font-weight: bold;
             }
         </style>--%>
-        
+
+        
 
     
     <div class="pdsa-submit-progress hidden">s
@@ -559,6 +574,8 @@
      <div id="moduleListTitle" class="pdsa-column-display hidden">
          <%--<asp:Button id="b1" Text="Close" runat="server" OnClientClick="close()" />--%>
      </div>
-   
-    </div> 
+
+   
+    </div>
+ 
 </asp:Content>

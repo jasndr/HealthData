@@ -183,7 +183,7 @@ namespace HealthData2
                 string year = pair.Key;
                 Dictionary<string, List<BRFSSFile>> files = pair.Value;
 
-                rootLibName = 'Y' + year.Split('-')[0];
+                rootLibName = 'Y' + year;   //.Split('-')[0];
                 sb.AppendFormat("libname {0} '{1}';", rootLibName, libFolder);
                 sb.AppendLine();
 
