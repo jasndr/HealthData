@@ -45,7 +45,7 @@
     
 
     <script src="Scripts/jquery.cookie.js"></script>
-    <script src="Scripts/jquery-1.10.2.js"></script>
+    <%--<script src="Scripts/jquery-1.10.2.js"></script>--%>
     <script type="text/javascript">
         var Grid = null;
         var UpperBound = 0;
@@ -220,47 +220,6 @@
 
             });
         }
-        
-
-        /************************************************************************************
-        //Selects all checkboxes in the current window
-        function selectAll2(specialId, cookieId) {
-            
-            $(':checkbox').each(function () {
-                //Obtains the parent node
-                var pId = this.parentNode.id;
-                //If the parent node equals the special id specified, then check this box
-                if (pId == specialId) {
-                    $(this).prop('checked', true);
-
-                    //add cookie
-                    if (dict[cookieId]) {
-                        dict[cookieId] += this.id + ',';
-                    }
-                    else {
-                        ClearCookie(cookieId);
-                        dict[cookieId] = this.id + ',';
-                    }
-                    //alert('pId' + pId + '\nspecialId' + specialId);
-                }
-
-
-            });
-        }
-
-        //Deselects all checkboxes in the current window
-        function deSelectAll2(specialId, cookieId) {
-            $(':checkbox').each(function () {
-                var pId = this.parentNode.id;
-                if (pId == specialId && this.id != ' SEQNO') {
-                    $(this).prop('checked', false);
-                    dict[cookieId] = dict[cookieId].replace(this.id + ',', '');
-                }
-
-
-            });
-        }
-        ****************************************************************************************/
 
 
         var fileDownloadCheckTimer;
@@ -274,6 +233,7 @@
                 if (cookieValue == token)
                     finishDownload();
             }, 1000);
+            
         }
 
         function finishDownload() {
@@ -282,8 +242,6 @@
             $(".pdsa-submit-progress").addClass("hidden");
             $('#MainContent_btnSubmit').prop("disabled", false);
             location.reload();
-            location.reload();
-
         }
 
        
@@ -335,6 +293,7 @@
             <%-- -- /.row --%>  
 
       <div id="brfssTable" class="row container" runat="server">
+          <input type="hidden" id="download_token_value_id" runat="server" />
 
 
                       <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow-x:auto; position: relative;">
@@ -451,13 +410,13 @@
 
             <strong>Download Format:</strong>
 
-            <asp:Button ID="Button1" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" CssClass="btn btn-success btn-xs" UseSubmitBehavior="False"/>
+            <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" CssClass="btn btn-success btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button2" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" CssClass="btn btn-danger btn-xs" UseSubmitBehavior="False"/>
+            <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" CssClass="btn btn-danger btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button3" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" CssClass="btn btn-default btn-xs" UseSubmitBehavior="False"/>
+            <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" CssClass="btn btn-default btn-xs" UseSubmitBehavior="False"/>
 
-            <asp:Button ID="Button4" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()"  CssClass="btn btn-primary btn-xs" UseSubmitBehavior="False"/>
+            <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()"  CssClass="btn btn-primary btn-xs" UseSubmitBehavior="False"/>
                                 
           </div>
 

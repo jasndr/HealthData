@@ -274,6 +274,57 @@ namespace HealthData2
         /// <param name="e"></param>
         protected void btnSubmit_Click_Txt(object sender, EventArgs e)
         {
+            produceDatasets(sender, e, 1);   
+        } 
+        //------------------- End .txt Button
+
+        //---------Start SPSS Button
+        /// <summary>
+        /// Download .sav file from dataset
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSubmit_Click_Spss(object sender, EventArgs e)
+        {
+            produceDatasets(sender, e, 2);
+        } 
+        //------------------- End SPSS Button
+
+        //---------Start .CSV Button
+        /// <summary>
+        /// Download .csv file from dataset
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSubmit_Click_Csv(object sender, EventArgs e)
+        {
+            produceDatasets(sender, e, 3);
+        }
+        //------------------- End CSV Button
+
+        //-----------------Start SAS Button
+        /// <summary>
+        /// Download .sas7bat file from dataset
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            produceDatasets(sender, e, 4);
+        }
+        //-------- End SAS Button
+
+
+        //---------Start produceDatasets
+        /// <summary>
+        /// Creates datasets based on selected BRFSS data values.
+        /// Downloads file based on selected download format.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <param name="downloadFormat">1 = txt file, 2 = sav file, 3 = csv file, 4 = sas file</param>
+        protected void produceDatasets(object sender, EventArgs e, int downloadFormat)
+        {
 
 
             //Tracks current session
@@ -288,7 +339,7 @@ namespace HealthData2
             }
 
             string studyYear = "";
-           // int studyYearFrom = 0;
+            // int studyYearFrom = 0;
 
             //Adds a new array list of columns of GridViewStudy
             List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[15];
@@ -299,13 +350,13 @@ namespace HealthData2
 
             //Creates array of checkbox with distinct ids for each rows
             CheckBox[] checkBoxArray = new CheckBox[15];
-            foreach(GridViewRow row in GridViewStudy.Rows)
+            foreach (GridViewRow row in GridViewStudy.Rows)
             {
                 //Checks if row is datatype (not required to check in BRFSS)
                 if (row.RowType == DataControlRowType.DataRow)
                 {
                     int yearFrom = 2015;
-                    for (int i = 0; i<15; i++)
+                    for (int i = 0; i < 15; i++)
                     {
                         //Adds checkboxid name from each row and finds & binds to GridView
                         string chkBoxId = "chkRow" + yearFrom.ToString();
@@ -322,7 +373,7 @@ namespace HealthData2
                             string cookieName = yearFrom.ToString() + "cookie";
                             //As long as cookie exist, a new instance of BRFSS file model
                             //and adds year from and column name information 
-                            if(Request.Cookies[cookieName] != null)
+                            if (Request.Cookies[cookieName] != null)
                             {
                                 BRFSSFile file = new BRFSSFile()
                                 {
@@ -334,7 +385,7 @@ namespace HealthData2
                                 studyArrayList[i].Add(file);
 
                             }
-                 
+
 
                         }
                         //Increments yearly from 2015 to 2001
@@ -344,7 +395,7 @@ namespace HealthData2
                 }
             }
 
-
+            //Adds group information for each year for BuildSAS code
             int yearHeader = 0;
             for (int i = 0; i < 15; i++)
             {
@@ -354,9 +405,9 @@ namespace HealthData2
                 {
                     //Instantiates new group dictionary and new listgroup 
                     _tables = new Dictionary<string, List<BRFSSFile>>();
-                   List<string> listGroup = new List<string>();
+                    List<string> listGroup = new List<string>();
 
-                    foreach(BRFSSFile file in studyArrayList[i])
+                    foreach (BRFSSFile file in studyArrayList[i])
                     {
 
                         listGroup.Add(file.YearFrom);
@@ -377,7 +428,7 @@ namespace HealthData2
                         _tables.Add(groupName, sameGroupList);
 
                     }
-                    
+
                     _yeartables.Add(studyYear, _tables);
                 }
 
@@ -401,419 +452,41 @@ namespace HealthData2
             }
 
             //open file dialog
-            String FileName = @"merged.txt";
+            String FileName = "";
+
+            switch (downloadFormat)
+            {
+                case 1:
+                    FileName = @"merged.txt";
+                    break;
+                case 2:
+                    FileName = @"merged.sav";
+                    break;
+                case 3:
+                    FileName = @"merged.csv";
+                    break;
+                case 4:
+                    FileName = @"merged.sas7bat";
+                    break;
+                default:
+                    FileName = @"merged.sas7bdat";
+                    break;
+            }
+
             String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
- 
+
 
             if (DownloadableProduct_Tracking(FilePath, FileName))
             {
+               
                 //Response.Write("<script>alert('reached DownloadableProduct_Tracking() point!!!');</script>");
             }
             else
             {
                 Response.Write("<script>alert('failed');</script>");
             };
-        } //------------------- End .txt Button
+        } //------------------- End produceDatasets
 
-
-        //---------Start SPSS Button
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        protected void btnSubmit_Click_Spss(object sender, EventArgs e)
-        {
-            //get cookies
-            //string s = Request.Cookies["1999/Dietary/Dietary Interview - Individual Foods"].Value;
-
-            //return;
-
-            string sessionId = this.Session.SessionID;
-
-            string folder = Path.Combine(Path.GetTempPath(), DateTime.Now.ToString("yyyyMMdd"));    //Guid.NewGuid().ToString());
-            if (!Directory.Exists(folder) && !File.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-
-            string studyYear = "";
-            int studyYearFrom = 0;
-            List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[8];
-            for (int i = 0; i < 8; i++)
-            {
-                studyArrayList[i] = new List<BRFSSFile>();
-            }
-
-            CheckBox[] checkBoxArray = new CheckBox[15];
-
-            //Adds label for each checkbox in web form
-            foreach (Control ctl in Form.FindControl("brfssTable").Controls)
-            {
-
-                if (ctl is CheckBox)
-                {
-                    if (((CheckBox)ctl).Checked)
-                    {
-
-                        int yearFrom = 2001;
-                        for (int i = 0; i < 15; i++)
-                        {
-                            string chkBoxId = "chk" + yearFrom.ToString("yy");
-                            checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox;
-
-                            if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
-                            {
-
-                                string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
-                                if (Request.Cookies[cookieName] != null)
-                                {
-                                    BRFSSFile file = new BRFSSFile()
-                                    {
-                                        YearFrom = yearFrom.ToString(),
-                                        ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
-                                    };
-
-                                    studyArrayList[i].Add(file);
-                                }
-
-                            }
-
-                            yearFrom++;
-                        }
-
-
-
-                    }
-                }
-
-
-
-
-            }
-
-            int yearHeader = 4;
-            for (int i = 0; i < 15; i++)
-            {
-                studyYear = "" + studyYearFrom;
-
-                if (studyArrayList[i].Count > 0)
-                {
-
-                    _tables = new Dictionary<string, List<BRFSSFile>>();
-                    List<string> listGroup = new List<string>();
-
-
-                    //foreach (string groupName in listGroup)
-                    //{
-                    //    List<BRFSSFile> sameGroupList = new List<BRFSSFile>();
-                    //    _tables.Add(groupName, sameGroupList);
-                    //}
-
-                    _yeartables.Add(studyYear, _tables);
-                }
-
-                yearHeader += 1;
-            }
-
-            ////call SAS
-            string macroPath = ConfigurationManager.AppSettings["BRFSSMacro"];
-            string macroSource = Server.MapPath(macroPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
-
-            string fileSource = ConfigurationManager.AppSettings["BRFSSSource"];
-
-            string SASCode = SASBuilder.BuildBRFSSCode(_yeartables, folder, macroSource, fileSource, 1);
-
-
-            SASBuilder.RunSAS(SASCode);
-
-            //download SAS code
-            string codeFileName = @"sascode.txt";
-            string codeFilePath = string.Format("{0}\\{1}", folder, codeFileName);
-            using (StreamWriter sw = File.CreateText(codeFilePath))
-            {
-                sw.Write(SASCode);
-            }
-
-            //open file dialog
-            String FileName = @"merged.sav";
-            String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
-
-            if (DownloadableProduct_Tracking(FilePath, FileName))
-            {
-                //Request.Headers.Add(Request.Headers);
-                //Response.Redirect(Request.RawUrl);
-
-                //Response.AppendHeader("Refresh", "0;URL=/NHANES.aspx");
-            }
-            else
-            {
-                Response.Write("<script>alert('failed');</script>");
-            };
-        } //------------------- End SPSS Button
-
-        //---------Start .CSV Button
-        protected void btnSubmit_Click_Csv(object sender, EventArgs e)
-        {
-            //get cookies
-            //string s = Request.Cookies["1999/Dietary/Dietary Interview - Individual Foods"].Value;
-
-            //return;
-
-            string sessionId = this.Session.SessionID;
-
-            string folder = Path.Combine(Path.GetTempPath(), DateTime.Now.ToString("yyyyMMdd"));    //Guid.NewGuid().ToString());
-            if (!Directory.Exists(folder) && !File.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-
-            string studyYear = "";
-            int studyYearFrom = 0;
-            List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[8];
-            for (int i = 0; i < 8; i++)
-            {
-                studyArrayList[i] = new List<BRFSSFile>();
-            }
-
-            CheckBox[] checkBoxArray = new CheckBox[15];
-
-            //Adds label for each checkbox in web form
-            foreach (Control ctl in Form.FindControl("brfssTable").Controls)
-            {
-
-                if (ctl is CheckBox)
-                {
-                    if (((CheckBox)ctl).Checked)
-                    {
-
-                        int yearFrom = 2001;
-                        for (int i = 0; i < 15; i++)
-                        {
-                            string chkBoxId = "chk" + yearFrom.ToString("yy");
-                            checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox;
-
-                            if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
-                            {
-
-                                string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
-                                if (Request.Cookies[cookieName] != null)
-                                {
-                                    BRFSSFile file = new BRFSSFile()
-                                    {
-                                        YearFrom = yearFrom.ToString(),
-                                        ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
-                                    };
-
-                                    studyArrayList[i].Add(file);
-                                }
-
-                            }
-
-                            yearFrom++;
-                        }
-
-
-
-                    }
-                }
-
-
-
-
-            }
-
-            int yearHeader = 4;
-            for (int i = 0; i < 15; i++)
-            {
-                studyYear = "" + studyYearFrom;
-
-                if (studyArrayList[i].Count > 0)
-                {
-
-                    _tables = new Dictionary<string, List<BRFSSFile>>();
-                    List<string> listGroup = new List<string>();
-
-
-                    //foreach (string groupName in listGroup)
-                    //{
-                    //    List<BRFSSFile> sameGroupList = new List<BRFSSFile>();
-                    //    _tables.Add(groupName, sameGroupList);
-                    //}
-
-                    _yeartables.Add(studyYear, _tables);
-                }
-
-                yearHeader += 1;
-            }
-
-            ////call SAS
-            string macroPath = ConfigurationManager.AppSettings["BRFSSMacro"];
-            string macroSource = Server.MapPath(macroPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
-
-            string fileSource = ConfigurationManager.AppSettings["BRFSSSource"];
-
-            string SASCode = SASBuilder.BuildBRFSSCode(_yeartables, folder, macroSource, fileSource, 1);
-
-
-            SASBuilder.RunSAS(SASCode);
-
-            //download SAS code
-            string codeFileName = @"sascode.txt";
-            string codeFilePath = string.Format("{0}\\{1}", folder, codeFileName);
-            using (StreamWriter sw = File.CreateText(codeFilePath))
-            {
-                sw.Write(SASCode);
-            }
-
-            //open file dialog
-            String FileName = @"merged.csv";
-            String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
-
-            if (DownloadableProduct_Tracking(FilePath, FileName))
-            {
-                //Request.Headers.Add(Request.Headers);
-                //Response.Redirect(Request.RawUrl);
-
-                //Response.AppendHeader("Refresh", "0;URL=/NHANES.aspx");
-            }
-            else
-            {
-                Response.Write("<script>alert('failed');</script>");
-            };
-        } //------------------- End CSV Button
-
-
-        //-----------------Start SAS Button
-        protected void btnSubmit_Click(object sender, EventArgs e)
-        {
-            //get cookies
-            //string s = Request.Cookies["1999/Dietary/Dietary Interview - Individual Foods"].Value;
-
-            //return;
-
-            string sessionId = this.Session.SessionID;
-
-            string folder = Path.Combine(Path.GetTempPath(), DateTime.Now.ToString("yyyyMMdd"));    //Guid.NewGuid().ToString());
-            if (!Directory.Exists(folder) && !File.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
-
-            string studyYear = "";
-            int studyYearFrom = 0;
-            List<BRFSSFile>[] studyArrayList = new List<BRFSSFile>[8];
-            for (int i = 0; i < 8; i++)
-            {
-                studyArrayList[i] = new List<BRFSSFile>();
-            }
-
-            CheckBox[] checkBoxArray = new CheckBox[15];
-
-            //Adds label for each checkbox in web form
-            foreach (Control ctl in Form.FindControl("brfssTable").Controls)
-            {
-
-                if (ctl is CheckBox)
-                {
-                    if (((CheckBox)ctl).Checked)
-                    {
-
-                        int yearFrom = 2001;
-                        for (int i = 0; i < 15; i++)
-                        {
-                            string chkBoxId = "chk" + yearFrom.ToString("yy");
-                            checkBoxArray[i] = ctl.FindControl(chkBoxId) as CheckBox;
-
-                            if (checkBoxArray[i] != null && checkBoxArray[i].Checked)
-                            {
-
-                                string cookieName = yearFrom.ToString() + ctl.FindControl(chkBoxId).ClientID;
-                                if (Request.Cookies[cookieName] != null)
-                                {
-                                    BRFSSFile file = new BRFSSFile()
-                                    {
-                                        YearFrom = yearFrom.ToString(),
-                                        ColumnName = HttpUtility.UrlDecode(Request.Cookies[cookieName].Value)
-                                    };
-
-                                    studyArrayList[i].Add(file);
-                                }
-
-                            }
-
-                            yearFrom++;
-                        }
-
-
-
-                    }
-                }
-
-
-
-
-            }
-
-            int yearHeader = 4;
-            for (int i = 0; i < 15; i++)
-            {
-                studyYear = "" + studyYearFrom;
-
-                if (studyArrayList[i].Count > 0)
-                {
-
-                    _tables = new Dictionary<string, List<BRFSSFile>>();
-                    List<string> listGroup = new List<string>();
-
-
-                    //foreach (string groupName in listGroup)
-                    //{
-                    //    List<BRFSSFile> sameGroupList = new List<BRFSSFile>();
-                    //    _tables.Add(groupName, sameGroupList);
-                    //}
-
-                    _yeartables.Add(studyYear, _tables);
-                }
-
-                yearHeader += 1;
-            }
-
-            ////call SAS
-            string macroPath = ConfigurationManager.AppSettings["BRFSSMacro"];
-            string macroSource = Server.MapPath(macroPath); //@"C:\VS2013\HealthData2\SASMacro\combineall.txt";
-
-            string fileSource = ConfigurationManager.AppSettings["BRFSSSource"];
-
-            string SASCode = SASBuilder.BuildBRFSSCode(_yeartables, folder, macroSource, fileSource, 1);
-
-
-            SASBuilder.RunSAS(SASCode);
-
-            //download SAS code
-            string codeFileName = @"sascode.txt";
-            string codeFilePath = string.Format("{0}\\{1}", folder, codeFileName);
-            using (StreamWriter sw = File.CreateText(codeFilePath))
-            {
-                sw.Write(SASCode);
-            }
-
-            //open file dialog
-            String FileName = @"merged.sas7bdat";
-            String FilePath = string.Format("{0}\\{1}", folder, FileName);  //@"D:\NHANES_EXTRA\1999-2000\lab\Biochemistry Profile and Hormones\lab18.sas7bdat"; //Replace this
-
-            if (DownloadableProduct_Tracking(FilePath, FileName))
-            {
-                //Request.Headers.Add(Request.Headers);
-                //Response.Redirect(Request.RawUrl);
-
-                //Response.AppendHeader("Refresh", "0;URL=/NHANES.aspx");
-            }
-            else
-            {
-                Response.Write("<script>alert('failed');</script>");
-            };
-        }//-------- END SAS Button
 
         /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
@@ -938,7 +611,7 @@ namespace HealthData2
                         string _EncodedData = HttpUtility.UrlEncode(_DownloadableProductFileName, Encoding.UTF8) + lastUpdateTiemStamp;
 
                         Response.Clear();
-                        //Response.AppendCookie(new HttpCookie("fileDownloadToken", download_token_value_id.Value)); //downloadTokenValue will have been provided in the form submit via the hidden input field
+                        Response.AppendCookie(new HttpCookie("fileDownloadToken", download_token_value_id.Value)); //downloadTokenValue will have been provided in the form submit via the hidden input field
                         Response.Buffer = false;
                         Response.AddHeader("Accept-Ranges", "bytes");
                         Response.AppendHeader("ETag", "\"" + _EncodedData + "\"");

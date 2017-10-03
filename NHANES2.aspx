@@ -566,7 +566,7 @@
         
 
     
-    <div class="pdsa-submit-progress hidden">s
+    <div class="pdsa-submit-progress hidden">
          <i class="fa fa-2x fa-spinner fa-spin"></i>
          <label>Please wait while Downloading...</label>
       </div>
