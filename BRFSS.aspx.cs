@@ -512,8 +512,8 @@ namespace HealthData2
                 Array carriage, lineTypes, lines;
                 do
                 {
-                    SAS.LanguageServiceCarriageControl CarriageControl = new SAS.LanguageServiceCarriageControl();
-                    SAS.LanguageServiceLineType LineType = new SAS.LanguageServiceLineType();
+                    //SAS.LanguageServiceCarriageControl CarriageControl = new SAS.LanguageServiceCarriageControl();
+                    // SAS.LanguageServiceLineType LineType = new SAS.LanguageServiceLineType();
 
                     activeSession.Workspace.LanguageService.FlushLogLines(1000,
                         out carriage,

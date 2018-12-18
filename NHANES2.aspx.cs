@@ -56,7 +56,8 @@ namespace HealthData2
 
             //GridViewStudy.DataSource = dt;
             GridViewStudy.DataSource = InsertGroupHeaderRow(dt);
-            GridViewStudy.DataBind();  
+            GridViewStudy.DataBind();
+            
 
         }
 
@@ -267,8 +268,10 @@ namespace HealthData2
 
             //return;
 
+            
             string sessionId = this.Session.SessionID;
 
+            /// Create temporary
             string folder = Path.Combine(Path.GetTempPath(), DateTime.Now.ToString("yyyyMMdd"));    //Guid.NewGuid().ToString());
             if (!Directory.Exists(folder) && !File.Exists(folder))
             {
@@ -1272,6 +1275,7 @@ namespace HealthData2
         
 
     }
+
 
     //public class NHANESTable
     //{

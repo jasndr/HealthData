@@ -1,9 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeFile="BRFSS.aspx.cs" Inherits="HealthData2.BRFSS" %>
+
 <%--<%@ Register TagPrefix="fb" TagName="FileBrowser" Src="~/FileBrowser.ascx" %>--%>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
-    <header></header> 
+    <header></header>
 
     <script type="text/javascript">
         $(function () {
@@ -14,7 +15,10 @@
     </script>
 
     <div class="navbar navbar-default" style="margin-top: -60px;">
-        <img src="./images/Banner_Print(CIM).png" style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
+        <a href="Default.aspx">
+            <img src="./images/Banner_Print(CIM).png"
+                style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
+        </a>
     </div>
 
     <div class="navbar-default sidebar" style="margin-top: -.5%;">
@@ -37,12 +41,12 @@
             <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2003/pdf/codebook_03.pdf" target="_blank">2003</a></p>
             <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2002/pdf/codebook_02.pdf" target="_blank">2002</a></p>
             <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2001/pdf/codebook_01.pdf" target="_blank">2001</a></p>
-           <%-- <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2000/pdf/codebook_00.pdf" target="_blank">2000</a></p>--%>
+            <%-- <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2000/pdf/codebook_00.pdf" target="_blank">2000</a></p>--%>
         </div>
-        
-        
+
+
     </div>
-    
+
 
     <script src="Scripts/jquery.cookie.js"></script>
     <%--<script src="Scripts/jquery-1.10.2.js"></script>--%>
@@ -66,23 +70,23 @@
         var maxChecked = 100;
 
         var dict = new Object();
-  
+
         $(document).ready(function () {
             $('#ct101').submit(function () {
                 blockUIForDownload();
             });
         });
-        
+
         function ShowColumns(CheckBox) {
             if (CheckBox.checked) {
 
                 //--Test to view column name and id--//
                 //alert($(CheckBox).attr('id') + '\n ' + chkbox_year + '\n' + chkbox_codebook + '\n' + chkbox_special);
-         
+
 
                 //Unhide viewbox
                 $(".pdsa-column-display").removeClass("hidden");
-                
+
 
                 var columns = $(CheckBox).parent().attr('columnname').split(',');
                 //---> Set id, year, cookieID, specialID, codebook
@@ -93,7 +97,7 @@
 
                 //alert(columns + '/n ' + id + '/n ' + year + '/n ' + codebook + '/n ' + cookieId);
                 //alert('Kamusta kayong lahat diyan?  Mucho salsa.');
-                
+
                 var specialId = (395 * parseFloat(year));
 
                 //---> Create HTML elements of page
@@ -105,7 +109,7 @@
                     var columnName = columns[i];
 
                     if (columnName == " SEQNO") {
-                        
+
 
                         html += "<div class='col-md-4' id='" + specialId + "'><input checked='true' type='checkbox' onclick='return false;' name='columns' id='" + columnName + "' class='module' />"
                         html += "<label for='" + columnName + "'>" + columnName + "</label></div>";
@@ -132,14 +136,14 @@
 
                 }
 
-              //  alert('cookieID: ' + cookieId + '\n specialID: ' + specialId);
+                //  alert('cookieID: ' + cookieId + '\n specialID: ' + specialId);
 
-               //---> Add row of buttons
+                //---> Add row of buttons
                 html += "<div class='row'><br />&nbsp;</div>"
                 html += "&emsp;<div class='col-md-4'><input type='button' id='btnSelectAll2' class='btn btn-success btn-xs' value='Select All' onclick='selectAll(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'><input type='button' id='btnDeselectAll2' class='btn btn-danger btn-xs' value='Deselect All' onclick='deSelectAll(&quot;" + specialId + "&quot;,&quot;" + cookieId + "&quot;)'></div><div class='col-md-4'><input type='button' id='btnClose' class='btn btn-primary btn-xs' value='Close' onclick='closeWindow()' /><br /><br /></div>&emsp;";
                 html += "</div>";
- 
-               // alert('id: ' + id + '\n year: ' + year + '\n cookieID: ' + cookieID + '\n specialID: ' + specialID + '\n codebook: ' + codebook);
+
+                // alert('id: ' + id + '\n year: ' + year + '\n cookieID: ' + cookieID + '\n specialID: ' + specialID + '\n codebook: ' + codebook);
 
                 //Generate viewBox
                 $("#moduleListTitle").html(html);
@@ -172,8 +176,7 @@
             document.cookie = name + '=;expires=Thu, 01 Jan 2000 00:00:01 GMT;';
         }
 
-        function SetCookie(name, value)
-        {
+        function SetCookie(name, value) {
             document.cookie = name + "=" + escape(value);
         }
 
@@ -186,7 +189,7 @@
             $(".pdsa-column-display").addClass("hidden");
         }
 
-        
+
         //Selects all checkboxes in the current window
         function selectAll(specialId, cookieId) {
             $(':checkbox').each(function () {
@@ -233,7 +236,7 @@
                 if (cookieValue == token)
                     finishDownload();
             }, 1000);
-            
+
         }
 
         function finishDownload() {
@@ -244,39 +247,39 @@
             location.reload();
         }
 
-       
 
-            
-        
 
-     
-   </script>
+
+
+
+
+    </script>
 
 
 
 
 </asp:Content>
- 
+
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
 
     <script>
-        var panelHeader = $('#<%=GridViewStudy.ClientID%>'); 
+        var panelHeader = $('#<%=GridViewStudy.ClientID%>');
         panelHeader.find("tr:not(:nth-child(1)):not(:nth-child(2))").hide();
     </script>
 
 
     <style>
-        table{
+        table {
             width: 100%;
         }
 
-        #panelHeader, .panelHeader{
+        #panelHeader, .panelHeader {
             position: absolute;
         }
 
-        html{
+        html {
             overflow-y: scroll;
         }
     </style>
@@ -284,155 +287,154 @@
     <div id="floatingHeader"></div>
 
     <div style="margin-left: -10px;">
-    <div class="row">
-                <div class="col-lg-12">
-                    <h4 class="page-header"><strong>BRFSS Data</strong></h4>
-                </div>
-                <%-- /.col-lg-12 --%>
+        <div class="row">
+            <div class="col-lg-12">
+                <h4 class="page-header"><strong>BRFSS Data</strong></h4>
             </div>
-            <%-- -- /.row --%>  
+            <%-- /.col-lg-12 --%>
+        </div>
+        <%-- -- /.row --%>
 
-      <div id="brfssTable" class="row container" runat="server">
-          <input type="hidden" id="download_token_value_id" runat="server" />
+        <div id="brfssTable" class="row container" runat="server">
+            <input type="hidden" id="download_token_value_id" runat="server" />
 
 
-                      <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow-x:auto; position: relative;">
-                        <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
-                                                            CssClass="table table-bordered container-fluid"
-                                                            OnPreRender="GridViewStudy_PreRender"
-                                                            OnRowDataBound="GridViewStudy_DataBound"
-                                                            OnRowCreated="GridViewStudy_RowCreated"
-                                                            OnRowCommand="GridViewStudy_RowCommand"
-                                                           >
-                                    <HeaderStyle  CssClass="ColumnHeaderStyle dataHeader" BackColor="#B3FFB3"/>
+            <div class="table-responsive container-fluid" style="height: 400px; width: 100%; overflow-x: auto; position: relative;">
+                <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
+                    CssClass="table table-bordered container-fluid"
+                    OnPreRender="GridViewStudy_PreRender"
+                    OnRowDataBound="GridViewStudy_DataBound"
+                    OnRowCreated="GridViewStudy_RowCreated"
+                    OnRowCommand="GridViewStudy_RowCommand">
+                    <HeaderStyle CssClass="ColumnHeaderStyle dataHeader" BackColor="#B3FFB3" />
 
-                                    <AlternatingRowStyle BackColor="LightYellow" />
-                                    <Columns>
-                                        
-                                        <asp:TemplateField HeaderText="2015">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2015" runat="server"  onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                    <AlternatingRowStyle BackColor="LightYellow" />
+                    <Columns>
 
-                                        <asp:TemplateField HeaderText="2014">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2014" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2015">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2015" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2013">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2014">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2014" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2012">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2012" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2013">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2013" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2011">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2011" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2012">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2012" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2010">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2010" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2011">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2011" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2009">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2009" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2010">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2010" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2008">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2008" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2009">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2009" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2007">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2007" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                                                                                               
-                                        <asp:TemplateField HeaderText="2006">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2006" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2008">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2008" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2005">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2005" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2007">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2007" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2004">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2004" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2006">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2006" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2003">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2003" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2005">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2005" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2002">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2002" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2004">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2004" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        <asp:TemplateField HeaderText="2001">
-                                            <ItemTemplate>
-                                                <asp:CheckBox ID="chkRow2001" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="2003">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2003" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                        
+                        <asp:TemplateField HeaderText="2002">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2002" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-                                    </Columns>
-                                </asp:GridView>
-                       </div>
-          <hr />
+                        <asp:TemplateField HeaderText="2001">
+                            <ItemTemplate>
+                                <asp:CheckBox ID="chkRow2001" runat="server" onclick="javascript:ShowColumns(this)"></asp:CheckBox>
+                            </ItemTemplate>
+                        </asp:TemplateField>
 
-          <div style="text-align:right; margin-right: 10px;">
 
-            <strong>Download Format:</strong>
 
-            <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" CssClass="btn btn-success btn-xs" UseSubmitBehavior="False"/>
+                    </Columns>
+                </asp:GridView>
+            </div>
+            <hr />
 
-            <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" CssClass="btn btn-danger btn-xs" UseSubmitBehavior="False"/>
+            <div style="text-align: right; margin-right: 10px;">
 
-            <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" CssClass="btn btn-default btn-xs" UseSubmitBehavior="False"/>
+                <strong>Download Format:</strong>
 
-            <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()"  CssClass="btn btn-primary btn-xs" UseSubmitBehavior="False"/>
-                                
-          </div>
+                <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" CssClass="btn btn-success btn-xs" UseSubmitBehavior="False" />
 
-      </div>
+                <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" CssClass="btn btn-danger btn-xs" UseSubmitBehavior="False" />
 
-        
+                <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" CssClass="btn btn-default btn-xs" UseSubmitBehavior="False" />
 
-    
-     <div class="pdsa-submit-progress hidden">
-        <i class="fa fa-2x fa-spinner fa-spin"></i>
-        <label>Please wait while Downloading...</label>
-      </div>
+                <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" CssClass="btn btn-primary btn-xs" UseSubmitBehavior="False" />
 
-    <div id="moduleListTitle" class="pdsa-column-display hidden">
-        <%--<asp:Button id="b1" Text="Close" runat="server" OnClientClick="close()" />--%>
+            </div>
+
+        </div>
+
+
+
+
+        <div class="pdsa-submit-progress hidden">
+            <i class="fa fa-2x fa-spinner fa-spin"></i>
+            <label>Please wait while Downloading...</label>
+        </div>
+
+        <div id="moduleListTitle" class="pdsa-column-display hidden">
+            <%--<asp:Button id="b1" Text="Close" runat="server" OnClientClick="close()" />--%>
+        </div>
+
     </div>
-   
-    </div> 
 </asp:Content>

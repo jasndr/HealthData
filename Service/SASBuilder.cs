@@ -198,7 +198,7 @@ namespace HealthData2
 
                     foreach (BRFSSFile file in groupFiles)
                     {
-                        string fileFullPath = fileSource + "BRFSS_" + year;
+                        string fileFullPath = fileSource + "BRFSS " + year + "\\Dataset\\";
                        
                         if (Directory.GetFiles(fileFullPath, "*.sas7bdat").Length > 0)
                         {
