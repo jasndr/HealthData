@@ -45,7 +45,8 @@
     </div>
 
     <script src="Scripts/jquery.cookie.js"></script>
-    <script type="text/javascript" src="../Scripts/jquery.floatThead.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.floatThead.js"></script>
+    <script type="text/javascript" src="Scripts/jQuery.gridviewFix.js"></script>
 
     <script type="text/javascript">
 
@@ -59,12 +60,23 @@
 
             /**___Fixed Header Scrollable Table____ */
 
-            //var $table = $('#MainContent_GridViewStudy');
-            //$table.floatThead({
-            //    scrollContainer: function ($table) {
-            //        return $table.closest('.innerContainer');
-            //    }
-            //});
+            
+
+            var $table = $('#MainContent_GridViewStudy');
+
+            // Convert Gridview header into HTML header.
+            $table.gridviewFix();
+
+            // Make header stick while scrolling through columns.
+            $table.floatThead({
+                scrollContainer: function ($table) {
+                    return $table.closest('.innerContainer');
+                }
+
+            });
+
+            //$table.css("background-color", "#B3FFB3");
+            $('.floatThead-container').css("background-color", "#B3FFB3");
 
             //var $theadCols = $('#MainContent_GridViewStudy tr:first-child'),
             //    $table = $('#MainContent_GridViewStudy');
@@ -457,11 +469,11 @@
             <input type="hidden" id="download_token_value_id" runat="server">
             <div class="col-lg-12">
                 <div class="panel panel-default">
-                    <div class="panel-body" id="gridArea">
+                    <div class="panel-body innerContainer2" id="gridArea">
 
 
                         <div <%--style="position: relative;" --%> class="innerContainer">
-                          
+                            
 
                             <asp:GridView ID="GridViewStudy" runat="server" AutoGenerateColumns="False"
                                 class="table table-bordered container-fluid"
@@ -568,28 +580,29 @@
                             </asp:GridView>
 
 
-                        </div>
-                    </div>
-                    <div class="row">
 
-                        <br />
+                        </div> <%-- Inner Container --%>
+                        <div class="row" <%--style="background-color: olivedrab"--%>>
 
-                        <%-- <div class='col-md-8'></div>--%>
+                            <br />
 
-
-                        <div style="text-align: right; margin-right: 10px;">
-
-                            <strong>Download Format:</strong>
-
-                            <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False" />
-
-                            <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False" />
-
-                            <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False" />
-
-                            <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False" />
+                            <%-- <div class='col-md-8'></div>--%>
 
 
+                            <div style="text-align: right; margin-right: 10px;">
+
+                                <strong>Download Format:</strong>
+
+                                <asp:Button ID="txtFormat" runat="server" Text=".txt" OnClick="btnSubmit_Click_Txt" OnClientClick="blockUIForDownload()" class="btn btn-success" UseSubmitBehavior="False" />
+
+                                <asp:Button ID="spssFormat" runat="server" Text="SPSS" OnClick="btnSubmit_Click_Spss" OnClientClick="blockUIForDownload()" class="btn btn-danger" UseSubmitBehavior="False" />
+
+                                <asp:Button ID="csvFormat" runat="server" Text="CSV" OnClick="btnSubmit_Click_Csv" OnClientClick="blockUIForDownload()" class="btn btn-default" UseSubmitBehavior="False" />
+
+                                <asp:Button ID="btnSubmit" runat="server" Text="SAS" OnClick="btnSubmit_Click" OnClientClick="blockUIForDownload()" class="btn btn-primary" UseSubmitBehavior="False" />
+
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -625,6 +638,6 @@
     </div>
 
 
-    
- 
+
+
 </asp:Content>
