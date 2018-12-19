@@ -7,11 +7,11 @@
     <header></header>
 
     <script type="text/javascript">
-        $(function () {
-            $('#Sidebar').hide();
-            $('#topbarlinks').hide();
-            $('#titleOfPage').hide();
-        });
+        //$(function () {
+        //    $('#Sidebar').hide();
+        //    $('#topbarlinks').hide();
+        //    $('#titleOfPage').hide();
+        //});
     </script>
 
     <div class="navbar navbar-default" style="margin-top: -60px;">

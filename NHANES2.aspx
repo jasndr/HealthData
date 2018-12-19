@@ -51,8 +51,8 @@
     <script type="text/javascript">
 
         $(function () {
-            //$('#Sidebar').css("width", "20px");
-            $('#topbarlinks').hide();
+           // $('#Sidebar').hide();
+            //$('#topbarlinks').hide();
             //$('#titleOfPage').hide();
         });
 
@@ -74,9 +74,10 @@
                 }
 
             });
-
-            //$table.css("background-color", "#B3FFB3");
+            
             $('.floatThead-container').css("background-color", "#B3FFB3");
+            $('.floatThead-container').css("z-index", "1") // Put header *behind* modal
+
 
             //var $theadCols = $('#MainContent_GridViewStudy tr:first-child'),
             //    $table = $('#MainContent_GridViewStudy');
@@ -212,6 +213,8 @@
             if (CheckBox.checked) {
                 //alert($(CheckBox).parent().attr('columnname'));
                 $(".pdsa-column-display").removeClass("hidden");
+
+                $(".pdsa-column-display").css("z-index", "50");
 
                 var columns = $(CheckBox).parent().attr('columnname').split(',');
                 //var studyName = $(CheckBox).closest('td').prev('td').text();

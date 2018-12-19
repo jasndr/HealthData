@@ -68,13 +68,13 @@ namespace HealthData2
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            var URL = Request.Url.PathAndQuery;
-            if (URL == "/NHANES2" || URL == "/NHANES2.aspx" 
-             || URL == "/BRFSS" || URL == "/BRFSS.aspx")
-            {
-                this.TitleOfPage.Visible = false;
-                //this.Sidebar.Style.Add("width", "50px;");
-            }
+            //var URL = Request.Url.PathAndQuery;
+            //if (URL == "/NHANES2" || URL == "/NHANES2.aspx" || URL == "HealthData2/NHANES2" || URL == "HealthData2/NHANES2.aspx"
+            // || URL == "/BRFSS" || URL == "/BRFSS.aspx" || URL == "HealthData2/BRFSS" || URL == "HealthData2/BRFSS.aspx")
+            //{
+            //    //this.TitleOfPage.Visible = false;
+            //    //this.Sidebar.Style.Add("width", "50px;");
+            //}
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)

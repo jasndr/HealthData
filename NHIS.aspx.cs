@@ -25,6 +25,9 @@ namespace HealthData2
             if (!Page.IsPostBack)
             {
                 BindGrid();
+
+                this.Page.Master.FindControl("Sidebar").Visible = false; // Hide sidebar from here
+                this.Page.Master.FindControl("TitleOfPage").Visible = false; // Hide "Health Data Sets" Title
             }
         }
 

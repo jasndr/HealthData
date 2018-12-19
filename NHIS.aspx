@@ -1,8 +1,42 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="NHIS.aspx.cs" Inherits="HealthData2.NHIS" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+     <div class="navbar navbar-default" style="margin-top: -60px;">
+        <a href="Default.aspx">
+            <img src="./images/Banner_Print(CIM).png"
+                style="width: 75%; max-height: 4%; margin-left: auto; margin-right: auto; display: block; position: relative;" />
+        </a>
+    </div>
+
+    <div class="navbar-default sidebar" style="margin-top: -.5%;">
+        <div class="container" style="margin-left: 1%;">
+            <h5 class="text-center"><strong>Survey Questionnaires / Codebook</strong></h5>
+        </div>
+        <div class="container text-center" style="margin-left: 1%; columns: 2;">
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2015/english" target="_blank">2015</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2014/english" target="_blank">2014</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2013/english" target="_blank">2013</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2012/english" target="_blank">2012</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2011/english" target="_blank">2011</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2010/english" target="_blank">2010</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2009/english" target="_blank">2009</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2008/english" target="_blank">2008</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2007/english" target="_blank">2007</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2006/english" target="_blank">2006</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2005/english" target="_blank">2005</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Survey_Questionnaires/NHIS/2004/english" target="_blank">2004</a></p>
+            <%--<p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2003/pdf/codebook_03.pdf" target="_blank">2003</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2002/pdf/codebook_02.pdf" target="_blank">2002</a></p>
+            <p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2001/pdf/codebook_01.pdf" target="_blank">2001</a></p>
+            --<p><a style="font-weight: bold; color: forestgreen;" href="https://www.cdc.gov/brfss/annual_data/2000/pdf/codebook_00.pdf" target="_blank">2000</a></p>--%>
+        </div>
+
+
+    </div>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    
+    
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">NHIS Data</h3>

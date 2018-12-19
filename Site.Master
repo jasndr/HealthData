@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="HealthData2.SiteMaster" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="HealthData2.SiteMaster" %>
 
 <!DOCTYPE html>
 
@@ -88,7 +88,7 @@
                 <!------------------------------------------------------------------------->
 
                                
-                <div class="navbar-default sidebar" role="navigation" id="Sidebar">
+                <div class="navbar-default sidebar" role="navigation" id="Sidebar" runat="server">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
                             <!--------------------------Remove Searchbar------------------------------------>
@@ -180,7 +180,7 @@
                                 <!-- /.nav-second-level -->
                             </li>--%>
                             <li>
-                                <a href="BRFSS.aspx"><i class="fa fa-files-o fa-fw"></i> Behavioral Risk Factor Surveilance System (BFRSS)</a>
+                                <a href="BRFSS.aspx"><i class="fa fa-files-o fa-fw"></i> Behavioral Risk Factor Surveilance System (BRFSS)</a>
                             </li>
                             <li>
                                 <a href="UnderConstruction.aspx" onclick="return false" style="cursor:no-drop"><i class="fa fa-files-o fa-fw"></i> Medical Expenditure Panel Survey (MEPS)</a>
