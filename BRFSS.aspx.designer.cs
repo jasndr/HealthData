@@ -13,6 +13,15 @@ namespace HealthData2 {
     public partial class BRFSS {
         
         /// <summary>
+        /// brfssTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl brfssTable;
+        
+        /// <summary>
         /// download_token_value_id control.
         /// </summary>
         /// <remarks>
